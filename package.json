@@ -1,12 +1,13 @@
 {
-  "name": "node-library-template",
+  "name": "prettier-plugin-brace-style",
   "version": "0.0.0",
-  "description": "Template repository for library project.",
-  "repository": "https://github.com/ony3000/node-library-template",
+  "description": "A Prettier plugin that can apply ESLint's brace-style rules to JavaScript and TypeScript files.",
+  "repository": "https://github.com/ony3000/prettier-plugin-brace-style",
   "keywords": [
-    "node",
-    "library",
-    "template"
+    "prettier",
+    "plugin",
+    "brace",
+    "style"
   ],
   "author": "Hyeonjong <nianelo4@gmail.com>",
   "license": "MIT",
@@ -15,12 +16,12 @@
     "dist"
   ],
   "types": "./dist/index.d.ts",
-  "main": "./dist/demo-lib.umd.cjs",
-  "module": "./dist/demo-lib.js",
+  "main": "./dist/prettier-plugin-brace-style.umd.cjs",
+  "module": "./dist/prettier-plugin-brace-style.js",
   "exports": {
     ".": {
-      "import": "./dist/demo-lib.js",
-      "require": "./dist/demo-lib.umd.cjs"
+      "import": "./dist/prettier-plugin-brace-style.js",
+      "require": "./dist/prettier-plugin-brace-style.umd.cjs"
     }
   },
   "scripts": {
