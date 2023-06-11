@@ -1,5 +1,9 @@
 import type { Plugin } from 'prettier';
 
-const braceStylePlugin: Plugin = {};
+import { options } from './options';
+
+const braceStylePlugin: Plugin = {
+  options,
+};
 
 export { braceStylePlugin };
