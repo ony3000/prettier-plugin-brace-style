@@ -1,6 +1,4 @@
-import prettier from 'prettier';
-
-import { braceStylePlugin } from '@/index';
+import { format, baseOptions } from './settings';
 import { exampleCode } from './fixtures';
 
 const expectedResult = `function foo() {
@@ -36,9 +34,8 @@ else if (baz) boom();
 `;
 
 test('Stroustrup style test', () => {
-  const formattedCode = prettier.format(exampleCode, {
-    parser: 'typescript',
-    plugins: [braceStylePlugin],
+  const formattedCode = format(exampleCode, {
+    ...baseOptions,
     // @ts-ignore
     braceStyle: 'stroustrup',
   });

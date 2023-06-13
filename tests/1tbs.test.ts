@@ -1,6 +1,4 @@
-import prettier from 'prettier';
-
-import { braceStylePlugin } from '@/index';
+import { format, baseOptions } from './settings';
 import { exampleCode } from './fixtures';
 
 const expectedResult = `function foo() {
@@ -34,9 +32,8 @@ else if (baz) boom();
 `;
 
 test('one true brace style test', () => {
-  const formattedCode = prettier.format(exampleCode, {
-    parser: 'typescript',
-    plugins: [braceStylePlugin],
+  const formattedCode = format(exampleCode, {
+    ...baseOptions,
     // @ts-ignore
     braceStyle: '1tbs',
   });
@@ -45,9 +42,8 @@ test('one true brace style test', () => {
 });
 
 test('one true brace style test #2 (Default options can be omitted.)', () => {
-  const formattedCode = prettier.format(exampleCode, {
-    parser: 'typescript',
-    plugins: [braceStylePlugin],
+  const formattedCode = format(exampleCode, {
+    ...baseOptions,
   });
 
   expect(formattedCode).toBe(expectedResult);
