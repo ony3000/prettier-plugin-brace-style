@@ -1,23 +1,25 @@
 import type { AstPath, ParserOptions, Doc, Plugin, Printer } from 'prettier';
 
-let defaultPrint: (path: AstPath, options: ParserOptions, print: (path: AstPath) => Doc) => Doc;
+let defaultPrinter: Printer;
 
 function typescriptPrint(
   path: AstPath,
   options: ParserOptions,
   print: (path: AstPath) => Doc,
 ): Doc {
-  if (!defaultPrint) {
+  const node = path.getValue();
+
+  if (node && node.type === 'Program') {
     const pluginOrNot = (
       options.plugins.filter((plugin) => typeof plugin !== 'string') as Plugin[]
     ).find((plugin) => plugin.printers?.estree);
 
     if (pluginOrNot) {
-      defaultPrint = pluginOrNot.printers!.estree.print;
+      defaultPrinter = pluginOrNot.printers!.estree;
     }
   }
 
-  const defaultDoc = defaultPrint(path, options, print);
+  const defaultDoc = defaultPrinter.print(path, options, print);
 
   return defaultDoc;
 }
