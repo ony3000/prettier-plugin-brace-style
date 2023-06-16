@@ -28,10 +28,10 @@ function typescriptPrint(
   const defaultDoc = defaultPrinter.print(path, options, print);
 
   if (node) {
-    const refinedDoc = (defaultDoc as Doc[]).slice();
-
     switch (node.type) {
       case 'BlockStatement': {
+        const refinedDoc = (defaultDoc as Doc[]).slice();
+
         // @ts-ignore
         if (options.braceStyle === 'allman') {
           refinedDoc.unshift(hardline);
@@ -40,6 +40,8 @@ function typescriptPrint(
         return refinedDoc;
       }
       case 'IfStatement': {
+        const refinedDoc = (defaultDoc as Doc[]).slice();
+
         // @ts-ignore
         if (options.braceStyle === 'stroustrup' || options.braceStyle === 'allman') {
           refinedDoc.forEach((docItem, index, array) => {
