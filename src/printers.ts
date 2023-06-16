@@ -30,10 +30,11 @@ function typescriptPrint(
   if (node) {
     switch (node.type) {
       case 'BlockStatement': {
+        const parentNode = path.getParentNode();
         const refinedDoc = (defaultDoc as Doc[]).slice();
 
         // @ts-ignore
-        if (options.braceStyle === 'allman') {
+        if (options.braceStyle === 'allman' && parentNode.type !== 'SwitchCase') {
           refinedDoc.unshift(hardline);
         }
 
@@ -50,6 +51,16 @@ function typescriptPrint(
               array[index - 1] = hardline;
             }
           });
+        }
+
+        return refinedDoc;
+      }
+      case 'SwitchStatement': {
+        const refinedDoc = (defaultDoc as Doc[]).slice();
+
+        // @ts-ignore
+        if (options.braceStyle === 'allman') {
+          refinedDoc.splice(1, 1, hardline, '{');
         }
 
         return refinedDoc;
