@@ -1,6 +1,8 @@
-import type { AstPath, ParserOptions, Doc, Plugin, Printer } from 'prettier';
+import type { AstPath, ParserOptions, Doc, Printer } from 'prettier';
 
-let defaultPrinter: Printer;
+import { extractPrinter } from './utils';
+
+let defaultPrinter: Printer | undefined;
 
 function typescriptPrint(
   path: AstPath,
@@ -10,13 +12,11 @@ function typescriptPrint(
   const node = path.getValue();
 
   if (node && node.type === 'Program') {
-    const pluginOrNot = (
-      options.plugins.filter((plugin) => typeof plugin !== 'string') as Plugin[]
-    ).find((plugin) => plugin.printers?.estree);
+    defaultPrinter = extractPrinter(options);
+  }
 
-    if (pluginOrNot) {
-      defaultPrinter = pluginOrNot.printers!.estree;
-    }
+  if (!defaultPrinter) {
+    throw new Error(`Unexpected path: ${JSON.stringify(path)}`);
   }
 
   const defaultDoc = defaultPrinter.print(path, options, print);
