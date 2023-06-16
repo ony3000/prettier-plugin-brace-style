@@ -1,6 +1,9 @@
 import type { AstPath, ParserOptions, Doc, Printer } from 'prettier';
+import { doc } from 'prettier';
 
 import { extractPrinter, makeCommentContext } from './utils';
+
+const { hardline } = doc.builders;
 
 const printerErrorMessage =
   'There is no default printer or the function to look for does not exist.';
@@ -23,6 +26,37 @@ function typescriptPrint(
   }
 
   const defaultDoc = defaultPrinter.print(path, options, print);
+
+  if (node) {
+    const refinedDoc = (defaultDoc as Doc[]).slice();
+
+    switch (node.type) {
+      case 'BlockStatement': {
+        // @ts-ignore
+        if (options.braceStyle === 'allman') {
+          refinedDoc.unshift(hardline);
+        }
+
+        return refinedDoc;
+      }
+      case 'IfStatement': {
+        // @ts-ignore
+        if (options.braceStyle === 'stroustrup' || options.braceStyle === 'allman') {
+          refinedDoc.forEach((docItem, index, array) => {
+            if (docItem === 'else') {
+              // eslint-disable-next-line no-param-reassign
+              array[index - 1] = hardline;
+            }
+          });
+        }
+
+        return refinedDoc;
+      }
+      default: {
+        return defaultDoc;
+      }
+    }
+  }
 
   return defaultDoc;
 }
