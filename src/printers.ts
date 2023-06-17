@@ -65,6 +65,31 @@ function typescriptPrint(
 
         return refinedDoc;
       }
+      case 'TryStatement': {
+        const refinedDoc = (defaultDoc as Doc[]).slice();
+
+        // @ts-ignore
+        if (options.braceStyle === 'stroustrup' || options.braceStyle === 'allman') {
+          refinedDoc.forEach((docItem) => {
+            if (Array.isArray(docItem)) {
+              const [firstDoc, secondDoc] = docItem;
+
+              if (typeof firstDoc === 'string' && Array.isArray(secondDoc)) {
+                const matchResult = firstDoc.match(/(finally.*)/);
+
+                if (matchResult) {
+                  docItem.splice(0, 1, hardline, matchResult[1]);
+                } else {
+                  // catch clause
+                  docItem.splice(0, 1, hardline);
+                }
+              }
+            }
+          });
+        }
+
+        return refinedDoc;
+      }
       default: {
         return defaultDoc;
       }
