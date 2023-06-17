@@ -1,6 +1,6 @@
 import type { Options } from 'prettier';
 
-import { braceStylePlugin } from '@/index';
+import braceStylePlugin from '@/index';
 
 export { format } from 'prettier';
 

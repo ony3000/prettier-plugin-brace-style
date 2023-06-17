@@ -12,4 +12,4 @@ const braceStylePlugin: Plugin = {
   options,
 };
 
-export { braceStylePlugin };
+export default braceStylePlugin;
