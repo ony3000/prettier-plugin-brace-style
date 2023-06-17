@@ -55,7 +55,8 @@ function typescriptPrint(
 
         return refinedDoc;
       }
-      case 'SwitchStatement': {
+      case 'SwitchStatement':
+      case 'StaticBlock': {
         const refinedDoc = (defaultDoc as Doc[]).slice();
 
         // @ts-ignore
@@ -86,6 +87,16 @@ function typescriptPrint(
               }
             }
           });
+        }
+
+        return refinedDoc;
+      }
+      case 'ClassBody': {
+        const refinedDoc = (defaultDoc as Doc[]).slice();
+
+        // @ts-ignore
+        if (options.braceStyle === 'allman') {
+          refinedDoc.unshift(hardline);
         }
 
         return refinedDoc;
