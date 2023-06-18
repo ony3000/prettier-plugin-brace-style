@@ -203,6 +203,17 @@ function remainingWrapper(
 }
 
 export const printers: { [astFormat: string]: Printer } = {
+  'babel-ast': {
+    print: typescriptPrint,
+    canAttachComment,
+    isBlockComment: isBlockCommentWrapper,
+    printComment: printCommentWrapper,
+    handleComments: {
+      ownLine: ownLineWrapper,
+      endOfLine: endOfLineWrapper,
+      remaining: remainingWrapper,
+    },
+  },
   'typescript-ast': {
     print: typescriptPrint,
     canAttachComment,
