@@ -10,7 +10,7 @@ const printerErrorMessage =
 
 let defaultPrinter: Printer | undefined;
 
-function typescriptPrint(
+function printWithBraceStyle(
   path: AstPath,
   options: ParserOptions,
   print: (path: AstPath) => Doc,
@@ -224,7 +224,7 @@ function remainingWrapper(
 
 export const printers: { [astFormat: string]: Printer } = {
   'babel-ast': {
-    print: typescriptPrint,
+    print: printWithBraceStyle,
     canAttachComment,
     isBlockComment: isBlockCommentWrapper,
     printComment: printCommentWrapper,
@@ -235,7 +235,7 @@ export const printers: { [astFormat: string]: Printer } = {
     },
   },
   'typescript-ast': {
-    print: typescriptPrint,
+    print: printWithBraceStyle,
     canAttachComment,
     isBlockComment: isBlockCommentWrapper,
     printComment: printCommentWrapper,
