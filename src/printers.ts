@@ -17,8 +17,13 @@ function typescriptPrint(
 ): Doc {
   const node = path.getValue();
 
-  if (!defaultPrinter && node && node.type === 'Program') {
-    defaultPrinter = extractPrinter(options);
+  if (!defaultPrinter && node) {
+    if (
+      (options.parser === 'babel' && node.type === 'File') ||
+      (options.parser === 'typescript' && node.type === 'Program')
+    ) {
+      defaultPrinter = extractPrinter(options);
+    }
   }
 
   if (!defaultPrinter) {
@@ -137,8 +142,13 @@ function ownLineWrapper(
   ast: any,
   isLastComment: boolean,
 ): boolean {
-  if (!defaultPrinter && ast && ast.type === 'Program') {
-    defaultPrinter = extractPrinter(options);
+  if (!defaultPrinter && ast) {
+    if (
+      (options.parser === 'babel' && ast.type === 'File') ||
+      (options.parser === 'typescript' && ast.type === 'Program')
+    ) {
+      defaultPrinter = extractPrinter(options);
+    }
   }
 
   if (defaultPrinter?.handleComments?.ownLine) {
@@ -157,8 +167,13 @@ function endOfLineWrapper(
   ast: any,
   isLastComment: boolean,
 ): boolean {
-  if (!defaultPrinter && ast && ast.type === 'Program') {
-    defaultPrinter = extractPrinter(options);
+  if (!defaultPrinter && ast) {
+    if (
+      (options.parser === 'babel' && ast.type === 'File') ||
+      (options.parser === 'typescript' && ast.type === 'Program')
+    ) {
+      defaultPrinter = extractPrinter(options);
+    }
   }
 
   if (defaultPrinter?.handleComments?.endOfLine) {
@@ -183,8 +198,13 @@ function remainingWrapper(
   ast: any,
   isLastComment: boolean,
 ): boolean {
-  if (!defaultPrinter && ast && ast.type === 'Program') {
-    defaultPrinter = extractPrinter(options);
+  if (!defaultPrinter && ast) {
+    if (
+      (options.parser === 'babel' && ast.type === 'File') ||
+      (options.parser === 'typescript' && ast.type === 'Program')
+    ) {
+      defaultPrinter = extractPrinter(options);
+    }
   }
 
   if (defaultPrinter?.handleComments?.remaining) {
