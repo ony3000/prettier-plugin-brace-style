@@ -9,7 +9,7 @@ export default defineConfig({
       fileName: 'prettier-plugin-brace-style',
     },
     rollupOptions: {
-      external: ['prettier'],
+      external: [/^prettier/],
       output: {
         globals: {
           prettier: 'prettier',
