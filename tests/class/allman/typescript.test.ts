@@ -1,11 +1,11 @@
-import { format, baseOptions } from '../settings';
+import { format, baseOptions } from '../../settings';
 import {
   emptyClassDeclarationCode,
   classDeclarationCode,
   classExpressionCode,
   classDeclarationCodeWithGetterSetter,
   classDeclarationCodeWithStatic,
-} from './fixtures';
+} from '../fixtures';
 
 const options = {
   ...baseOptions,

@@ -1,12 +1,12 @@
-import { format, baseOptions } from '../settings';
-import { whileCode, doWhileCode } from './fixtures';
+import { format, baseOptions } from '../../settings';
+import { whileCode, doWhileCode } from '../fixtures';
 
 const options = {
   ...baseOptions,
-  braceStyle: 'stroustrup',
+  braceStyle: '1tbs',
 };
 
-describe('stroustrup - while statements', () => {
+describe('1tbs - while statements', () => {
   test('while', () => {
     const expectedResult = `let n = 0;
 

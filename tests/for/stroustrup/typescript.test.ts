@@ -1,5 +1,5 @@
-import { format, baseOptions } from '../settings';
-import { forCode, forInCode, forOfCode, forAwaitOfCode } from './fixtures';
+import { format, baseOptions } from '../../settings';
+import { forCode, forInCode, forOfCode, forAwaitOfCode } from '../fixtures';
 
 const options = {
   ...baseOptions,

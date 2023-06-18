@@ -1,9 +1,9 @@
-import { format, baseOptions } from '../settings';
+import { format, baseOptions } from '../../settings';
 import {
   functionDeclarationCode,
   functionExpressionCode,
   arrowFunctionExpressionCode,
-} from './fixtures';
+} from '../fixtures';
 
 const options = {
   ...baseOptions,

@@ -1,15 +1,14 @@
-import { format, baseOptions } from '../settings';
-import { switchCode, switchCodeWithBlock } from './fixtures';
+import { format, baseOptions } from '../../settings';
+import { switchCode, switchCodeWithBlock } from '../fixtures';
 
 const options = {
   ...baseOptions,
-  braceStyle: 'allman',
+  braceStyle: 'stroustrup',
 };
 
-describe('allman - switch statements', () => {
+describe('stroustrup - switch statements', () => {
   test('switch', () => {
-    const expectedResult = `switch (expr)
-{
+    const expectedResult = `switch (expr) {
   case "Oranges":
     console.log("Oranges");
     break;
@@ -26,8 +25,7 @@ describe('allman - switch statements', () => {
   });
 
   test('switch (case with block)', () => {
-    const expectedResult = `switch (action)
-{
+    const expectedResult = `switch (action) {
   case "say_hello": {
     const message = "hello";
     console.log(message);

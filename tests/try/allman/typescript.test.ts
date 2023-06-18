@@ -1,5 +1,5 @@
-import { format, baseOptions } from '../settings';
-import { tryCatchCode, tryFinallyCode, tryCatchFinallyCode, nestedTryCode } from './fixtures';
+import { format, baseOptions } from '../../settings';
+import { tryCatchCode, tryFinallyCode, tryCatchFinallyCode, nestedTryCode } from '../fixtures';
 
 const options = {
   ...baseOptions,

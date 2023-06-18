@@ -1,5 +1,5 @@
-import { format, baseOptions } from '../settings';
-import { ifCode, ifElseCode, ifElseifElseCode, ifElseCodeWithComment } from './fixtures';
+import { format, baseOptions } from '../../settings';
+import { ifCode, ifElseCode, ifElseifElseCode, ifElseCodeWithComment } from '../fixtures';
 
 const options = {
   ...baseOptions,

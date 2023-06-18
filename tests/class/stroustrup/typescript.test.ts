@@ -1,18 +1,18 @@
-import { format, baseOptions } from '../settings';
+import { format, baseOptions } from '../../settings';
 import {
   emptyClassDeclarationCode,
   classDeclarationCode,
   classExpressionCode,
   classDeclarationCodeWithGetterSetter,
   classDeclarationCodeWithStatic,
-} from './fixtures';
+} from '../fixtures';
 
 const options = {
   ...baseOptions,
-  braceStyle: '1tbs',
+  braceStyle: 'stroustrup',
 };
 
-describe('1tbs - class statements', () => {
+describe('stroustrup - class statements', () => {
   test('class declaration (empty body)', () => {
     const expectedResult = `class Foo {}
 `;

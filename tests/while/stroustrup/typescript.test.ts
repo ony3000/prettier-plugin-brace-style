@@ -1,17 +1,16 @@
-import { format, baseOptions } from '../settings';
-import { whileCode, doWhileCode } from './fixtures';
+import { format, baseOptions } from '../../settings';
+import { whileCode, doWhileCode } from '../fixtures';
 
 const options = {
   ...baseOptions,
-  braceStyle: 'allman',
+  braceStyle: 'stroustrup',
 };
 
-describe('allman - while statements', () => {
+describe('stroustrup - while statements', () => {
   test('while', () => {
     const expectedResult = `let n = 0;
 
-while (n < 3)
-{
+while (n < 3) {
   n++;
 }
 `;
@@ -23,8 +22,7 @@ while (n < 3)
     const expectedResult = `let result = "";
 let i = 0;
 
-do
-{
+do {
   i = i + 1;
   result = result + i;
 } while (i < 5);

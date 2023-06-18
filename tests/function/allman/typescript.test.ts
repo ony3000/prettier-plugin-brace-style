@@ -1,18 +1,19 @@
-import { format, baseOptions } from '../settings';
+import { format, baseOptions } from '../../settings';
 import {
   functionDeclarationCode,
   functionExpressionCode,
   arrowFunctionExpressionCode,
-} from './fixtures';
+} from '../fixtures';
 
 const options = {
   ...baseOptions,
-  braceStyle: 'stroustrup',
+  braceStyle: 'allman',
 };
 
-describe('stroustrup - function statements', () => {
+describe('allman - function statements', () => {
   test('function declaration', () => {
-    const expectedResult = `function sum(a, b) {
+    const expectedResult = `function sum(a, b)
+{
   return a + b;
 }
 `;
@@ -21,7 +22,8 @@ describe('stroustrup - function statements', () => {
   });
 
   test('function expression', () => {
-    const expectedResult = `const sum = function (a, b) {
+    const expectedResult = `const sum = function (a, b)
+{
   return a + b;
 };
 `;
@@ -30,7 +32,8 @@ describe('stroustrup - function statements', () => {
   });
 
   test('arrow function expression', () => {
-    const expectedResult = `const sum = (a, b) => {
+    const expectedResult = `const sum = (a, b) =>
+{
   return a + b;
 };
 `;

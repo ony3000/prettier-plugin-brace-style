@@ -1,14 +1,15 @@
-import { format, baseOptions } from '../settings';
-import { ifCode, ifElseCode, ifElseifElseCode, ifElseCodeWithComment } from './fixtures';
+import { format, baseOptions } from '../../settings';
+import { ifCode, ifElseCode, ifElseifElseCode, ifElseCodeWithComment } from '../fixtures';
 
 const options = {
   ...baseOptions,
-  braceStyle: '1tbs',
+  braceStyle: 'allman',
 };
 
-describe('1tbs - if statements', () => {
+describe('allman - if statements', () => {
   test('if', () => {
-    const expectedResult = `if (foo) {
+    const expectedResult = `if (foo)
+{
   bar();
 }
 `;
@@ -17,9 +18,12 @@ describe('1tbs - if statements', () => {
   });
 
   test('if...else', () => {
-    const expectedResult = `if (foo) {
+    const expectedResult = `if (foo)
+{
   bar();
-} else {
+}
+else
+{
   baz();
 }
 `;
@@ -28,11 +32,16 @@ describe('1tbs - if statements', () => {
   });
 
   test('if...elseif...else', () => {
-    const expectedResult = `if (foo) {
+    const expectedResult = `if (foo)
+{
   bar();
-} else if (baz) {
+}
+else if (baz)
+{
   qux();
-} else {
+}
+else
+{
   quux();
 }
 `;
@@ -42,11 +51,13 @@ describe('1tbs - if statements', () => {
 
   test('if...else (with comment)', () => {
     const expectedResult = `// foo is truthy
-if (foo) {
+if (foo)
+{
   bar();
 }
 // foo is falsy
-else {
+else
+{
   baz();
 }
 `;
