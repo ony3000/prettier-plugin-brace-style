@@ -9,11 +9,11 @@ import {
 
 const options = {
   ...baseOptions,
-  parser: 'typescript',
+  parser: 'babel',
   braceStyle: 'allman',
 };
 
-describe('[typescript] allman - if statements', () => {
+describe('[babel] allman - if statements', () => {
   test('if', () => {
     expect(format(ifCode, options)).toBe(ifCodeResult);
   });

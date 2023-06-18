@@ -9,11 +9,11 @@ import {
 
 const options = {
   ...baseOptions,
-  parser: 'typescript',
-  braceStyle: 'stroustrup',
+  parser: 'babel',
+  braceStyle: '1tbs',
 };
 
-describe('[typescript] stroustrup - try statements', () => {
+describe('[babel] 1tbs - try statements', () => {
   test('try...catch', () => {
     expect(format(tryCatchCode, options)).toBe(tryCatchCodeResult);
   });

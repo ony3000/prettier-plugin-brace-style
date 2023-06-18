@@ -9,10 +9,11 @@ import {
 
 const options = {
   ...baseOptions,
+  parser: 'typescript',
   braceStyle: '1tbs',
 };
 
-describe('1tbs - for statements', () => {
+describe('[typescript] 1tbs - for statements', () => {
   test('for', () => {
     expect(format(forCode, options)).toBe(forCodeResult);
   });

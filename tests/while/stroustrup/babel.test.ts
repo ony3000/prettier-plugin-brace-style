@@ -4,11 +4,11 @@ import { whileCodeResult, doWhileCodeResult } from './expected-results';
 
 const options = {
   ...baseOptions,
-  parser: 'typescript',
+  parser: 'babel',
   braceStyle: 'stroustrup',
 };
 
-describe('[typescript] stroustrup - while statements', () => {
+describe('[babel] stroustrup - while statements', () => {
   test('while', () => {
     expect(format(whileCode, options)).toBe(whileCodeResult);
   });

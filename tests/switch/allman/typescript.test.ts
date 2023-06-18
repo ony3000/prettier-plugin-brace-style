@@ -4,10 +4,11 @@ import { switchCodeResult, switchCodeWithBlockResult } from './expected-results'
 
 const options = {
   ...baseOptions,
+  parser: 'typescript',
   braceStyle: 'allman',
 };
 
-describe('allman - switch statements', () => {
+describe('[typescript] allman - switch statements', () => {
   test('switch', () => {
     expect(format(switchCode, options)).toBe(switchCodeResult);
   });

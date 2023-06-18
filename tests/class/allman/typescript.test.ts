@@ -16,10 +16,11 @@ import {
 
 const options = {
   ...baseOptions,
+  parser: 'typescript',
   braceStyle: 'allman',
 };
 
-describe('allman - class statements', () => {
+describe('[typescript] allman - class statements', () => {
   test('class declaration (empty body)', () => {
     expect(format(emptyClassDeclarationCode, options)).toBe(emptyClassDeclarationCodeResult);
   });

@@ -16,11 +16,11 @@ import {
 
 const options = {
   ...baseOptions,
-  parser: 'typescript',
+  parser: 'babel',
   braceStyle: 'stroustrup',
 };
 
-describe('[typescript] stroustrup - class statements', () => {
+describe('[babel] stroustrup - class statements', () => {
   test('class declaration (empty body)', () => {
     expect(format(emptyClassDeclarationCode, options)).toBe(emptyClassDeclarationCodeResult);
   });

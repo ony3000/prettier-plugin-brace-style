@@ -9,10 +9,11 @@ import {
 
 const options = {
   ...baseOptions,
+  parser: 'typescript',
   braceStyle: '1tbs',
 };
 
-describe('1tbs - if statements', () => {
+describe('[typescript] 1tbs - if statements', () => {
   test('if', () => {
     expect(format(ifCode, options)).toBe(ifCodeResult);
   });

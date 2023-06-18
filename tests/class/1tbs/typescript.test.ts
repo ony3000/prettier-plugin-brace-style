@@ -16,10 +16,11 @@ import {
 
 const options = {
   ...baseOptions,
+  parser: 'typescript',
   braceStyle: '1tbs',
 };
 
-describe('1tbs - class statements', () => {
+describe('[typescript] 1tbs - class statements', () => {
   test('class declaration (empty body)', () => {
     expect(format(emptyClassDeclarationCode, options)).toBe(emptyClassDeclarationCodeResult);
   });

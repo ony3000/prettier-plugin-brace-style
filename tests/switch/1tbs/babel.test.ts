@@ -4,11 +4,11 @@ import { switchCodeResult, switchCodeWithBlockResult } from './expected-results'
 
 const options = {
   ...baseOptions,
-  parser: 'typescript',
+  parser: 'babel',
   braceStyle: '1tbs',
 };
 
-describe('[typescript] 1tbs - switch statements', () => {
+describe('[babel] 1tbs - switch statements', () => {
   test('switch', () => {
     expect(format(switchCode, options)).toBe(switchCodeResult);
   });

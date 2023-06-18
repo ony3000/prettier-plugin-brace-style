@@ -9,10 +9,11 @@ import {
 
 const options = {
   ...baseOptions,
+  parser: 'typescript',
   braceStyle: 'allman',
 };
 
-describe('allman - try statements', () => {
+describe('[typescript] allman - try statements', () => {
   test('try...catch', () => {
     expect(format(tryCatchCode, options)).toBe(tryCatchCodeResult);
   });

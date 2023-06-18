@@ -9,11 +9,11 @@ import {
 
 const options = {
   ...baseOptions,
-  parser: 'typescript',
-  braceStyle: 'stroustrup',
+  parser: 'babel',
+  braceStyle: 'allman',
 };
 
-describe('[typescript] stroustrup - for statements', () => {
+describe('[babel] allman - for statements', () => {
   test('for', () => {
     expect(format(forCode, options)).toBe(forCodeResult);
   });

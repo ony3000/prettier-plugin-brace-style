@@ -12,10 +12,11 @@ import {
 
 const options = {
   ...baseOptions,
+  parser: 'typescript',
   braceStyle: 'stroustrup',
 };
 
-describe('stroustrup - function statements', () => {
+describe('[typescript] stroustrup - function statements', () => {
   test('function declaration', () => {
     expect(format(functionDeclarationCode, options)).toBe(functionDeclarationCodeResult);
   });

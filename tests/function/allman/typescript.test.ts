@@ -12,10 +12,11 @@ import {
 
 const options = {
   ...baseOptions,
+  parser: 'typescript',
   braceStyle: 'allman',
 };
 
-describe('allman - function statements', () => {
+describe('[typescript] allman - function statements', () => {
   test('function declaration', () => {
     expect(format(functionDeclarationCode, options)).toBe(functionDeclarationCodeResult);
   });

@@ -9,10 +9,11 @@ import {
 
 const options = {
   ...baseOptions,
+  parser: 'typescript',
   braceStyle: 'stroustrup',
 };
 
-describe('stroustrup - if statements', () => {
+describe('[typescript] stroustrup - if statements', () => {
   test('if', () => {
     expect(format(ifCode, options)).toBe(ifCodeResult);
   });
