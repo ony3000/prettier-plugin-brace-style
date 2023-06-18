@@ -1,5 +1,6 @@
 import { format, baseOptions } from '../../settings';
 import { whileCode, doWhileCode } from '../fixtures';
+import { whileCodeResult, doWhileCodeResult } from './expected-results';
 
 const options = {
   ...baseOptions,
@@ -8,28 +9,10 @@ const options = {
 
 describe('allman - while statements', () => {
   test('while', () => {
-    const expectedResult = `let n = 0;
-
-while (n < 3)
-{
-  n++;
-}
-`;
-
-    expect(format(whileCode, options)).toBe(expectedResult);
+    expect(format(whileCode, options)).toBe(whileCodeResult);
   });
 
   test('do...while', () => {
-    const expectedResult = `let result = "";
-let i = 0;
-
-do
-{
-  i = i + 1;
-  result = result + i;
-} while (i < 5);
-`;
-
-    expect(format(doWhileCode, options)).toBe(expectedResult);
+    expect(format(doWhileCode, options)).toBe(doWhileCodeResult);
   });
 });

@@ -4,6 +4,11 @@ import {
   functionExpressionCode,
   arrowFunctionExpressionCode,
 } from '../fixtures';
+import {
+  functionDeclarationCodeResult,
+  functionExpressionCodeResult,
+  arrowFunctionExpressionCodeResult,
+} from './expected-results';
 
 const options = {
   ...baseOptions,
@@ -12,32 +17,14 @@ const options = {
 
 describe('allman - function statements', () => {
   test('function declaration', () => {
-    const expectedResult = `function sum(a, b)
-{
-  return a + b;
-}
-`;
-
-    expect(format(functionDeclarationCode, options)).toBe(expectedResult);
+    expect(format(functionDeclarationCode, options)).toBe(functionDeclarationCodeResult);
   });
 
   test('function expression', () => {
-    const expectedResult = `const sum = function (a, b)
-{
-  return a + b;
-};
-`;
-
-    expect(format(functionExpressionCode, options)).toBe(expectedResult);
+    expect(format(functionExpressionCode, options)).toBe(functionExpressionCodeResult);
   });
 
   test('arrow function expression', () => {
-    const expectedResult = `const sum = (a, b) =>
-{
-  return a + b;
-};
-`;
-
-    expect(format(arrowFunctionExpressionCode, options)).toBe(expectedResult);
+    expect(format(arrowFunctionExpressionCode, options)).toBe(arrowFunctionExpressionCodeResult);
   });
 });

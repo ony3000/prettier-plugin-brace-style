@@ -1,5 +1,11 @@
 import { format, baseOptions } from '../../settings';
 import { tryCatchCode, tryFinallyCode, tryCatchFinallyCode, nestedTryCode } from '../fixtures';
+import {
+  tryCatchCodeResult,
+  tryFinallyCodeResult,
+  tryCatchFinallyCodeResult,
+  nestedTryCodeResult,
+} from './expected-results';
 
 const options = {
   ...baseOptions,
@@ -8,60 +14,18 @@ const options = {
 
 describe('stroustrup - try statements', () => {
   test('try...catch', () => {
-    const expectedResult = `try {
-  throw new TypeError("oops");
-}
-catch ({ name, message }) {
-  console.log(name);
-  console.log(message);
-}
-`;
-
-    expect(format(tryCatchCode, options)).toBe(expectedResult);
+    expect(format(tryCatchCode, options)).toBe(tryCatchCodeResult);
   });
 
   test('try...finally', () => {
-    const expectedResult = `openMyFile();
-try {
-  writeMyFile(theData);
-}
-finally {
-  closeMyFile();
-}
-`;
-
-    expect(format(tryFinallyCode, options)).toBe(expectedResult);
+    expect(format(tryFinallyCode, options)).toBe(tryFinallyCodeResult);
   });
 
   test('try...catch...finally', () => {
-    const expectedResult = `try {
-  throw new Error("oops");
-}
-catch (ex) {
-  console.error(ex.message);
-}
-finally {
-  console.log("finally");
-}
-`;
-
-    expect(format(tryCatchFinallyCode, options)).toBe(expectedResult);
+    expect(format(tryCatchFinallyCode, options)).toBe(tryCatchFinallyCodeResult);
   });
 
   test('nested try', () => {
-    const expectedResult = `try {
-  try {
-    throw new Error("oops");
-  }
-  finally {
-    console.log("finally");
-  }
-}
-catch (ex) {
-  console.error("outer", ex.message);
-}
-`;
-
-    expect(format(nestedTryCode, options)).toBe(expectedResult);
+    expect(format(nestedTryCode, options)).toBe(nestedTryCodeResult);
   });
 });

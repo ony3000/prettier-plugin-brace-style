@@ -1,5 +1,11 @@
 import { format, baseOptions } from '../../settings';
 import { ifCode, ifElseCode, ifElseifElseCode, ifElseCodeWithComment } from '../fixtures';
+import {
+  ifCodeResult,
+  ifElseCodeResult,
+  ifElseifElseCodeResult,
+  ifElseCodeWithCommentResult,
+} from './expected-results';
 
 const options = {
   ...baseOptions,
@@ -8,52 +14,18 @@ const options = {
 
 describe('stroustrup - if statements', () => {
   test('if', () => {
-    const expectedResult = `if (foo) {
-  bar();
-}
-`;
-
-    expect(format(ifCode, options)).toBe(expectedResult);
+    expect(format(ifCode, options)).toBe(ifCodeResult);
   });
 
   test('if...else', () => {
-    const expectedResult = `if (foo) {
-  bar();
-}
-else {
-  baz();
-}
-`;
-
-    expect(format(ifElseCode, options)).toBe(expectedResult);
+    expect(format(ifElseCode, options)).toBe(ifElseCodeResult);
   });
 
   test('if...elseif...else', () => {
-    const expectedResult = `if (foo) {
-  bar();
-}
-else if (baz) {
-  qux();
-}
-else {
-  quux();
-}
-`;
-
-    expect(format(ifElseifElseCode, options)).toBe(expectedResult);
+    expect(format(ifElseifElseCode, options)).toBe(ifElseifElseCodeResult);
   });
 
   test('if...else (with comment)', () => {
-    const expectedResult = `// foo is truthy
-if (foo) {
-  bar();
-}
-// foo is falsy
-else {
-  baz();
-}
-`;
-
-    expect(format(ifElseCodeWithComment, options)).toBe(expectedResult);
+    expect(format(ifElseCodeWithComment, options)).toBe(ifElseCodeWithCommentResult);
   });
 });

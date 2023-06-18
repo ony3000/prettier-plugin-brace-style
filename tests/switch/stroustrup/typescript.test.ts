@@ -1,5 +1,6 @@
 import { format, baseOptions } from '../../settings';
 import { switchCode, switchCodeWithBlock } from '../fixtures';
+import { switchCodeResult, switchCodeWithBlockResult } from './expected-results';
 
 const options = {
   ...baseOptions,
@@ -8,40 +9,10 @@ const options = {
 
 describe('stroustrup - switch statements', () => {
   test('switch', () => {
-    const expectedResult = `switch (expr) {
-  case "Oranges":
-    console.log("Oranges");
-    break;
-  case "Mangoes":
-  case "Papayas":
-    console.log("Mangoes and papayas");
-    break;
-  default:
-    console.log(expr);
-}
-`;
-
-    expect(format(switchCode, options)).toBe(expectedResult);
+    expect(format(switchCode, options)).toBe(switchCodeResult);
   });
 
   test('switch (case with block)', () => {
-    const expectedResult = `switch (action) {
-  case "say_hello": {
-    const message = "hello";
-    console.log(message);
-    break;
-  }
-  case "say_hi": {
-    const message = "hi";
-    console.log(message);
-    break;
-  }
-  default: {
-    console.log("Empty action received.");
-  }
-}
-`;
-
-    expect(format(switchCodeWithBlock, options)).toBe(expectedResult);
+    expect(format(switchCodeWithBlock, options)).toBe(switchCodeWithBlockResult);
   });
 });
