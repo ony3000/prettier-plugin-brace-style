@@ -9,6 +9,7 @@ import {
 import braceStylePlugin from '@/index';
 
 export { format } from 'prettier';
+export { default as sortImportsPlugin } from '@trivago/prettier-plugin-sort-imports';
 
 export const baseOptions: Options = {
   plugins: [braceStylePlugin],
