@@ -8,15 +8,30 @@ A Prettier plugin that can apply ESLint's [brace-style](https://github.com/eslin
 npm install --save-dev prettier@~2.8 prettier-plugin-brace-style
 ```
 
+```sh
+yarn add --dev prettier@~2.8 prettier-plugin-brace-style
+```
+
+```sh
+pnpm add --save-dev prettier@~2.8 prettier-plugin-brace-style
+```
+
 ## Configuration
 
-**Notice**: This plugin should be added as the last element of the `plugins` array. May not be compatible with other plugins.
+If this is the only prettier plugin you are using, it will be loaded automatically so you only need to set the [options](#options).
+
+If you want to use this plugin with other prettier plugins, I recommend taking the help of [prettier-plugin-merge](https://github.com/ony3000/prettier-plugin-merge).
 
 JSON:
 
 ```json
 {
-  "plugins": ["prettier-plugin-brace-style"]
+  "plugins": [
+    "OTHER_PRETTIER_PLUGIN_1",
+    "OTHER_PRETTIER_PLUGIN_2",
+    "prettier-plugin-brace-style",
+    "prettier-plugin-merge"
+  ]
 }
 ```
 
@@ -24,7 +39,12 @@ JS:
 
 ```javascript
 module.exports = {
-  plugins: [require('prettier-plugin-brace-style')],
+  plugins: [
+    require('OTHER_PRETTIER_PLUGIN_1'),
+    require('OTHER_PRETTIER_PLUGIN_2'),
+    require('prettier-plugin-brace-style'),
+    require('prettier-plugin-merge'),
+  ],
 };
 ```
 
