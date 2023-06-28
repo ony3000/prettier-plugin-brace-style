@@ -1,8 +1,8 @@
 import type { Plugin } from 'prettier';
 
+import { options } from './options';
 import { parsers } from './parsers';
 import { printers } from './printers';
-import { options } from './options';
 
 const braceStylePlugin: Plugin = {
   parsers,
