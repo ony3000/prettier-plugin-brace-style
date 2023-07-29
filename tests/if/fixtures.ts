@@ -34,3 +34,9 @@ else {
   baz();
 }
 `;
+
+export const ifCodeContainingOnlyCommentsInBrackets = `
+if (condition) {
+  // statement
+}
+`;

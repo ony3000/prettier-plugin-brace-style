@@ -15,3 +15,9 @@ const sum = (a, b) => {
   return a + b;
 }
 `;
+
+export const functionCodeContainingOnlyCommentsInBrackets = `
+function foo(/* args here */) {
+  statement;
+}
+`;
