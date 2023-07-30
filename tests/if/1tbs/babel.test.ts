@@ -1,10 +1,17 @@
 import { format, baseOptions } from '../../settings';
-import { ifCode, ifElseCode, ifElseifElseCode, ifElseCodeWithComment } from '../fixtures';
+import {
+  ifCode,
+  ifElseCode,
+  ifElseifElseCode,
+  ifElseCodeWithComment,
+  ifCodeContainingOnlyCommentsInBrackets,
+} from '../fixtures';
 import {
   ifCodeResult,
   ifElseCodeResult,
   ifElseifElseCodeResult,
   ifElseCodeWithCommentResult,
+  ifCodeContainingOnlyCommentsInBracketsResult,
 } from './expected-results';
 
 const options = {
@@ -28,5 +35,11 @@ describe('[babel] 1tbs - if statements', () => {
 
   test('if...else (with comment)', () => {
     expect(format(ifElseCodeWithComment, options)).toBe(ifElseCodeWithCommentResult);
+  });
+
+  test('if (containing only comments in brackets)', () => {
+    expect(format(ifCodeContainingOnlyCommentsInBrackets, options)).toBe(
+      ifCodeContainingOnlyCommentsInBracketsResult,
+    );
   });
 });

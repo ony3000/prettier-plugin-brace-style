@@ -39,3 +39,9 @@ else
   baz();
 }
 `;
+
+export const ifCodeContainingOnlyCommentsInBracketsResult = `if (condition)
+{
+  // statement
+}
+`;
