@@ -16,8 +16,32 @@ const sum = (a, b) => {
 }
 `;
 
-export const functionCodeContainingOnlyCommentsInBrackets = `
+export const functionCode1 = `
 function foo(/* args here */) {
+  statement;
+}
+`;
+
+export const functionCode2 = `
+function foo(
+  /* args here */
+) {
+  statement;
+}
+`;
+
+export const functionCode3 = `
+function foo(
+  // args here
+) {
+  statement;
+}
+`;
+
+export const functionCode4 = `
+function foo(/* arg */ // arg
+  // arg
+/* arg */) {
   statement;
 }
 `;

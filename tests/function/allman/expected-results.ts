@@ -16,8 +16,30 @@ export const arrowFunctionExpressionCodeResult = `const sum = (a, b) =>
 };
 `;
 
-export const functionCodeContainingOnlyCommentsInBracketsResult = `function foo(/* args here */)
+export const functionCode1Result = `function foo(/* args here */)
 {
+  statement;
+}
+`;
+
+export const functionCode2Result = `function foo()
+{
+/* args here */
+  statement;
+}
+`;
+
+export const functionCode3Result = `function foo()
+{
+// args here
+  statement;
+}
+`;
+
+export const functionCode4Result = `function foo /* arg */()
+{ // arg
+// arg
+/* arg */
   statement;
 }
 `;

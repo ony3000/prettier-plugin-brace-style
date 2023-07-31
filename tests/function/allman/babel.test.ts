@@ -3,13 +3,19 @@ import {
   functionDeclarationCode,
   functionExpressionCode,
   arrowFunctionExpressionCode,
-  functionCodeContainingOnlyCommentsInBrackets,
+  functionCode1,
+  functionCode2,
+  functionCode3,
+  functionCode4,
 } from '../fixtures';
 import {
   functionDeclarationCodeResult,
   functionExpressionCodeResult,
   arrowFunctionExpressionCodeResult,
-  functionCodeContainingOnlyCommentsInBracketsResult,
+  functionCode1Result,
+  functionCode2Result,
+  functionCode3Result,
+  functionCode4Result,
 } from './expected-results';
 
 const options = {
@@ -31,9 +37,19 @@ describe('[babel] allman - function statements', () => {
     expect(format(arrowFunctionExpressionCode, options)).toBe(arrowFunctionExpressionCodeResult);
   });
 
-  test('function (containing only comments in brackets)', () => {
-    expect(format(functionCodeContainingOnlyCommentsInBrackets, options)).toBe(
-      functionCodeContainingOnlyCommentsInBracketsResult,
-    );
+  test('function (containing only comments in brackets #1)', () => {
+    expect(format(functionCode1, options)).toBe(functionCode1Result);
+  });
+
+  test('function (containing only comments in brackets #2)', () => {
+    expect(format(functionCode2, options)).toBe(functionCode2Result);
+  });
+
+  test('function (containing only comments in brackets #3)', () => {
+    expect(format(functionCode3, options)).toBe(functionCode3Result);
+  });
+
+  test('function (containing only comments in brackets #4)', () => {
+    expect(format(functionCode4, options)).toBe(functionCode4Result);
   });
 });
