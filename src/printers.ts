@@ -26,7 +26,7 @@ export function parseLineByLineAndAssemble(
 
   const lineInfos: LineInfo[] = formattedText.split(EOL).map((line) => {
     const indentMatchResult = line.match(new RegExp(`^(${unitIndentText})*`));
-    const indentLevel = (indentMatchResult![1] ?? '').length / unitIndentText.length;
+    const indentLevel = indentMatchResult![0].length / unitIndentText.length;
     const parts: LinePart[] = [];
 
     const trimmedLine = line.trimStart();
