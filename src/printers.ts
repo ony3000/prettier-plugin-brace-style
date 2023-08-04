@@ -37,7 +37,7 @@ export function parseLineByLineAndAssemble(
     const openingBraceRegex = /( {}?)$/;
     const openingBraceMatchResult = mutableLine.match(openingBraceRegex);
 
-    if (openingBraceMatchResult) {
+    if (openingBraceMatchResult && !mutableLine.match(/^(case |default:)/)) {
       maybeLastPart = {
         type: 'OpeningBrace',
         body: openingBraceMatchResult[1],
