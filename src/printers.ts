@@ -48,7 +48,7 @@ export function parseLineByLineAndAssemble(
     const closingBraceRegex = /^(} )/;
     const closingBraceMatchResult = mutableLine.match(closingBraceRegex);
 
-    if (closingBraceMatchResult) {
+    if (closingBraceMatchResult && !mutableLine.match(/^} while/)) {
       parts.push({
         type: 'ClosingBrace',
         body: closingBraceMatchResult[1],
