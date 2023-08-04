@@ -27,32 +27,42 @@ export function parseLineByLineAndAssemble(
   const lineInfos: LineInfo[] = formattedText.split(EOL).map((line) => {
     const indentMatchResult = line.match(new RegExp(`^(${unitIndentText})*`));
     const indentLevel = indentMatchResult![0].length / unitIndentText.length;
+
     const parts: LinePart[] = [];
+    let maybeLastPart: LinePart | null = null;
 
-    const trimmedLine = line.trimStart();
-    const braceMatchResult = trimmedLine.match(/^(}?)([^{}]*)({?)$/);
+    const trimmedLine = line.trimStart(); // base of 'mutableLine'
+    let mutableLine = trimmedLine;
 
-    if (braceMatchResult) {
-      if (braceMatchResult[1] === '}') {
-        parts.push({
-          type: 'ClosingBrace',
-          body: braceMatchResult[1],
-        });
-      }
+    const openingBraceRegex = /( {}?)$/;
+    const openingBraceMatchResult = mutableLine.match(openingBraceRegex);
 
-      if (braceMatchResult[2] !== '') {
-        parts.push({
-          type: 'Text',
-          body: braceMatchResult[2],
-        });
-      }
+    if (openingBraceMatchResult) {
+      maybeLastPart = {
+        type: 'OpeningBrace',
+        body: openingBraceMatchResult[1],
+      };
+      mutableLine = mutableLine.replace(openingBraceRegex, '');
+    }
 
-      if (braceMatchResult[3] === '{') {
-        parts.push({
-          type: 'OpeningBrace',
-          body: braceMatchResult[3],
-        });
-      }
+    const closingBraceRegex = /^(} )/;
+    const closingBraceMatchResult = mutableLine.match(closingBraceRegex);
+
+    if (closingBraceMatchResult) {
+      parts.push({
+        type: 'ClosingBrace',
+        body: closingBraceMatchResult[1],
+      });
+      mutableLine = mutableLine.replace(closingBraceRegex, '');
+    }
+
+    parts.push({
+      type: 'Text',
+      body: mutableLine,
+    });
+
+    if (maybeLastPart) {
+      parts.push(maybeLastPart);
     }
 
     return {
@@ -69,22 +79,12 @@ export function parseLineByLineAndAssemble(
       const firstPart = parts.at(0);
 
       if (firstPart?.type === 'ClosingBrace') {
-        const secondPart = parts.at(1);
-
-        if (secondPart) {
-          lineInfos.splice(
-            index,
-            1,
-            { indentLevel, parts: parts.slice(0, 1) },
-            {
-              indentLevel,
-              parts: [
-                { type: secondPart.type, body: secondPart.body.trimStart() },
-                ...parts.slice(2),
-              ],
-            },
-          );
-        }
+        lineInfos.splice(
+          index,
+          1,
+          { indentLevel, parts: [{ type: firstPart.type, body: firstPart.body.trimEnd() }] },
+          { indentLevel, parts: parts.slice(1) },
+        );
       }
     }
   }
@@ -97,22 +97,12 @@ export function parseLineByLineAndAssemble(
       const lastPart = parts.at(-1);
 
       if (lastPart?.type === 'OpeningBrace') {
-        const secondLastPart = parts.at(-2);
-
-        if (secondLastPart) {
-          lineInfos.splice(
-            index,
-            1,
-            {
-              indentLevel,
-              parts: [
-                ...parts.slice(0, -2),
-                { type: secondLastPart.type, body: secondLastPart.body.trimEnd() },
-              ],
-            },
-            { indentLevel, parts: parts.slice(-1) },
-          );
-        }
+        lineInfos.splice(
+          index,
+          1,
+          { indentLevel, parts: parts.slice(0, -1) },
+          { indentLevel, parts: [{ type: lastPart.type, body: lastPart.body.trimStart() }] },
+        );
       }
     }
   }
