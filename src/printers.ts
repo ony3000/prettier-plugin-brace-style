@@ -11,7 +11,7 @@ type LineInfo = {
   parts: LinePart[];
 };
 
-export function parseLineByLineAndAssemble(
+function parseLineByLineAndAssemble(
   formattedText: string,
   braceStyle: '1tbs' | 'stroustrup' | 'allman',
   unitIndentText: string,
