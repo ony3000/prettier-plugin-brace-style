@@ -145,7 +145,6 @@ function createPrinter(parserName: 'babel' | 'typescript'): Printer {
     const formattedText = format(originalText, {
       ...options,
       plugins: [pluginCandidate],
-      rangeEnd: Infinity,
     });
 
     if (formattedText !== '' && braceStyle !== '1tbs') {
