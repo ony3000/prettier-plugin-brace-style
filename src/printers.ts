@@ -31,7 +31,7 @@ function findTargetBrace(ast: any): BraceInfo[] {
         return;
       }
 
-      if (key === 'body' && Array.isArray(value)) {
+      if (Array.isArray(value)) {
         value.forEach((childNode: unknown) => {
           recursion(childNode);
         });
@@ -57,6 +57,9 @@ function findTargetBrace(ast: any): BraceInfo[] {
         braceTypePerIndex[rangeEnd - 1] = 'ClosingBrace';
         break;
       }
+      case 'ArrowFunctionExpression':
+      case 'FunctionDeclaration':
+      case 'FunctionExpression':
       case 'IfStatement': {
         braceTypePerIndex[rangeEnd - 1] = 'ClosingBraceButNotTheTarget';
         break;
@@ -144,9 +147,11 @@ function parseLineByLineAndAssemble(
       if (lastBraceInCurrentLine.type === 'OpeningBrace') {
         maybeLastPart = {
           type: 'OpeningBrace',
-          body: '{',
+          body: formattedText.slice(lastBraceInCurrentLine.range[0], rangeEndOfLine),
         };
-        mutableLine = mutableLine.slice(0, -1);
+        mutableLine = formattedText
+          .slice(rangeStartOfLine, lastBraceInCurrentLine.range[0])
+          .trimStart();
       }
 
       if (braceInfosInCurrentLine.length) {
@@ -157,10 +162,12 @@ function parseLineByLineAndAssemble(
         mutableLine = mutableLine.slice(1);
       }
 
-      parts.push({
-        type: 'Text',
-        body: mutableLine,
-      });
+      if (mutableLine) {
+        parts.push({
+          type: 'Text',
+          body: mutableLine,
+        });
+      }
 
       if (maybeLastPart) {
         parts.push(maybeLastPart);
