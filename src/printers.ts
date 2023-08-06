@@ -52,12 +52,20 @@ function findTargetBrace(ast: any): BraceInfo[] {
     }
 
     switch (node.type) {
-      case 'BlockStatement': {
+      case 'BlockStatement':
+      case 'ClassBody': {
         braceTypePerIndex[rangeStart] = 'OpeningBrace';
         braceTypePerIndex[rangeEnd - 1] = 'ClosingBrace';
         break;
       }
+      case 'StaticBlock': {
+        const offset = 'static '.length;
+
+        braceTypePerIndex[rangeStart + offset] = 'OpeningBrace';
+        break;
+      }
       case 'ArrowFunctionExpression':
+      case 'ClassDeclaration':
       case 'FunctionDeclaration':
       case 'FunctionExpression':
       case 'IfStatement': {
