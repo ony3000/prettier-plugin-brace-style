@@ -83,6 +83,10 @@ function findTargetBrace(ast: any): BraceInfo[] {
 
   recursion(ast);
 
+  if (IS_DEBUGGING_MODE) {
+    console.log(braceTypePerIndex);
+  }
+
   return Object.entries(braceTypePerIndex)
     .map<BraceInfo>(([key, value]) => {
       const rangeStart = Number(key);
