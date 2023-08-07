@@ -91,6 +91,7 @@ function findTargetBrace(ast: any): BraceInfo[] {
       }
       case 'ArrowFunctionExpression':
       case 'ClassDeclaration':
+      case 'ClassExpression':
       case 'FunctionDeclaration':
       case 'FunctionExpression':
       case 'IfStatement':
