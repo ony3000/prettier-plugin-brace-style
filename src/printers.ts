@@ -21,7 +21,7 @@ const IS_DEBUGGING_MODE = false;
 function findTargetBrace(ast: any): BraceInfo[] {
   const braceTypePerIndex: Record<string, string> = {};
 
-  function recursion(node: unknown): void {
+  function recursion(node: unknown, parentNode?: unknown): void {
     if (typeof node !== 'object' || node === null || !('type' in node)) {
       return;
     }
@@ -33,12 +33,12 @@ function findTargetBrace(ast: any): BraceInfo[] {
 
       if (Array.isArray(value)) {
         value.forEach((childNode: unknown) => {
-          recursion(childNode);
+          recursion(childNode, node);
         });
         return;
       }
 
-      recursion(value);
+      recursion(value, node);
     });
 
     if (!('range' in node) || !Array.isArray(node.range)) {
@@ -58,6 +58,14 @@ function findTargetBrace(ast: any): BraceInfo[] {
       case 'ClassBody': {
         braceTypePerIndex[rangeStart] = 'OpeningBrace';
         braceTypePerIndex[rangeEnd - 1] = 'ClosingBrace';
+        if (
+          typeof parentNode === 'object' &&
+          parentNode !== null &&
+          'type' in parentNode &&
+          parentNode.type === 'SwitchCase'
+        ) {
+          braceTypePerIndex[rangeStart] = 'OpeningBraceButNotTheTarget';
+        }
         break;
       }
       case 'StaticBlock': {
@@ -67,11 +75,26 @@ function findTargetBrace(ast: any): BraceInfo[] {
         braceTypePerIndex[rangeEnd - 1] = 'ClosingBraceButNotTheTarget';
         break;
       }
+      case 'SwitchStatement': {
+        if (
+          'discriminant' in node &&
+          typeof node.discriminant === 'object' &&
+          node.discriminant !== null &&
+          'name' in node.discriminant
+        ) {
+          const offset = `switch (${node.discriminant.name}) `.length;
+
+          braceTypePerIndex[rangeStart + offset] = 'OpeningBrace';
+          braceTypePerIndex[rangeEnd - 1] = 'ClosingBraceButNotTheTarget';
+        }
+        break;
+      }
       case 'ArrowFunctionExpression':
       case 'ClassDeclaration':
       case 'FunctionDeclaration':
       case 'FunctionExpression':
-      case 'IfStatement': {
+      case 'IfStatement':
+      case 'SwitchCase': {
         braceTypePerIndex[rangeEnd - 1] = 'ClosingBraceButNotTheTarget';
         break;
       }
