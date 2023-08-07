@@ -94,6 +94,7 @@ function findTargetBrace(ast: any): BraceInfo[] {
       case 'FunctionDeclaration':
       case 'FunctionExpression':
       case 'IfStatement':
+      case 'ObjectMethod':
       case 'SwitchCase': {
         braceTypePerIndex[rangeEnd - 1] = 'ClosingBraceButNotTheTarget';
         break;
@@ -187,6 +188,8 @@ function parseLineByLineAndAssemble(
         mutableLine = formattedText
           .slice(rangeStartOfLine, lastBraceInCurrentLine.range[0])
           .trimStart();
+      } else {
+        braceInfosInCurrentLine.push(lastBraceInCurrentLine);
       }
 
       if (braceInfosInCurrentLine.length) {
