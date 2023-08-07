@@ -48,7 +48,9 @@ function findTargetBrace(ast: any): BraceInfo[] {
     const [rangeStart, rangeEnd] = node.range as [number, number];
 
     if (IS_DEBUGGING_MODE) {
-      console.dir(node);
+      if (node.type !== 'Punctuator') {
+        console.dir(node);
+      }
     }
 
     switch (node.type) {
