@@ -103,10 +103,6 @@ function parseLineByLineAndAssemble(
     return formattedText;
   }
 
-  if (IS_DEBUGGING_MODE) {
-    console.dir(JSON.stringify(formattedText));
-  }
-
   const endOfLineMatchResult = formattedText.match(/([\r\n]+)$/);
 
   if (!endOfLineMatchResult) {
@@ -117,6 +113,7 @@ function parseLineByLineAndAssemble(
 
   const braceInfos = findTargetBrace(ast);
   if (IS_DEBUGGING_MODE) {
+    console.dir(JSON.stringify(formattedText));
     console.dir(braceInfos);
   }
   const formattedLines = formattedText.split(EOL);
