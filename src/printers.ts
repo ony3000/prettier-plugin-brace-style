@@ -64,6 +64,7 @@ function findTargetBrace(ast: any): BraceInfo[] {
         const offset = 'static '.length;
 
         braceTypePerIndex[rangeStart + offset] = 'OpeningBrace';
+        braceTypePerIndex[rangeEnd - 1] = 'ClosingBraceButNotTheTarget';
         break;
       }
       case 'ArrowFunctionExpression':
