@@ -58,13 +58,12 @@ function findTargetBrace(ast: any): BraceInfo[] {
       case 'ClassBody': {
         braceTypePerIndex[rangeStart] = 'OpeningBrace';
         braceTypePerIndex[rangeEnd - 1] = 'ClosingBrace';
-        if (
-          typeof parentNode === 'object' &&
-          parentNode !== null &&
-          'type' in parentNode &&
-          parentNode.type === 'SwitchCase'
-        ) {
-          braceTypePerIndex[rangeStart] = 'OpeningBraceButNotTheTarget';
+        if (typeof parentNode === 'object' && parentNode !== null && 'type' in parentNode) {
+          if (parentNode.type === 'SwitchCase') {
+            braceTypePerIndex[rangeStart] = 'OpeningBraceButNotTheTarget';
+          } else if (parentNode.type === 'DoWhileStatement') {
+            braceTypePerIndex[rangeEnd - 1] = 'ClosingBraceButNotTheTarget';
+          }
         }
         break;
       }
