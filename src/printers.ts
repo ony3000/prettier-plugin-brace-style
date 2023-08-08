@@ -88,6 +88,20 @@ function findTargetBrace(ast: any): BraceInfo[] {
         }
         break;
       }
+      case 'ConditionalExpression': {
+        Object.entries(braceTypePerIndex).forEach(([key, value]) => {
+          const rangeStartOfBrace = Number(key);
+
+          if (
+            rangeStart <= rangeStartOfBrace &&
+            rangeStartOfBrace < rangeEnd &&
+            value === 'OpeningBrace'
+          ) {
+            braceTypePerIndex[key] = 'OpeningBraceInTernaryOperator';
+          }
+        });
+        break;
+      }
       case 'ArrowFunctionExpression':
       case 'ClassDeclaration':
       case 'ClassExpression':
@@ -118,7 +132,12 @@ function findTargetBrace(ast: any): BraceInfo[] {
 
       return { type: value, range: [rangeStart, rangeStart + 1] };
     })
-    .filter((item) => item.type === 'OpeningBrace' || item.type === 'ClosingBrace')
+    .filter(
+      (item) =>
+        item.type === 'OpeningBrace' ||
+        item.type === 'OpeningBraceInTernaryOperator' ||
+        item.type === 'ClosingBrace',
+    )
     .sort((former, latter) => former.range[0] - latter.range[0]);
 }
 
@@ -180,9 +199,12 @@ function parseLineByLineAndAssemble(
     } else {
       const lastBraceInCurrentLine = braceInfosInCurrentLine.pop()!;
 
-      if (lastBraceInCurrentLine.type === 'OpeningBrace') {
+      if (
+        lastBraceInCurrentLine.type === 'OpeningBrace' ||
+        lastBraceInCurrentLine.type === 'OpeningBraceInTernaryOperator'
+      ) {
         maybeLastPart = {
-          type: 'OpeningBrace',
+          type: lastBraceInCurrentLine.type,
           body: formattedText.slice(lastBraceInCurrentLine.range[0], rangeEndOfLine),
         };
         mutableLine = formattedText
@@ -255,7 +277,7 @@ function parseLineByLineAndAssemble(
       const { indentLevel, parts } = lineInfos[index];
       const lastPart = parts.at(-1);
 
-      if (lastPart?.type === 'OpeningBrace') {
+      if (lastPart?.type === 'OpeningBrace' || lastPart?.type === 'OpeningBraceInTernaryOperator') {
         const secondLastPart = parts.at(-2);
 
         if (secondLastPart) {
@@ -269,7 +291,10 @@ function parseLineByLineAndAssemble(
                 { type: secondLastPart.type, body: secondLastPart.body.trimEnd() },
               ],
             },
-            { indentLevel, parts: [lastPart] },
+            {
+              indentLevel: lastPart?.type === 'OpeningBrace' ? indentLevel : indentLevel + 1,
+              parts: [lastPart],
+            },
           );
         }
       }
