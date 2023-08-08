@@ -1,8 +1,16 @@
 import type { AstPath, ParserOptions, Doc, Printer, Plugin } from 'prettier';
 import { format } from 'prettier';
 
+enum BraceType {
+  OB = 'OpeningBrace',
+  OBTO = 'OpeningBraceInTernaryOperator',
+  OBNT = 'OpeningBraceButNotTheTarget',
+  CB = 'ClosingBrace',
+  CBNT = 'ClosingBraceButNotTheTarget',
+}
+
 type BraceInfo = {
-  type: string;
+  type: BraceType;
   range: [number, number];
 };
 
@@ -19,7 +27,7 @@ type LineInfo = {
 const IS_DEBUGGING_MODE = false;
 
 function findTargetBrace(ast: any): BraceInfo[] {
-  const braceTypePerIndex: Record<string, string> = {};
+  const braceTypePerIndex: Record<string, BraceType> = {};
 
   function recursion(node: unknown, parentNode?: unknown): void {
     if (typeof node !== 'object' || node === null || !('type' in node)) {
@@ -56,13 +64,13 @@ function findTargetBrace(ast: any): BraceInfo[] {
     switch (node.type) {
       case 'BlockStatement':
       case 'ClassBody': {
-        braceTypePerIndex[rangeStart] = 'OpeningBrace';
-        braceTypePerIndex[rangeEnd - 1] = 'ClosingBrace';
+        braceTypePerIndex[rangeStart] = BraceType.OB;
+        braceTypePerIndex[rangeEnd - 1] = BraceType.CB;
         if (typeof parentNode === 'object' && parentNode !== null && 'type' in parentNode) {
           if (parentNode.type === 'SwitchCase') {
-            braceTypePerIndex[rangeStart] = 'OpeningBraceButNotTheTarget';
+            braceTypePerIndex[rangeStart] = BraceType.OBNT;
           } else if (parentNode.type === 'DoWhileStatement') {
-            braceTypePerIndex[rangeEnd - 1] = 'ClosingBraceButNotTheTarget';
+            braceTypePerIndex[rangeEnd - 1] = BraceType.CBNT;
           }
         }
         break;
@@ -70,8 +78,8 @@ function findTargetBrace(ast: any): BraceInfo[] {
       case 'StaticBlock': {
         const offset = 'static '.length;
 
-        braceTypePerIndex[rangeStart + offset] = 'OpeningBrace';
-        braceTypePerIndex[rangeEnd - 1] = 'ClosingBraceButNotTheTarget';
+        braceTypePerIndex[rangeStart + offset] = BraceType.OB;
+        braceTypePerIndex[rangeEnd - 1] = BraceType.CBNT;
         break;
       }
       case 'SwitchStatement': {
@@ -83,8 +91,8 @@ function findTargetBrace(ast: any): BraceInfo[] {
         ) {
           const offset = `switch (${node.discriminant.name}) `.length;
 
-          braceTypePerIndex[rangeStart + offset] = 'OpeningBrace';
-          braceTypePerIndex[rangeEnd - 1] = 'ClosingBraceButNotTheTarget';
+          braceTypePerIndex[rangeStart + offset] = BraceType.OB;
+          braceTypePerIndex[rangeEnd - 1] = BraceType.CBNT;
         }
         break;
       }
@@ -95,9 +103,9 @@ function findTargetBrace(ast: any): BraceInfo[] {
           if (
             rangeStart <= rangeStartOfBrace &&
             rangeStartOfBrace < rangeEnd &&
-            value === 'OpeningBrace'
+            value === BraceType.OB
           ) {
-            braceTypePerIndex[key] = 'OpeningBraceInTernaryOperator';
+            braceTypePerIndex[key] = BraceType.OBTO;
           }
         });
         break;
@@ -110,7 +118,7 @@ function findTargetBrace(ast: any): BraceInfo[] {
       case 'IfStatement':
       case 'ObjectMethod':
       case 'SwitchCase': {
-        braceTypePerIndex[rangeEnd - 1] = 'ClosingBraceButNotTheTarget';
+        braceTypePerIndex[rangeEnd - 1] = BraceType.CBNT;
         break;
       }
       default: {
@@ -134,9 +142,7 @@ function findTargetBrace(ast: any): BraceInfo[] {
     })
     .filter(
       (item) =>
-        item.type === 'OpeningBrace' ||
-        item.type === 'OpeningBraceInTernaryOperator' ||
-        item.type === 'ClosingBrace',
+        item.type === BraceType.OB || item.type === BraceType.OBTO || item.type === BraceType.CB,
     )
     .sort((former, latter) => former.range[0] - latter.range[0]);
 }
@@ -200,8 +206,8 @@ function parseLineByLineAndAssemble(
       const lastBraceInCurrentLine = braceInfosInCurrentLine.pop()!;
 
       if (
-        lastBraceInCurrentLine.type === 'OpeningBrace' ||
-        lastBraceInCurrentLine.type === 'OpeningBraceInTernaryOperator'
+        lastBraceInCurrentLine.type === BraceType.OB ||
+        lastBraceInCurrentLine.type === BraceType.OBTO
       ) {
         maybeLastPart = {
           type: lastBraceInCurrentLine.type,
@@ -216,7 +222,7 @@ function parseLineByLineAndAssemble(
 
       if (braceInfosInCurrentLine.length) {
         parts.push({
-          type: 'ClosingBrace',
+          type: BraceType.CB,
           body: '}',
         });
         mutableLine = mutableLine.slice(1);
@@ -251,7 +257,7 @@ function parseLineByLineAndAssemble(
     const { indentLevel, parts } = lineInfos[index];
     const firstPart = parts.at(0);
 
-    if (firstPart?.type === 'ClosingBrace') {
+    if (firstPart?.type === BraceType.CB) {
       const secondPart = parts.at(1);
 
       if (secondPart) {
@@ -277,7 +283,7 @@ function parseLineByLineAndAssemble(
       const { indentLevel, parts } = lineInfos[index];
       const lastPart = parts.at(-1);
 
-      if (lastPart?.type === 'OpeningBrace' || lastPart?.type === 'OpeningBraceInTernaryOperator') {
+      if (lastPart?.type === BraceType.OB || lastPart?.type === BraceType.OBTO) {
         const secondLastPart = parts.at(-2);
 
         if (secondLastPart) {
@@ -292,7 +298,7 @@ function parseLineByLineAndAssemble(
               ],
             },
             {
-              indentLevel: lastPart?.type === 'OpeningBrace' ? indentLevel : indentLevel + 1,
+              indentLevel: lastPart?.type === BraceType.OB ? indentLevel : indentLevel + 1,
               parts: [lastPart],
             },
           );
