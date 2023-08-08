@@ -27,7 +27,31 @@ type LineInfo = {
 const IS_DEBUGGING_MODE = false;
 
 function findTargetBrace(ast: any): BraceInfo[] {
+  const braceEnclosingRanges: [number, number][] = [];
   const braceTypePerIndex: Record<string, BraceType> = {};
+
+  function treatNextNodeAsPlainText(commentRange: [number, number]): void {
+    const [, rangeEnd] = commentRange;
+
+    const ignoringRange = braceEnclosingRanges
+      .filter((nodeRange) => rangeEnd < nodeRange[0])
+      .sort((former, latter) => former[0] - latter[0] || latter[1] - former[1])
+      .at(0);
+
+    if (ignoringRange) {
+      Object.entries(braceTypePerIndex).forEach(([key, value]) => {
+        const rangeStartOfBrace = Number(key);
+
+        if (ignoringRange[0] <= rangeStartOfBrace && rangeStartOfBrace < ignoringRange[1]) {
+          if (value === BraceType.OB || value === BraceType.OBTO) {
+            braceTypePerIndex[key] = BraceType.OBNT;
+          } else if (value === BraceType.CB) {
+            braceTypePerIndex[key] = BraceType.CBNT;
+          }
+        }
+      });
+    }
+  }
 
   function recursion(node: unknown, parentNode?: unknown): void {
     if (typeof node !== 'object' || node === null || !('type' in node)) {
@@ -64,6 +88,7 @@ function findTargetBrace(ast: any): BraceInfo[] {
     switch (node.type) {
       case 'BlockStatement':
       case 'ClassBody': {
+        braceEnclosingRanges.push([rangeStart, rangeEnd]);
         braceTypePerIndex[rangeStart] = BraceType.OB;
         braceTypePerIndex[rangeEnd - 1] = BraceType.CB;
         if (typeof parentNode === 'object' && parentNode !== null && 'type' in parentNode) {
@@ -78,6 +103,7 @@ function findTargetBrace(ast: any): BraceInfo[] {
       case 'StaticBlock': {
         const offset = 'static '.length;
 
+        braceEnclosingRanges.push([rangeStart, rangeEnd]);
         braceTypePerIndex[rangeStart + offset] = BraceType.OB;
         braceTypePerIndex[rangeEnd - 1] = BraceType.CBNT;
         break;
@@ -91,12 +117,14 @@ function findTargetBrace(ast: any): BraceInfo[] {
         ) {
           const offset = `switch (${node.discriminant.name}) `.length;
 
+          braceEnclosingRanges.push([rangeStart, rangeEnd]);
           braceTypePerIndex[rangeStart + offset] = BraceType.OB;
           braceTypePerIndex[rangeEnd - 1] = BraceType.CBNT;
         }
         break;
       }
       case 'ConditionalExpression': {
+        braceEnclosingRanges.push([rangeStart, rangeEnd]);
         Object.entries(braceTypePerIndex).forEach(([key, value]) => {
           const rangeStartOfBrace = Number(key);
 
@@ -118,7 +146,39 @@ function findTargetBrace(ast: any): BraceInfo[] {
       case 'IfStatement':
       case 'ObjectMethod':
       case 'SwitchCase': {
+        braceEnclosingRanges.push([rangeStart, rangeEnd]);
         braceTypePerIndex[rangeEnd - 1] = BraceType.CBNT;
+        break;
+      }
+      case 'Block':
+      case 'Line': {
+        if (
+          'value' in node &&
+          typeof node.value === 'string' &&
+          node.value.match(/prettier-ignore/)
+        ) {
+          treatNextNodeAsPlainText([rangeStart, rangeEnd]);
+        }
+        break;
+      }
+      case 'File': {
+        if ('comments' in node && Array.isArray(node.comments)) {
+          node.comments.forEach((comment: unknown) => {
+            if (
+              typeof comment === 'object' &&
+              comment !== null &&
+              'start' in comment &&
+              typeof comment.start === 'number' &&
+              'end' in comment &&
+              typeof comment.end === 'number' &&
+              'value' in comment &&
+              typeof comment.value === 'string' &&
+              comment.value.match(/prettier-ignore/)
+            ) {
+              treatNextNodeAsPlainText([comment.start, comment.end]);
+            }
+          });
+        }
         break;
       }
       default: {
