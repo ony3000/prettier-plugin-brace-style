@@ -9,6 +9,107 @@ const options = {
 
 const fixtures: Fixture[] = [
   {
+    name: 'function declaration',
+    input: `
+function sum(a, b) {
+  return a + b;
+}
+`,
+    output: `function sum(a, b)
+{
+  return a + b;
+}
+`,
+  },
+  {
+    name: 'function expression',
+    input: `
+const sum = function (a, b) {
+  return a + b;
+}
+`,
+    output: `const sum = function (a, b)
+{
+  return a + b;
+};
+`,
+  },
+  {
+    name: 'arrow function expression',
+    input: `
+const sum = (a, b) => {
+  return a + b;
+}
+`,
+    output: `const sum = (a, b) =>
+{
+  return a + b;
+};
+`,
+  },
+  {
+    name: 'function (containing only comments in brackets #1)',
+    input: `
+function foo(/* args here */) {
+  statement;
+}
+`,
+    output: `function foo(/* args here */)
+{
+  statement;
+}
+`,
+  },
+  {
+    name: 'function (containing only comments in brackets #2)',
+    input: `
+function foo(
+  /* args here */
+) {
+  statement;
+}
+`,
+    output: `function foo()
+{
+/* args here */
+  statement;
+}
+`,
+  },
+  {
+    name: 'function (containing only comments in brackets #3)',
+    input: `
+function foo(
+  // args here
+) {
+  statement;
+}
+`,
+    output: `function foo()
+{
+// args here
+  statement;
+}
+`,
+  },
+  {
+    name: 'function (containing only comments in brackets #4)',
+    input: `
+function foo(/* arg */ // arg
+  // arg
+/* arg */) {
+  statement;
+}
+`,
+    output: `function foo /* arg */()
+{ // arg
+// arg
+/* arg */
+  statement;
+}
+`,
+  },
+  {
     name: 'empty function',
     input: `function foo() {}`,
     output: `function foo()
