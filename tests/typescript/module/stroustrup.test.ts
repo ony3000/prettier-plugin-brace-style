@@ -7,7 +7,40 @@ const options = {
   braceStyle: 'stroustrup',
 };
 
-const fixtures: Fixture[] = [];
+const fixtures: Fixture[] = [
+  {
+    name: 'ambient module',
+    input: `
+declare module "url" {
+  export interface Url {
+    protocol?: string;
+    hostname?: string;
+    pathname?: string;
+  }
+
+  export function parse(
+    urlStr: string,
+    parseQueryString?,
+    slashesDenoteHost?
+  ): Url;
+}
+`,
+    output: `declare module "url" {
+  export interface Url {
+    protocol?: string;
+    hostname?: string;
+    pathname?: string;
+  }
+
+  export function parse(
+    urlStr: string,
+    parseQueryString?,
+    slashesDenoteHost?,
+  ): Url;
+}
+`,
+  },
+];
 
 describe('typescript/module/stroustrup', () => {
   for (const fixture of fixtures) {
