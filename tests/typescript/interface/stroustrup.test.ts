@@ -7,7 +7,42 @@ const options = {
   braceStyle: 'stroustrup',
 };
 
-const fixtures: Fixture[] = [];
+const fixtures: Fixture[] = [
+  {
+    name: 'interface declaration',
+    input: `
+interface Point {
+  x: number;
+  y: number;
+}
+`,
+    output: `interface Point {
+  x: number;
+  y: number;
+}
+`,
+  },
+  {
+    name: 'extending an interface',
+    input: `
+interface Animal {
+  name: string;
+}
+
+interface Bear extends Animal {
+  honey: boolean;
+}
+`,
+    output: `interface Animal {
+  name: string;
+}
+
+interface Bear extends Animal {
+  honey: boolean;
+}
+`,
+  },
+];
 
 describe('typescript/interface/stroustrup', () => {
   for (const fixture of fixtures) {
