@@ -86,6 +86,21 @@ function findTargetBrace(ast: any): BraceInfo[] {
     }
 
     switch (node.type) {
+      case 'TSEnumDeclaration': {
+        if ('id' in node && typeof node.id === 'object' && node.id !== null && 'name' in node.id) {
+          const prefix = `${'declare' in node && node.declare ? 'declare ' : ''}${
+            'const' in node && node.const ? 'const ' : ''
+          }`;
+          const offset = `${prefix}enum ${node.id.name} `.length;
+
+          braceEnclosingRanges.push([rangeStart, rangeEnd]);
+          braceTypePerIndex[rangeStart + offset] = BraceType.OB;
+          braceTypePerIndex[rangeEnd - 1] = BraceType.CBNT;
+        }
+        break;
+      }
+      case 'TSInterfaceBody':
+      case 'TSModuleBlock':
       case 'BlockStatement':
       case 'ClassBody': {
         braceEnclosingRanges.push([rangeStart, rangeEnd]);
@@ -138,6 +153,8 @@ function findTargetBrace(ast: any): BraceInfo[] {
         });
         break;
       }
+      case 'TSInterfaceDeclaration':
+      case 'TSModuleDeclaration':
       case 'ArrowFunctionExpression':
       case 'ClassDeclaration':
       case 'ClassExpression':
