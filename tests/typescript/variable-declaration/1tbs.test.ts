@@ -60,7 +60,7 @@ const foo = [// element
   },
 ];
 
-describe('typescript/others/1tbs', () => {
+describe('typescript/variable-declaration/1tbs', () => {
   for (const fixture of fixtures) {
     test(fixture.name, () => {
       expect(format(fixture.input, options)).toBe(fixture.output);

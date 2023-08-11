@@ -3,8 +3,8 @@ import { format, baseOptions } from '../../settings';
 
 const options = {
   ...baseOptions,
-  parser: 'babel',
-  braceStyle: 'stroustrup',
+  parser: 'typescript',
+  braceStyle: 'allman',
 };
 
 const fixtures: Fixture[] = [
@@ -60,7 +60,7 @@ const foo = [// element
   },
 ];
 
-describe('babel/others/stroustrup', () => {
+describe('typescript/variable-declaration/allman', () => {
   for (const fixture of fixtures) {
     test(fixture.name, () => {
       expect(format(fixture.input, options)).toBe(fixture.output);

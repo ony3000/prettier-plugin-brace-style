@@ -4,7 +4,7 @@ import { format, baseOptions } from '../../settings';
 const options = {
   ...baseOptions,
   parser: 'babel',
-  braceStyle: '1tbs',
+  braceStyle: 'allman',
 };
 
 const fixtures: Fixture[] = [
@@ -60,7 +60,7 @@ const foo = [// element
   },
 ];
 
-describe('babel/others/1tbs', () => {
+describe('babel/variable-declaration/allman', () => {
   for (const fixture of fixtures) {
     test(fixture.name, () => {
       expect(format(fixture.input, options)).toBe(fixture.output);

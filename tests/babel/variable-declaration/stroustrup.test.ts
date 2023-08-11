@@ -3,7 +3,7 @@ import { format, baseOptions } from '../../settings';
 
 const options = {
   ...baseOptions,
-  parser: 'typescript',
+  parser: 'babel',
   braceStyle: 'stroustrup',
 };
 
@@ -60,7 +60,7 @@ const foo = [// element
   },
 ];
 
-describe('typescript/others/stroustrup', () => {
+describe('babel/variable-declaration/stroustrup', () => {
   for (const fixture of fixtures) {
     test(fixture.name, () => {
       expect(format(fixture.input, options)).toBe(fixture.output);
