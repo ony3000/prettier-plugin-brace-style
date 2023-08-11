@@ -7,7 +7,26 @@ const options = {
   braceStyle: 'allman',
 };
 
-const fixtures: Fixture[] = [];
+const fixtures: Fixture[] = [
+  {
+    name: 'global augmentation',
+    input: `
+declare global {
+  interface Array<T> {
+    toObservable(): Observable<T>;
+  }
+}
+`,
+    output: `declare global
+{
+  interface Array<T>
+  {
+    toObservable(): Observable<T>;
+  }
+}
+`,
+  },
+];
 
 describe('typescript/global/allman', () => {
   for (const fixture of fixtures) {
