@@ -423,6 +423,7 @@ function createPrinter(parserName: 'babel' | 'typescript'): Printer {
     const formattedText = format(originalText, {
       ...options,
       plugins: [pluginCandidate],
+      endOfLine: 'lf',
     });
 
     const parser = pluginCandidate.parsers![parserName];
