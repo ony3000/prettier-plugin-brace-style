@@ -24,8 +24,6 @@ type LineInfo = {
   parts: LinePart[];
 };
 
-const IS_DEBUGGING_MODE = false;
-
 function findTargetBrace(ast: any): BraceInfo[] {
   const braceEnclosingRanges: [number, number][] = [];
   const braceTypePerIndex: Record<string, BraceType> = {};
@@ -78,12 +76,6 @@ function findTargetBrace(ast: any): BraceInfo[] {
     }
 
     const [rangeStart, rangeEnd] = node.range as [number, number];
-
-    if (IS_DEBUGGING_MODE) {
-      if (node.type !== 'Punctuator') {
-        console.dir(node);
-      }
-    }
 
     switch (node.type) {
       case 'TSEnumDeclaration': {
@@ -207,10 +199,6 @@ function findTargetBrace(ast: any): BraceInfo[] {
 
   recursion(ast);
 
-  if (IS_DEBUGGING_MODE) {
-    console.log(braceTypePerIndex);
-  }
-
   return Object.entries(braceTypePerIndex)
     .map<BraceInfo>(([key, value]) => {
       const rangeStart = Number(key);
@@ -243,10 +231,6 @@ function parseLineByLineAndAssemble(
   const EOL = endOfLineMatchResult[1];
 
   const braceInfos = findTargetBrace(ast);
-  if (IS_DEBUGGING_MODE) {
-    console.dir(JSON.stringify(formattedText));
-    console.dir(braceInfos);
-  }
   const formattedLines = formattedText.split(EOL);
   let rangeStartOfLine = 0;
   let rangeEndOfLine: number;
@@ -266,13 +250,6 @@ function parseLineByLineAndAssemble(
 
     const trimmedLine = line.trimStart(); // base of 'mutableLine'
     let mutableLine = trimmedLine;
-
-    if (IS_DEBUGGING_MODE) {
-      console.dir(
-        [`rangeOfCurrentLine: [${rangeStartOfLine}, ${rangeEndOfLine}]`, braceInfosInCurrentLine],
-        { depth: null },
-      );
-    }
 
     if (braceInfosInCurrentLine.length === 0) {
       parts.push({
@@ -324,10 +301,6 @@ function parseLineByLineAndAssemble(
       parts,
     };
   });
-
-  if (IS_DEBUGGING_MODE) {
-    console.dir(lineInfos, { depth: null });
-  }
 
   // If 'Text' exists after 'ClosingBrace', add a line break between 'ClosingBrace' and 'Text'.
   for (let index = lineInfos.length - 1; index >= 0; index -= 1) {
