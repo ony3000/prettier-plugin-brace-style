@@ -9,9 +9,11 @@ enum BraceType {
   CBNT = 'ClosingBraceButNotTheTarget',
 }
 
+type NodeRange = [number, number];
+
 type BraceInfo = {
   type: BraceType;
-  range: [number, number];
+  range: NodeRange;
 };
 
 type LinePart = {
@@ -25,10 +27,10 @@ type LineInfo = {
 };
 
 function findTargetBrace(ast: any): BraceInfo[] {
-  const braceEnclosingRanges: [number, number][] = [];
+  const braceEnclosingRanges: NodeRange[] = [];
   const braceTypePerIndex: Record<string, BraceType> = {};
 
-  function treatNextNodeAsPlainText(commentRange: [number, number]): void {
+  function treatNextNodeAsPlainText(commentRange: NodeRange): void {
     const [, rangeEnd] = commentRange;
 
     const ignoringRange = braceEnclosingRanges
@@ -75,7 +77,7 @@ function findTargetBrace(ast: any): BraceInfo[] {
       return;
     }
 
-    const [rangeStart, rangeEnd] = node.range as [number, number];
+    const [rangeStart, rangeEnd] = node.range as NodeRange;
 
     switch (node.type) {
       case 'TSEnumDeclaration': {
