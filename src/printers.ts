@@ -224,13 +224,7 @@ function parseLineByLineAndAssemble(
     return formattedText;
   }
 
-  const endOfLineMatchResult = formattedText.match(/([\r\n]+)$/);
-
-  if (!endOfLineMatchResult) {
-    throw new Error('There are no line breaks in the text.');
-  }
-
-  const EOL = endOfLineMatchResult[1];
+  const EOL = '\n';
 
   const braceInfos = findTargetBrace(ast);
   const formattedLines = formattedText.split(EOL);
