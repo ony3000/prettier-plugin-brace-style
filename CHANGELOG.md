@@ -2,6 +2,90 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.0] - 2023-08-13
+
+### Bug Fixes
+
+- Correct indentation level calculation errors
+- Correct brace parsing errors
+- Handle 'switch-case' separately in brace parsing step
+- Handle 'do-while' separately in brace parsing step
+
+### Documentation
+
+- Update README.md
+- Update README.md
+
+### Features
+
+- Implements formatting for '1tbs' option
+- Implements some formatting for other options
+- Remove 'rangeEnd' option override
+- Implements 'if' statement formatting using new mechanism
+- Implements 'function' statement formatting
+- Implements 'class' statement formatting
+- Add brace mark for static block
+- Implements 'switch' statement formatting
+- Implements assignment syntax formatting
+- Fix broken 'class' statement tests
+- Fix broken 'while' statement tests
+- Implements ternary operator syntax formatting
+- Implements prettier-ignore syntax formatting
+- Implements typescript syntax formatting
+- Fix 'endOfLine' option to 'lf' when getting formatted text
+
+### Miscellaneous Tasks
+
+- Add prettier plugin
+- Update .prettierrc.json
+- Add vite plugin
+- Remove unnecessary files
+- Create issue template
+- Add fixtures that can break test
+- Remove unnecessary export
+- Update .eslintrc.json
+- Add log for debug
+- Reduce output of less important logs
+- Adjust output order of formatted text
+- Add log of brace index
+- Rename test directory
+- Remove debugging logs
+- Remove unnecessary end-of-line guessing code
+- Update CHANGELOG.md
+- Release 0.2.0
+
+### Refactor
+
+- Define brace type as enum
+- Reorganize directory structure of some tests
+- Define node range as tuple type
+
+### Styling
+
+- Apply format to all files
+
+### Testing
+
+- Add tests
+- Add more tests for three syntax
+- Add various tests for '1tbs' option
+- Explicitly sets prettier's default options
+- Add various tests for other options
+- Add various tests for typescript parser
+- Add empty suites for typescript syntax testing
+- Add 'enum' syntax tests
+- Add 'global' syntax tests
+- Add 'interface' syntax tests
+- Add 'module' syntax tests
+- Add 'namespace' syntax tests
+- Add 'type-alias' syntax tests
+- Add tests for prettier option variants
+
+### Build
+
+- Update vite.config.js
+- Update package.json
+
 ## [0.1.1] - 2023-06-25
 
 ### Documentation
