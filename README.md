@@ -1,37 +1,31 @@
 # prettier-plugin-brace-style
 
-A Prettier plugin that can apply ESLint's [brace-style](https://github.com/eslint/eslint/blob/v8.35.0/docs/src/rules/brace-style.md) rules to JavaScript and TypeScript files.
+A Prettier plugin that can apply ESLint's [brace-style](https://eslint.org/docs/latest/rules/brace-style) rules to JavaScript and TypeScript files.
+
+**Note**: Prettier v3 is not yet supported.
 
 ## Installation
 
 ```sh
-npm install --save-dev prettier@~2.8 prettier-plugin-brace-style
+npm install -D prettier@~2.8 prettier-plugin-brace-style
 ```
 
 ```sh
-yarn add --dev prettier@~2.8 prettier-plugin-brace-style
+yarn add -D prettier@~2.8 prettier-plugin-brace-style
 ```
 
 ```sh
-pnpm add --save-dev prettier@~2.8 prettier-plugin-brace-style
+pnpm add -D prettier@~2.8 prettier-plugin-brace-style
 ```
 
 ## Configuration
-
-If this is the only prettier plugin you are using, it will be loaded automatically so you only need to set the [options](#options).
-
-If you want to use this plugin with other prettier plugins, I recommend taking the help of [prettier-plugin-merge](https://github.com/ony3000/prettier-plugin-merge).
 
 JSON:
 
 ```json
 {
-  "plugins": [
-    "OTHER_PRETTIER_PLUGIN_1",
-    "OTHER_PRETTIER_PLUGIN_2",
-    "prettier-plugin-brace-style",
-    "prettier-plugin-merge"
-  ]
+  "plugins": ["prettier-plugin-brace-style"],
+  "braceStyle": "1tbs"
 }
 ```
 
@@ -39,27 +33,18 @@ JS:
 
 ```javascript
 module.exports = {
-  plugins: [
-    require('OTHER_PRETTIER_PLUGIN_1'),
-    require('OTHER_PRETTIER_PLUGIN_2'),
-    require('prettier-plugin-brace-style'),
-    require('prettier-plugin-merge'),
-  ],
+  plugins: [require('prettier-plugin-brace-style')],
+  braceStyle: '1tbs',
 };
 ```
 
 ## Options
 
-This plugin has only one option, `braceStyle`. [Same as ESLint](https://github.com/eslint/eslint/blob/v8.35.0/docs/src/rules/brace-style.md#options), you can select one of `1tbs` (default), `stroustrup`, `allman`.
+This plugin has only one option, `braceStyle`. Same as ESLint, you can select one of `1tbs` (default), `stroustrup`, `allman`.
 
-CLI Override:
-
-```
---brace-style <1tbs|stroustrup|allman>
-```
-
-API Override:
-
-```
-braceStyle: '1tbs' | 'stroustrup' | 'allman'
-```
+<!-- prettier-ignore -->
+Option | Description | Example code
+--- | --- | ---
+`1tbs` | the opening brace of a block is placed on the same line as its corresponding statement or declaration. | ![example code of 1tbs option](.github/1tbs.png)
+`stroustrup` | the `else` statements in an `if-else` construct, as well as `catch` and `finally`, must be on its own line after the preceding closing brace. | ![example code of stroustrup option](.github/stroustrup.png)
+`allman` | all the braces are expected to be on their own lines without any extra indentation. | ![example code of allman option](.github/allman.png)
