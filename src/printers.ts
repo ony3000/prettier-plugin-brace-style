@@ -26,6 +26,14 @@ type BraceNode = {
   range: NodeRange;
 };
 
+function isObject(arg: unknown): arg is object {
+  return typeof arg === 'object' && arg !== null;
+}
+
+function isNodeRange(arg: unknown): arg is NodeRange {
+  return Array.isArray(arg) && arg.length === 2 && arg.every((item) => typeof item === 'number');
+}
+
 function findTargetBraceNodes(ast: any): BraceNode[] {
   const braceEnclosingRanges: NodeRange[] = [];
   const braceTypePerIndex: Record<string, BraceType> = {};
@@ -53,8 +61,8 @@ function findTargetBraceNodes(ast: any): BraceNode[] {
     }
   }
 
-  function recursion(node: unknown, parentNode?: unknown): void {
-    if (typeof node !== 'object' || node === null || !('type' in node)) {
+  function recursion(node: unknown, parentNode?: object & Record<'type', unknown>): void {
+    if (!isObject(node) || !('type' in node)) {
       return;
     }
 
@@ -73,15 +81,15 @@ function findTargetBraceNodes(ast: any): BraceNode[] {
       recursion(value, node);
     });
 
-    if (!('range' in node) || !Array.isArray(node.range)) {
+    if (!('range' in node) || !isNodeRange(node.range)) {
       return;
     }
 
-    const [rangeStart, rangeEnd] = node.range as NodeRange;
+    const [rangeStart, rangeEnd] = node.range;
 
     switch (node.type) {
       case 'TSEnumDeclaration': {
-        if ('id' in node && typeof node.id === 'object' && node.id !== null && 'name' in node.id) {
+        if ('id' in node && isObject(node.id) && 'name' in node.id) {
           const prefix = `${'declare' in node && node.declare ? 'declare ' : ''}${
             'const' in node && node.const ? 'const ' : ''
           }`;
@@ -100,12 +108,10 @@ function findTargetBraceNodes(ast: any): BraceNode[] {
         braceEnclosingRanges.push([rangeStart, rangeEnd]);
         braceTypePerIndex[rangeStart] = BraceType.OB;
         braceTypePerIndex[rangeEnd - 1] = BraceType.CB;
-        if (typeof parentNode === 'object' && parentNode !== null && 'type' in parentNode) {
-          if (parentNode.type === 'SwitchCase') {
-            braceTypePerIndex[rangeStart] = BraceType.OBNT;
-          } else if (parentNode.type === 'DoWhileStatement') {
-            braceTypePerIndex[rangeEnd - 1] = BraceType.CBNT;
-          }
+        if (parentNode?.type === 'SwitchCase') {
+          braceTypePerIndex[rangeStart] = BraceType.OBNT;
+        } else if (parentNode?.type === 'DoWhileStatement') {
+          braceTypePerIndex[rangeEnd - 1] = BraceType.CBNT;
         }
         break;
       }
@@ -118,12 +124,7 @@ function findTargetBraceNodes(ast: any): BraceNode[] {
         break;
       }
       case 'SwitchStatement': {
-        if (
-          'discriminant' in node &&
-          typeof node.discriminant === 'object' &&
-          node.discriminant !== null &&
-          'name' in node.discriminant
-        ) {
+        if ('discriminant' in node && isObject(node.discriminant) && 'name' in node.discriminant) {
           const offset = `switch (${node.discriminant.name}) `.length;
 
           braceEnclosingRanges.push([rangeStart, rangeEnd]);
@@ -176,8 +177,7 @@ function findTargetBraceNodes(ast: any): BraceNode[] {
         if ('comments' in node && Array.isArray(node.comments)) {
           node.comments.forEach((comment: unknown) => {
             if (
-              typeof comment === 'object' &&
-              comment !== null &&
+              isObject(comment) &&
               'start' in comment &&
               typeof comment.start === 'number' &&
               'end' in comment &&
