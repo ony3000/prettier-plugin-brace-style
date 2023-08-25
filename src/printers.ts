@@ -11,11 +11,6 @@ enum BraceType {
 
 type NodeRange = [number, number];
 
-type BraceNode = {
-  type: BraceType;
-  range: NodeRange;
-};
-
 type LinePart = {
   type: string;
   body: string;
@@ -24,6 +19,11 @@ type LinePart = {
 type LineNode = {
   indentLevel: number;
   parts: LinePart[];
+};
+
+type BraceNode = {
+  type: BraceType;
+  range: NodeRange;
 };
 
 function findTargetBraceNodes(ast: any): BraceNode[] {
