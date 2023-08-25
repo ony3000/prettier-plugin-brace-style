@@ -346,7 +346,7 @@ function parseLineByLineAndAssemble(
               ],
             },
             {
-              indentLevel: lastPart?.type === BraceType.OB ? indentLevel : indentLevel + 1,
+              indentLevel: lastPart?.type === BraceType.OBTO ? indentLevel + 1 : indentLevel,
               parts: [lastPart],
             },
           );
