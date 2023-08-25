@@ -11,22 +11,30 @@ enum BraceType {
 
 type NodeRange = [number, number];
 
-type BraceInfo = {
-  type: BraceType;
-  range: NodeRange;
-};
-
 type LinePart = {
   type: string;
   body: string;
 };
 
-type LineInfo = {
+type LineNode = {
   indentLevel: number;
   parts: LinePart[];
 };
 
-function findTargetBrace(ast: any): BraceInfo[] {
+type BraceNode = {
+  type: BraceType;
+  range: NodeRange;
+};
+
+function isObject(arg: unknown): arg is object {
+  return typeof arg === 'object' && arg !== null;
+}
+
+function isNodeRange(arg: unknown): arg is NodeRange {
+  return Array.isArray(arg) && arg.length === 2 && arg.every((item) => typeof item === 'number');
+}
+
+function findTargetBraceNodes(ast: any): BraceNode[] {
   const braceEnclosingRanges: NodeRange[] = [];
   const braceTypePerIndex: Record<string, BraceType> = {};
 
@@ -53,8 +61,8 @@ function findTargetBrace(ast: any): BraceInfo[] {
     }
   }
 
-  function recursion(node: unknown, parentNode?: unknown): void {
-    if (typeof node !== 'object' || node === null || !('type' in node)) {
+  function recursion(node: unknown, parentNode?: object & Record<'type', unknown>): void {
+    if (!isObject(node) || !('type' in node)) {
       return;
     }
 
@@ -73,15 +81,15 @@ function findTargetBrace(ast: any): BraceInfo[] {
       recursion(value, node);
     });
 
-    if (!('range' in node) || !Array.isArray(node.range)) {
+    if (!('range' in node) || !isNodeRange(node.range)) {
       return;
     }
 
-    const [rangeStart, rangeEnd] = node.range as NodeRange;
+    const [rangeStart, rangeEnd] = node.range;
 
     switch (node.type) {
       case 'TSEnumDeclaration': {
-        if ('id' in node && typeof node.id === 'object' && node.id !== null && 'name' in node.id) {
+        if ('id' in node && isObject(node.id) && 'name' in node.id) {
           const prefix = `${'declare' in node && node.declare ? 'declare ' : ''}${
             'const' in node && node.const ? 'const ' : ''
           }`;
@@ -100,12 +108,10 @@ function findTargetBrace(ast: any): BraceInfo[] {
         braceEnclosingRanges.push([rangeStart, rangeEnd]);
         braceTypePerIndex[rangeStart] = BraceType.OB;
         braceTypePerIndex[rangeEnd - 1] = BraceType.CB;
-        if (typeof parentNode === 'object' && parentNode !== null && 'type' in parentNode) {
-          if (parentNode.type === 'SwitchCase') {
-            braceTypePerIndex[rangeStart] = BraceType.OBNT;
-          } else if (parentNode.type === 'DoWhileStatement') {
-            braceTypePerIndex[rangeEnd - 1] = BraceType.CBNT;
-          }
+        if (parentNode?.type === 'SwitchCase') {
+          braceTypePerIndex[rangeStart] = BraceType.OBNT;
+        } else if (parentNode?.type === 'DoWhileStatement') {
+          braceTypePerIndex[rangeEnd - 1] = BraceType.CBNT;
         }
         break;
       }
@@ -118,12 +124,7 @@ function findTargetBrace(ast: any): BraceInfo[] {
         break;
       }
       case 'SwitchStatement': {
-        if (
-          'discriminant' in node &&
-          typeof node.discriminant === 'object' &&
-          node.discriminant !== null &&
-          'name' in node.discriminant
-        ) {
+        if ('discriminant' in node && isObject(node.discriminant) && 'name' in node.discriminant) {
           const offset = `switch (${node.discriminant.name}) `.length;
 
           braceEnclosingRanges.push([rangeStart, rangeEnd]);
@@ -176,8 +177,7 @@ function findTargetBrace(ast: any): BraceInfo[] {
         if ('comments' in node && Array.isArray(node.comments)) {
           node.comments.forEach((comment: unknown) => {
             if (
-              typeof comment === 'object' &&
-              comment !== null &&
+              isObject(comment) &&
               'start' in comment &&
               typeof comment.start === 'number' &&
               'end' in comment &&
@@ -202,7 +202,7 @@ function findTargetBrace(ast: any): BraceInfo[] {
   recursion(ast);
 
   return Object.entries(braceTypePerIndex)
-    .map<BraceInfo>(([key, value]) => {
+    .map<BraceNode>(([key, value]) => {
       const rangeStart = Number(key);
 
       return { type: value, range: [rangeStart, rangeStart + 1] };
@@ -216,28 +216,29 @@ function findTargetBrace(ast: any): BraceInfo[] {
 
 function parseLineByLineAndAssemble(
   formattedText: string,
-  braceStyle: '1tbs' | 'stroustrup' | 'allman',
-  unitIndentText: string,
   ast: any,
+  options: ParserOptions,
 ): string {
-  if (formattedText === '' || braceStyle === '1tbs') {
+  // @ts-ignore
+  if (formattedText === '' || options.braceStyle === '1tbs') {
     return formattedText;
   }
 
   const EOL = '\n';
+  const indentUnit = options.useTabs ? '\t' : ' '.repeat(options.tabWidth);
 
-  const braceInfos = findTargetBrace(ast);
+  const targetBraceNodes = findTargetBraceNodes(ast);
   const formattedLines = formattedText.split(EOL);
   let rangeStartOfLine = 0;
   let rangeEndOfLine: number;
 
-  const lineInfos: LineInfo[] = formattedLines.map((line) => {
-    const indentMatchResult = line.match(new RegExp(`^(${unitIndentText})*`));
-    const indentLevel = indentMatchResult![0].length / unitIndentText.length;
+  const lineNodes: LineNode[] = formattedLines.map((line) => {
+    const indentMatchResult = line.match(new RegExp(`^(${indentUnit})*`));
+    const indentLevel = indentMatchResult![0].length / indentUnit.length;
 
     rangeEndOfLine = rangeStartOfLine + line.length;
 
-    const braceInfosInCurrentLine = braceInfos.filter(
+    const braceNodesInCurrentLine = targetBraceNodes.filter(
       ({ range: [rangeStartOfBrace, rangeEndOfBrace] }) =>
         rangeStartOfLine <= rangeStartOfBrace && rangeEndOfBrace <= rangeEndOfLine,
     );
@@ -247,30 +248,30 @@ function parseLineByLineAndAssemble(
     const trimmedLine = line.trimStart(); // base of 'mutableLine'
     let mutableLine = trimmedLine;
 
-    if (braceInfosInCurrentLine.length === 0) {
+    if (braceNodesInCurrentLine.length === 0) {
       parts.push({
         type: 'Text',
         body: mutableLine,
       });
     } else {
-      const lastBraceInCurrentLine = braceInfosInCurrentLine.pop()!;
+      const lastBraceNodeInCurrentLine = braceNodesInCurrentLine.pop()!;
 
       if (
-        lastBraceInCurrentLine.type === BraceType.OB ||
-        lastBraceInCurrentLine.type === BraceType.OBTO
+        lastBraceNodeInCurrentLine.type === BraceType.OB ||
+        lastBraceNodeInCurrentLine.type === BraceType.OBTO
       ) {
         maybeLastPart = {
-          type: lastBraceInCurrentLine.type,
-          body: formattedText.slice(lastBraceInCurrentLine.range[0], rangeEndOfLine),
+          type: lastBraceNodeInCurrentLine.type,
+          body: formattedText.slice(lastBraceNodeInCurrentLine.range[0], rangeEndOfLine),
         };
         mutableLine = formattedText
-          .slice(rangeStartOfLine, lastBraceInCurrentLine.range[0])
+          .slice(rangeStartOfLine, lastBraceNodeInCurrentLine.range[0])
           .trimStart();
       } else {
-        braceInfosInCurrentLine.push(lastBraceInCurrentLine);
+        braceNodesInCurrentLine.push(lastBraceNodeInCurrentLine);
       }
 
-      if (braceInfosInCurrentLine.length) {
+      if (braceNodesInCurrentLine.length) {
         parts.push({
           type: BraceType.CB,
           body: '}',
@@ -299,15 +300,15 @@ function parseLineByLineAndAssemble(
   });
 
   // If 'Text' exists after 'ClosingBrace', add a line break between 'ClosingBrace' and 'Text'.
-  for (let index = lineInfos.length - 1; index >= 0; index -= 1) {
-    const { indentLevel, parts } = lineInfos[index];
+  for (let index = lineNodes.length - 1; index >= 0; index -= 1) {
+    const { indentLevel, parts } = lineNodes[index];
     const firstPart = parts.at(0);
 
     if (firstPart?.type === BraceType.CB) {
       const secondPart = parts.at(1);
 
       if (secondPart) {
-        lineInfos.splice(
+        lineNodes.splice(
           index,
           1,
           { indentLevel, parts: [firstPart] },
@@ -323,17 +324,18 @@ function parseLineByLineAndAssemble(
     }
   }
 
-  if (braceStyle === 'allman') {
+  // @ts-ignore
+  if (options.braceStyle === 'allman') {
     // Add a line break before 'OpeningBrace'.
-    for (let index = lineInfos.length - 1; index >= 0; index -= 1) {
-      const { indentLevel, parts } = lineInfos[index];
+    for (let index = lineNodes.length - 1; index >= 0; index -= 1) {
+      const { indentLevel, parts } = lineNodes[index];
       const lastPart = parts.at(-1);
 
       if (lastPart?.type === BraceType.OB || lastPart?.type === BraceType.OBTO) {
         const secondLastPart = parts.at(-2);
 
         if (secondLastPart) {
-          lineInfos.splice(
+          lineNodes.splice(
             index,
             1,
             {
@@ -353,10 +355,10 @@ function parseLineByLineAndAssemble(
     }
   }
 
-  const assembledText = lineInfos
+  const assembledText = lineNodes
     .map(
       ({ indentLevel, parts }) =>
-        `${unitIndentText.repeat(indentLevel)}${parts.map(({ body }) => body).join('')}`,
+        `${indentUnit.repeat(indentLevel)}${parts.map(({ body }) => body).join('')}`,
     )
     .join(EOL);
 
@@ -386,19 +388,16 @@ function createPrinter(parserName: 'babel' | 'typescript'): Printer {
       });
     }
 
-    // @ts-ignore
-    const { braceStyle, originalText, tabWidth, useTabs } = options;
-    const unitIndentText = useTabs ? '\t' : ' '.repeat(tabWidth);
+    const { originalText } = options;
     const formattedText = format(originalText, {
       ...options,
       plugins: [pluginCandidate],
       endOfLine: 'lf',
     });
-
     const parser = pluginCandidate.parsers![parserName];
     const ast = parser.parse(formattedText, pluginCandidate.parsers!, options);
 
-    return parseLineByLineAndAssemble(formattedText, braceStyle, unitIndentText, ast);
+    return parseLineByLineAndAssemble(formattedText, ast, options);
   }
 
   return {
