@@ -216,15 +216,16 @@ function findTargetBraceNodes(ast: any): BraceNode[] {
 
 function parseLineByLineAndAssemble(
   formattedText: string,
-  braceStyle: '1tbs' | 'stroustrup' | 'allman',
-  indentUnit: string,
   ast: any,
+  options: ParserOptions,
 ): string {
-  if (formattedText === '' || braceStyle === '1tbs') {
+  // @ts-ignore
+  if (formattedText === '' || options.braceStyle === '1tbs') {
     return formattedText;
   }
 
   const EOL = '\n';
+  const indentUnit = options.useTabs ? '\t' : ' '.repeat(options.tabWidth);
 
   const targetBraceNodes = findTargetBraceNodes(ast);
   const formattedLines = formattedText.split(EOL);
@@ -323,7 +324,8 @@ function parseLineByLineAndAssemble(
     }
   }
 
-  if (braceStyle === 'allman') {
+  // @ts-ignore
+  if (options.braceStyle === 'allman') {
     // Add a line break before 'OpeningBrace'.
     for (let index = lineNodes.length - 1; index >= 0; index -= 1) {
       const { indentLevel, parts } = lineNodes[index];
@@ -386,19 +388,16 @@ function createPrinter(parserName: 'babel' | 'typescript'): Printer {
       });
     }
 
-    // @ts-ignore
-    const { braceStyle, originalText, tabWidth, useTabs } = options;
-    const unitIndentText = useTabs ? '\t' : ' '.repeat(tabWidth);
+    const { originalText } = options;
     const formattedText = format(originalText, {
       ...options,
       plugins: [pluginCandidate],
       endOfLine: 'lf',
     });
-
     const parser = pluginCandidate.parsers![parserName];
     const ast = parser.parse(formattedText, pluginCandidate.parsers!, options);
 
-    return parseLineByLineAndAssemble(formattedText, braceStyle, unitIndentText, ast);
+    return parseLineByLineAndAssemble(formattedText, ast, options);
   }
 
   return {
