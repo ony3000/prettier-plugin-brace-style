@@ -328,7 +328,7 @@ function parseLineByLineAndAssemble(
 
   // @ts-ignore
   if (options.braceStyle === 'allman') {
-    // Add a line break before 'OpeningBrace'.
+    // If 'Text' exists before 'OpeningBrace', add a line break between 'OpeningBrace' and 'Text'.
     for (let index = lineNodes.length - 1; index >= 0; index -= 1) {
       const { indentLevel, parts } = lineNodes[index];
       const lastPart = parts.at(-1);
