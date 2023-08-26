@@ -167,7 +167,7 @@ function findTargetBraceNodes(ast: any): BraceNode[] {
         if (
           'value' in node &&
           typeof node.value === 'string' &&
-          node.value.match(/prettier-ignore/)
+          node.value.trim() === 'prettier-ignore'
         ) {
           treatNextNodeAsPlainText([rangeStart, rangeEnd]);
         }
@@ -184,7 +184,7 @@ function findTargetBraceNodes(ast: any): BraceNode[] {
               typeof comment.end === 'number' &&
               'value' in comment &&
               typeof comment.value === 'string' &&
-              comment.value.match(/prettier-ignore/)
+              comment.value.trim() === 'prettier-ignore'
             ) {
               treatNextNodeAsPlainText([comment.start, comment.end]);
             }
