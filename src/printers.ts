@@ -167,7 +167,7 @@ function findTargetBraceNodes(ast: any): BraceNode[] {
         if (
           'value' in node &&
           typeof node.value === 'string' &&
-          node.value.match(/prettier-ignore/)
+          node.value.trim() === 'prettier-ignore'
         ) {
           treatNextNodeAsPlainText([rangeStart, rangeEnd]);
         }
@@ -184,7 +184,7 @@ function findTargetBraceNodes(ast: any): BraceNode[] {
               typeof comment.end === 'number' &&
               'value' in comment &&
               typeof comment.value === 'string' &&
-              comment.value.match(/prettier-ignore/)
+              comment.value.trim() === 'prettier-ignore'
             ) {
               treatNextNodeAsPlainText([comment.start, comment.end]);
             }
@@ -245,7 +245,8 @@ function parseLineByLineAndAssemble(
     const parts: LinePart[] = [];
     let maybeLastPart: LinePart | null = null;
 
-    const trimmedLine = line.trimStart(); // base of 'mutableLine'
+    const offset = indentUnit.length * indentLevel;
+    const trimmedLine = line.slice(offset); // base of 'mutableLine'
     let mutableLine = trimmedLine;
 
     if (braceNodesInCurrentLine.length === 0) {
@@ -264,9 +265,10 @@ function parseLineByLineAndAssemble(
           type: lastBraceNodeInCurrentLine.type,
           body: formattedText.slice(lastBraceNodeInCurrentLine.range[0], rangeEndOfLine),
         };
-        mutableLine = formattedText
-          .slice(rangeStartOfLine, lastBraceNodeInCurrentLine.range[0])
-          .trimStart();
+        mutableLine = formattedText.slice(
+          rangeStartOfLine + offset,
+          lastBraceNodeInCurrentLine.range[0],
+        );
       } else {
         braceNodesInCurrentLine.push(lastBraceNodeInCurrentLine);
       }
