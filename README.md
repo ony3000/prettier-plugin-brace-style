@@ -43,7 +43,7 @@ module.exports = {
 This plugin has only one option, `braceStyle`. Same as ESLint, you can select one of `1tbs` (default), `stroustrup`, `allman`.
 
 <!-- prettier-ignore -->
-Option | Description | Example code
+Option&nbsp;value | Description | Example&nbsp;code
 --- | --- | ---
 `1tbs` | the opening brace of a block is placed on the same line as its corresponding statement or declaration. | ![example code of 1tbs option](.github/1tbs.png)
 `stroustrup` | the `else` statements in an `if-else` construct, as well as `catch` and `finally`, must be on its own line after the preceding closing brace. | ![example code of stroustrup option](.github/stroustrup.png)
