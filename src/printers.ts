@@ -245,7 +245,8 @@ function parseLineByLineAndAssemble(
     const parts: LinePart[] = [];
     let maybeLastPart: LinePart | null = null;
 
-    const trimmedLine = line.trimStart(); // base of 'mutableLine'
+    const offset = indentUnit.length * indentLevel;
+    const trimmedLine = line.slice(offset); // base of 'mutableLine'
     let mutableLine = trimmedLine;
 
     if (braceNodesInCurrentLine.length === 0) {
@@ -264,9 +265,10 @@ function parseLineByLineAndAssemble(
           type: lastBraceNodeInCurrentLine.type,
           body: formattedText.slice(lastBraceNodeInCurrentLine.range[0], rangeEndOfLine),
         };
-        mutableLine = formattedText
-          .slice(rangeStartOfLine, lastBraceNodeInCurrentLine.range[0])
-          .trimStart();
+        mutableLine = formattedText.slice(
+          rangeStartOfLine + offset,
+          lastBraceNodeInCurrentLine.range[0],
+        );
       } else {
         braceNodesInCurrentLine.push(lastBraceNodeInCurrentLine);
       }
