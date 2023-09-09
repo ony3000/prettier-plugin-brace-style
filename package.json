@@ -54,6 +54,6 @@
     "prettier": "~2.8.4"
   },
   "optionalDependencies": {
-    "prettier-plugin-merge": "~0.1.0"
+    "prettier-plugin-merge": "~0.2.0"
   }
 }
