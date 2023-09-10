@@ -15,16 +15,17 @@ specifiers:
   jest: 29.5.0
   prettier: ~2.8.4
   prettier-plugin-merge: ~0.2.0
+  prettier3: npm:prettier@3.0.3
   ts-jest: 29.1.0
   typescript: 4.9.5
   vite: 4.3.9
   vite-plugin-dts: 3.0.0-beta.2
 
 optionalDependencies:
-  prettier-plugin-merge: 0.2.0_prettier@2.8.4
+  prettier-plugin-merge: 0.2.0_prettier@3.0.3
 
 devDependencies:
-  '@trivago/prettier-plugin-sort-imports': 4.1.1_prettier@2.8.4
+  '@trivago/prettier-plugin-sort-imports': 4.1.1_prettier@3.0.3
   '@types/jest': 29.5.2
   '@typescript-eslint/eslint-plugin': 5.54.0_6mj2wypvdnknez7kws2nfdgupi
   '@typescript-eslint/parser': 5.54.0_ycpbpc6yetojsgtrx3mwntkhsu
@@ -37,6 +38,7 @@ devDependencies:
   eslint-plugin-import: 2.27.5_tqrcrxlenpngfto46ddarus52y
   jest: 29.5.0
   prettier: 2.8.4
+  prettier3: /prettier/3.0.3
   ts-jest: 29.1.0_doipufordlnvh5g4adbwayvyvy
   typescript: 4.9.5
   vite: 4.3.9
@@ -1063,7 +1065,7 @@ packages:
       '@sinonjs/commons': 3.0.0
     dev: true
 
-  /@trivago/prettier-plugin-sort-imports/4.1.1_prettier@2.8.4:
+  /@trivago/prettier-plugin-sort-imports/4.1.1_prettier@3.0.3:
     resolution: {integrity: sha512-dQ2r2uzNr1x6pJsuh/8x0IRA3CBUB+pWEW3J/7N98axqt7SQSm+2fy0FLNXvXGg77xEDC7KHxJlHfLYyi7PDcw==}
     peerDependencies:
       '@vue/compiler-sfc': 3.x
@@ -1078,7 +1080,7 @@ packages:
       '@babel/types': 7.17.0
       javascript-natural-sort: 0.7.1
       lodash: 4.17.21
-      prettier: 2.8.4
+      prettier: 3.0.3
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -3813,20 +3815,26 @@ packages:
     engines: {node: '>= 0.8.0'}
     dev: true
 
-  /prettier-plugin-merge/0.2.0_prettier@2.8.4:
+  /prettier-plugin-merge/0.2.0_prettier@3.0.3:
     resolution: {integrity: sha512-2iStjZCMlmBXoGstBcBYXHcNhmafSL/pwJd4mWAQVTOGXPWo1UJ77wuI22vpVgla8Pkgbn62UA51d/rBsxAwrg==}
     requiresBuild: true
     peerDependencies:
       prettier: ~2.8.4
     dependencies:
       diff: 5.1.0
-      prettier: 2.8.4
+      prettier: 3.0.3
     dev: false
     optional: true
 
   /prettier/2.8.4:
     resolution: {integrity: sha512-vIS4Rlc2FNh0BySk3Wkd6xmwxB0FpOndW5fisM5H8hsZSxU2VWVB5CWIkIjWvrHjIhxk2g3bfMKM87zNTrZddw==}
     engines: {node: '>=10.13.0'}
+    hasBin: true
+    dev: true
+
+  /prettier/3.0.3:
+    resolution: {integrity: sha512-L/4pUDMxcNa8R/EthV08Zt42WBO4h1rarVtK0K+QJG0X187OLo7l699jWw0GKuwzkPQ//jMFA/8Xm6Fh3J/DAg==}
+    engines: {node: '>=14'}
     hasBin: true
 
   /pretty-format/29.5.0:
