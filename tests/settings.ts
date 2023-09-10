@@ -1,6 +1,6 @@
 import type { Options } from 'prettier';
 
-import braceStylePlugin from '@/index';
+import { braceStylePlugin } from '@/v2-plugin';
 
 export type Fixture = {
   name: string;

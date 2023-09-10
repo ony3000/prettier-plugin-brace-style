@@ -4,10 +4,8 @@ import { options } from './options';
 import { parsers } from './parsers';
 import { printers } from './printers';
 
-const braceStylePlugin: Plugin = {
+export const braceStylePlugin: Plugin = {
   parsers,
   printers,
   options,
 };
-
-export default braceStylePlugin;
