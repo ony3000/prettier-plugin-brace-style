@@ -8,7 +8,7 @@ export type Fixture = {
   output: string;
 };
 
-export { format } from 'prettier3';
+export { formatSync as format } from '@/adaptors/prettier3';
 
 export const baseOptions: Options = {
   plugins: [braceStylePlugin],

@@ -1,4 +1,7 @@
-import type { AstPath, ParserOptions, Doc, Printer, Plugin } from 'prettier3';
+import type { AstPath, ParserOptions, Doc, Printer, Plugin, Options } from 'prettier3';
+
+import { formatSync } from '../adaptors/prettier3';
+import { parseLineByLineAndAssemble } from '../core';
 
 function createPrinter(parserName: 'babel' | 'typescript'): Printer {
   function main(
@@ -23,9 +26,55 @@ function createPrinter(parserName: 'babel' | 'typescript'): Printer {
       });
     }
 
-    const { originalText } = options;
+    const necessaryOptions: Options = {
+      parser: parserName,
+      // @ts-ignore
+      braceStyle: options.braceStyle,
+      ...Object.fromEntries(
+        (
+          [
+            'printWidth',
+            'tabWidth',
+            'useTabs',
+            'semi',
+            'singleQuote',
+            'jsxSingleQuote',
+            'trailingComma',
+            'bracketSpacing',
+            'bracketSameLine',
+            'jsxBracketSameLine',
+            'rangeStart',
+            'rangeEnd',
+            'requirePragma',
+            'insertPragma',
+            'proseWrap',
+            'arrowParens',
+            'htmlWhitespaceSensitivity',
+            'endOfLine',
+            'quoteProps',
+            'vueIndentScriptAndStyle',
+            'embeddedLanguageFormatting',
+            'singleAttributePerLine',
+          ] as const
+        ).map((key) => [key, options[key]]),
+      ),
+    };
 
-    return originalText;
+    const { originalText } = options;
+    const formattedText = formatSync(originalText, {
+      ...necessaryOptions,
+      plugins: [pluginCandidate],
+      endOfLine: 'lf',
+    });
+    const parser = pluginCandidate.parsers![parserName];
+    const ast = parser.parse(formattedText, options);
+
+    return parseLineByLineAndAssemble(
+      formattedText,
+      ast,
+      // @ts-ignore
+      options,
+    );
   }
 
   return {
