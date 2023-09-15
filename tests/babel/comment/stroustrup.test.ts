@@ -1,5 +1,5 @@
 import type { Fixture } from '../../settings';
-import { format, baseOptions } from '../../settings';
+import { baseOptions } from '../../settings';
 
 const options = {
   ...baseOptions,
@@ -47,7 +47,7 @@ if (foo) {
 describe('babel/comment/stroustrup', () => {
   for (const fixture of fixtures) {
     test(fixture.name, () => {
-      expect(format(fixture.input, options)).toBe(fixture.output);
+      expect({ input: fixture.input, options }).toBeFormattedAs(fixture.output);
     });
   }
 });

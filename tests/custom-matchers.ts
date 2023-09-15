@@ -6,8 +6,6 @@ import { formatSync as v3Format } from '@/adaptors/prettier3';
 import { braceStylePlugin as v2Plugin } from '@/v2-plugin';
 import { braceStylePlugin as v3Plugin } from '@/v3-plugin';
 
-import { baseOptions } from './settings';
-
 const format = process.env.PRETTIER_VERSION === '2' ? v2Format : v3Format;
 const plugin = process.env.PRETTIER_VERSION === '2' ? v2Plugin : v3Plugin;
 
@@ -16,7 +14,7 @@ function toBeFormattedAs(actual: any, expectedOutput: unknown) {
 
   const { input, options } = actual;
 
-  const combinedOptions = { ...baseOptions, ...options, plugins: [plugin] };
+  const combinedOptions = { ...options, plugins: [plugin] };
   const formattedText = format(input, combinedOptions);
 
   const pass = formattedText === expectedOutput;
