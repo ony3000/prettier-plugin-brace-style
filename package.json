@@ -31,6 +31,9 @@
     "test": "jest --ci --passWithNoTests",
     "test:watch": "jest --watch"
   },
+  "dependencies": {
+    "@prettier/sync": "0.3.0"
+  },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "4.1.1",
     "@types/jest": "29.5.2",

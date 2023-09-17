@@ -1,6 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@prettier/sync': 0.3.0
   '@trivago/prettier-plugin-sort-imports': 4.1.1
   '@types/jest': 29.5.2
   '@types/node': 20.2.5
@@ -23,6 +24,9 @@ specifiers:
   typescript: 4.9.5
   vite: 4.3.9
   vite-plugin-dts: 3.0.0-beta.2
+
+dependencies:
+  '@prettier/sync': 0.3.0_prettier@3.0.3
 
 optionalDependencies:
   prettier-plugin-merge: 0.2.0_prettier@2.8.4
@@ -1006,6 +1010,14 @@ packages:
       picocolors: 1.0.0
       tslib: 2.5.3
     dev: true
+
+  /@prettier/sync/0.3.0_prettier@3.0.3:
+    resolution: {integrity: sha512-3dcmCyAxIcxy036h1I7MQU/uEEBq8oLwf1CE3xeze+MPlgkdlb/+w6rGR/1dhp6Hqi17fRS6nvwnOzkESxEkOw==}
+    peerDependencies:
+      prettier: ^3.0.0
+    dependencies:
+      prettier: 3.0.3
+    dev: false
 
   /@rollup/pluginutils/5.0.2_rollup@3.23.0:
     resolution: {integrity: sha512-pTd9rIsP92h+B6wWwFbW8RkZv4hiR/xKsqre4SIuAOaOEQRxi0lqLke9k2/7WegC85GgUs9pjmOjCUi3In4vwA==}
