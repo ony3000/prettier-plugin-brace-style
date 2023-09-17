@@ -1,5 +1,5 @@
 import type { Fixture } from '../../settings';
-import { baseOptions } from '../../settings';
+import { format, baseOptions } from '../../settings';
 
 const options = {
   ...baseOptions,
@@ -239,7 +239,7 @@ if (condition1) {
 describe('babel/prettier-ignore/1tbs', () => {
   for (const fixture of fixtures) {
     test(fixture.name, () => {
-      expect({ input: fixture.input, options }).toBeFormattedAs(fixture.output);
+      expect(format(fixture.input, options)).toBe(fixture.output);
     });
   }
 });

@@ -1,10 +1,17 @@
+import type { Options } from 'prettier';
+
+import { braceStylePlugin } from '@/v2-plugin';
+
 export type Fixture = {
   name: string;
   input: string;
   output: string;
 };
 
-export const baseOptions = {
+export { format } from 'prettier';
+
+export const baseOptions: Options = {
+  plugins: [braceStylePlugin],
   printWidth: 80,
   tabWidth: 2,
   useTabs: false,

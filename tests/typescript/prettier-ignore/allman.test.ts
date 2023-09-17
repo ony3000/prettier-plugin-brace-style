@@ -1,5 +1,5 @@
 import type { Fixture } from '../../settings';
-import { baseOptions } from '../../settings';
+import { format, baseOptions } from '../../settings';
 
 const options = {
   ...baseOptions,
@@ -253,7 +253,7 @@ else
 describe('typescript/prettier-ignore/allman', () => {
   for (const fixture of fixtures) {
     test(fixture.name, () => {
-      expect({ input: fixture.input, options }).toBeFormattedAs(fixture.output);
+      expect(format(fixture.input, options)).toBe(fixture.output);
     });
   }
 });
