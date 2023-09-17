@@ -1,6 +1,10 @@
-import type { Options } from 'prettier';
+import type { Options as v2Options } from 'prettier';
+import { format as v2Format } from 'prettier';
+import type { Options as v3Options } from 'prettier3';
+import { format as v3Format } from 'prettier3';
 
-import { braceStylePlugin } from '@/v2-plugin';
+import { braceStylePlugin as v2Plugin } from '@/v2-plugin';
+import { braceStylePlugin as v3Plugin } from '@/v3-plugin';
 
 export type Fixture = {
   name: string;
@@ -8,10 +12,9 @@ export type Fixture = {
   output: string;
 };
 
-export { format } from 'prettier';
+export const format = process.env.PRETTIER_VERSION === '2' ? v2Format : v3Format;
 
-export const baseOptions: Options = {
-  plugins: [braceStylePlugin],
+const baseOptionsWithoutPlugins = {
   printWidth: 80,
   tabWidth: 2,
   useTabs: false,
@@ -34,4 +37,15 @@ export const baseOptions: Options = {
   vueIndentScriptAndStyle: false,
   embeddedLanguageFormatting: 'auto',
   singleAttributePerLine: false,
-};
+} as const;
+
+export const baseOptions =
+  process.env.PRETTIER_VERSION === '2'
+    ? ({
+        plugins: [v2Plugin],
+        ...baseOptionsWithoutPlugins,
+      } as v2Options)
+    : ({
+        plugins: [v3Plugin],
+        ...baseOptionsWithoutPlugins,
+      } as v3Options);
