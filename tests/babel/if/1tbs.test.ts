@@ -162,8 +162,8 @@ if (condition1) {
 
 describe('babel/if/1tbs', () => {
   for (const fixture of fixtures) {
-    test(fixture.name, () => {
-      expect(format(fixture.input, options)).toBe(fixture.output);
+    test(fixture.name, async () => {
+      expect(await format(fixture.input, options)).toBe(fixture.output);
     });
   }
 });
