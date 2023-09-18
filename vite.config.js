@@ -1,3 +1,4 @@
+import { unlink } from 'fs';
 import { resolve } from 'path';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
@@ -32,5 +33,20 @@ export default defineConfig({
     dts({
       include: ['src/**'],
     }),
+    {
+      name: 'post-build-script',
+      writeBundle: {
+        sequential: true,
+        order: 'post',
+        handler: async (error) => {
+          unlink(resolve(__dirname, 'dist/prettier-plugin-brace-style.js'), (_) => {
+            // nothing to do
+          });
+          unlink(resolve(__dirname, 'dist/prettier3-plugin-brace-style.cjs'), (_) => {
+            // nothing to do
+          });
+        },
+      },
+    },
   ],
 });
