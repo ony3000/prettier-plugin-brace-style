@@ -3,8 +3,8 @@ import { format as v2Format } from 'prettier';
 import type { Options as v3Options } from 'prettier3';
 import { format as v3Format } from 'prettier3';
 
-import { braceStylePlugin as v2Plugin } from '@/v2-plugin';
-import { braceStylePlugin as v3Plugin } from '@/v3-plugin';
+import v2Plugin from '@/v2-plugin';
+import v3Plugin from '@/v3-plugin';
 
 export type Fixture = {
   name: string;
