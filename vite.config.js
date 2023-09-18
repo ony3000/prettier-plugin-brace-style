@@ -21,7 +21,7 @@ export default defineConfig({
       },
     },
     rollupOptions: {
-      external: [/^prettier/, 'path', 'worker_threads'],
+      external: [/^@?prettier/, 'path'],
       output: {
         globals: {
           prettier: 'prettier',
