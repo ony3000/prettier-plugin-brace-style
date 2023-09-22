@@ -1,13 +1,8 @@
-import { createSynchronizedPrettier } from '@prettier/sync';
-import { resolve } from 'path';
+import { format as formatSync } from '@prettier/sync';
 import type { AstPath, ParserOptions, Doc, Printer, Options } from 'prettier3';
 
 import { parseLineByLineAndAssemble } from '../core';
 import { parsers } from './parsers';
-
-const { format: formatSync } = createSynchronizedPrettier({
-  prettierEntry: `${resolve('node_modules/prettier3')}/index.mjs`,
-});
 
 function createPrinter(parserName: 'babel' | 'typescript'): Printer {
   function main(
