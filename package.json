@@ -11,28 +11,14 @@
   ],
   "author": "Hyeonjong <nianelo4@gmail.com>",
   "license": "MIT",
-  "type": "module",
   "files": [
     "dist"
   ],
-  "types": "./dist/v2-plugin.d.ts",
-  "main": "./dist/prettier-plugin-brace-style.cjs",
-  "module": "./dist/prettier3-plugin-brace-style.js",
-  "exports": {
-    ".": {
-      "import": {
-        "types": "./dist/v3-plugin.d.ts",
-        "default": "./dist/prettier3-plugin-brace-style.js"
-      },
-      "require": {
-        "types": "./dist/v2-plugin.d.ts",
-        "default": "./dist/prettier-plugin-brace-style.cjs"
-      }
-    }
-  },
+  "main": "./dist/index.js",
   "scripts": {
     "dev": "vite build --watch --minify=false",
     "build": "vite build",
+    "esbuild": "esbuild src/index.ts --bundle --outdir=dist --platform=node \"--external:@prettier\" \"--external:prettier\" \"--external:prettier3\"",
     "lint": "eslint src",
     "test:v2": "cross-env NODE_OPTIONS=--experimental-vm-modules PRETTIER_VERSION=2 jest --ci --passWithNoTests",
     "test:v3": "cross-env NODE_OPTIONS=--experimental-vm-modules PRETTIER_VERSION=3 jest --ci --passWithNoTests",
