@@ -1,6 +1,3 @@
-import type { AstPath, ParserOptions, Doc, Printer, Plugin } from 'prettier';
-import { format } from 'prettier';
-
 enum BraceType {
   OB = 'OpeningBrace',
   OBTO = 'OpeningBraceInTernaryOperator',
@@ -24,6 +21,12 @@ type LineNode = {
 type BraceNode = {
   type: BraceType;
   range: NodeRange;
+};
+
+type NarrowedParserOptions = {
+  tabWidth: number;
+  useTabs: boolean;
+  braceStyle: '1tbs' | 'stroustrup' | 'allman';
 };
 
 function isObject(arg: unknown): arg is object {
@@ -214,12 +217,11 @@ function findTargetBraceNodes(ast: any): BraceNode[] {
     .sort((former, latter) => former.range[0] - latter.range[0]);
 }
 
-function parseLineByLineAndAssemble(
+export function parseLineByLineAndAssemble(
   formattedText: string,
   ast: any,
-  options: ParserOptions,
+  options: NarrowedParserOptions,
 ): string {
-  // @ts-ignore
   if (formattedText === '' || options.braceStyle === '1tbs') {
     return formattedText;
   }
@@ -326,7 +328,6 @@ function parseLineByLineAndAssemble(
     }
   }
 
-  // @ts-ignore
   if (options.braceStyle === 'allman') {
     // If 'Text' exists before 'OpeningBrace', add a line break between 'OpeningBrace' and 'Text'.
     for (let index = lineNodes.length - 1; index >= 0; index -= 1) {
@@ -366,48 +367,3 @@ function parseLineByLineAndAssemble(
 
   return assembledText;
 }
-
-function createPrinter(parserName: 'babel' | 'typescript'): Printer {
-  function main(
-    path: AstPath,
-    options: ParserOptions,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    print: (path: AstPath) => Doc,
-  ): Doc {
-    const plugins = options.plugins.filter((plugin) => typeof plugin !== 'string') as Plugin[];
-    const pluginCandidate = plugins.find((plugin) => plugin.parsers?.[parserName]);
-
-    if (!pluginCandidate) {
-      throw new Error('A plugin with the given parser does not exist.');
-    }
-
-    const node = path.getValue();
-
-    if (node?.comments) {
-      node.comments.forEach((comment: any) => {
-        // eslint-disable-next-line no-param-reassign
-        comment.printed = true;
-      });
-    }
-
-    const { originalText } = options;
-    const formattedText = format(originalText, {
-      ...options,
-      plugins: [pluginCandidate],
-      endOfLine: 'lf',
-    });
-    const parser = pluginCandidate.parsers![parserName];
-    const ast = parser.parse(formattedText, pluginCandidate.parsers!, options);
-
-    return parseLineByLineAndAssemble(formattedText, ast, options);
-  }
-
-  return {
-    print: main,
-  };
-}
-
-export const printers: { [astFormat: string]: Printer } = {
-  'babel-ast': createPrinter('babel'),
-  'typescript-ast': createPrinter('typescript'),
-};

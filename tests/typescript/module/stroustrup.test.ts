@@ -44,8 +44,9 @@ declare module "url" {
 
 describe('typescript/module/stroustrup', () => {
   for (const fixture of fixtures) {
-    test(fixture.name, () => {
-      expect(format(fixture.input, options)).toBe(fixture.output);
+    test(fixture.name, async () => {
+      // @ts-ignore
+      expect(await format(fixture.input, options)).toBe(fixture.output);
     });
   }
 });
