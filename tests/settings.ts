@@ -1,10 +1,21 @@
-import type { Options as v2Options } from 'prettier';
+import type { Options as V2Options } from 'prettier';
 import { format as v2Format } from 'prettier';
-import type { Options as v3Options } from 'prettier3';
+import type { Options as V3Options } from 'prettier3';
 import { format as v3Format } from 'prettier3';
 
-import v2Plugin from '@/v2-plugin';
-import v3Plugin from '@/v3-plugin';
+import { parsers as v2Parsers, printers as v2Printers, options as v2Options } from '@/v2-plugin';
+import { parsers as v3Parsers, printers as v3Printers, options as v3Options } from '@/v3-plugin';
+
+const v2Plugin = {
+  parsers: v2Parsers,
+  printers: v2Printers,
+  options: v2Options,
+};
+const v3Plugin = {
+  parsers: v3Parsers,
+  printers: v3Printers,
+  options: v3Options,
+};
 
 export type Fixture = {
   name: string;
@@ -44,8 +55,8 @@ export const baseOptions =
     ? ({
         plugins: [v2Plugin],
         ...baseOptionsWithoutPlugins,
-      } as v2Options)
+      } as V2Options)
     : ({
         plugins: [v3Plugin],
         ...baseOptionsWithoutPlugins,
-      } as v3Options);
+      } as V3Options);
