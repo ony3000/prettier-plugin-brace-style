@@ -2,20 +2,18 @@
 
 A Prettier plugin that can apply ESLint's [brace-style](https://eslint.org/docs/latest/rules/brace-style) rules to JavaScript and TypeScript files.
 
-**Note**: Prettier v3 is not yet supported.
-
 ## Installation
 
 ```sh
-npm install -D prettier@~2.8 prettier-plugin-brace-style
+npm install -D prettier prettier-plugin-brace-style
 ```
 
 ```sh
-yarn add -D prettier@~2.8 prettier-plugin-brace-style
+yarn add -D prettier prettier-plugin-brace-style
 ```
 
 ```sh
-pnpm add -D prettier@~2.8 prettier-plugin-brace-style
+pnpm add -D prettier prettier-plugin-brace-style
 ```
 
 ## Configuration
@@ -29,11 +27,20 @@ JSON:
 }
 ```
 
-JS:
+JS (CommonJS module):
 
 ```javascript
 module.exports = {
-  plugins: [require('prettier-plugin-brace-style')],
+  plugins: ['prettier-plugin-brace-style'],
+  braceStyle: '1tbs',
+};
+```
+
+JS (ES module):
+
+```javascript
+export default {
+  plugins: ['prettier-plugin-brace-style'],
   braceStyle: '1tbs',
 };
 ```
