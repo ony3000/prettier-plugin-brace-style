@@ -4,16 +4,16 @@ A Prettier plugin that can apply ESLint's [brace-style](https://eslint.org/docs/
 
 ## Installation
 
-```sh
-npm install -D prettier prettier-plugin-brace-style
-```
+For Prettier v2:
 
 ```sh
-yarn add -D prettier prettier-plugin-brace-style
+npm install -D prettier@^2 prettier-plugin-brace-style
 ```
 
+For Prettier v3:
+
 ```sh
-pnpm add -D prettier prettier-plugin-brace-style
+npm install -D prettier prettier-plugin-brace-style @prettier/sync
 ```
 
 ## Configuration
