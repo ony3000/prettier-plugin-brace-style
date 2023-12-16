@@ -1,5 +1,5 @@
 import type { Fixture } from '../../settings';
-import { format, baseOptions } from '../../settings';
+import { format, baseOptions, allmanLinter } from '../../settings';
 
 const options = {
   ...baseOptions,
@@ -56,8 +56,18 @@ const fixtures: Fixture[] = [
 
 describe('babel/import/allman', () => {
   for (const fixture of fixtures) {
-    test(fixture.name, async () => {
-      expect(await format(fixture.input, options)).toBe(fixture.output);
+    const promise = format(fixture.input, options);
+
+    describe(fixture.name, () => {
+      test('theoretical', async () => {
+        const [result] = await allmanLinter.lintText(await promise);
+
+        expect(result.fixableErrorCount).toBe(0);
+      });
+
+      test('practical', async () => {
+        expect(await promise).toBe(fixture.output);
+      });
     });
   }
 });

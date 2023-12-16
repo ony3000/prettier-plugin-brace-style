@@ -1,4 +1,4 @@
-import { format, baseOptions } from '../../settings';
+import { format, baseOptions, allmanLinter } from '../../settings';
 
 const options = {
   ...baseOptions,
@@ -7,24 +7,51 @@ const options = {
 };
 
 describe('babel/others/allman', () => {
-  test('tabWidth: 4', async () => {
+  describe('tabWidth: 4', () => {
     const input = `\nif (foo) {\n  bar();\n}\nelse {\n  baz();\n}\n`;
     const output = `if (foo)\n{\n    bar();\n}\nelse\n{\n    baz();\n}\n`;
+    const promise = format(input, { ...options, tabWidth: 4 });
 
-    expect(await format(input, { ...options, tabWidth: 4 })).toBe(output);
+    test('theoretical', async () => {
+      const [result] = await allmanLinter.lintText(await promise);
+
+      expect(result.fixableErrorCount).toBe(0);
+    });
+
+    test('practical', async () => {
+      expect(await promise).toBe(output);
+    });
   });
 
-  test('useTabs: true', async () => {
+  describe('useTabs: true', () => {
     const input = `\nif (foo) {\n  bar();\n}\nelse {\n  baz();\n}\n`;
     const output = `if (foo)\n{\n\tbar();\n}\nelse\n{\n\tbaz();\n}\n`;
+    const promise = format(input, { ...options, useTabs: true });
 
-    expect(await format(input, { ...options, useTabs: true })).toBe(output);
+    test('theoretical', async () => {
+      const [result] = await allmanLinter.lintText(await promise);
+
+      expect(result.fixableErrorCount).toBe(0);
+    });
+
+    test('practical', async () => {
+      expect(await promise).toBe(output);
+    });
   });
 
-  test('endOfLine: crlf', async () => {
+  describe('endOfLine: crlf', () => {
     const input = `\nif (foo) {\n  bar();\n}\nelse {\n  baz();\n}\n`;
     const output = `if (foo)\r\n{\r\n  bar();\r\n}\r\nelse\r\n{\r\n  baz();\r\n}\r\n`;
+    const promise = format(input, { ...options, endOfLine: 'crlf' });
 
-    expect(await format(input, { ...options, endOfLine: 'crlf' })).toBe(output);
+    test('theoretical', async () => {
+      const [result] = await allmanLinter.lintText(await promise);
+
+      expect(result.fixableErrorCount).toBe(0);
+    });
+
+    test('practical', async () => {
+      expect(await promise).toBe(output);
+    });
   });
 });
