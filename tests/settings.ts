@@ -1,3 +1,4 @@
+import { ESLint } from 'eslint';
 import type { Options } from 'prettier';
 // @ts-ignore
 import * as braceStylePlugin from 'prettier-plugin-brace-style';
@@ -35,3 +36,30 @@ export const baseOptions: Options = {
   embeddedLanguageFormatting: 'auto',
   singleAttributePerLine: false,
 };
+
+export const oneTBSLinter = new ESLint({
+  useEslintrc: false,
+  overrideConfig: {
+    rules: {
+      'brace-style': ['error', '1tbs'],
+    },
+  },
+});
+
+export const allmanLinter = new ESLint({
+  useEslintrc: false,
+  overrideConfig: {
+    rules: {
+      'brace-style': ['error', 'allman'],
+    },
+  },
+});
+
+export const stroustrupLinter = new ESLint({
+  useEslintrc: false,
+  overrideConfig: {
+    rules: {
+      'brace-style': ['error', 'stroustrup'],
+    },
+  },
+});

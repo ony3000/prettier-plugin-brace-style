@@ -1,5 +1,5 @@
 import type { Fixture } from '../../settings';
-import { format, baseOptions } from '../../settings';
+import { format, baseOptions, allmanLinter } from '../../settings';
 
 const options = {
   ...baseOptions,
@@ -10,17 +10,8 @@ const options = {
 const fixtures: Fixture[] = [
   {
     name: 'ignore comment #1',
-    input: `// prettier-ignore
-if (condition1) {
-  foo
-} else if (condition2) {
-  bar
-}
-else
-{
-  baz
-}`,
-    output: `// prettier-ignore
+    input: `/* eslint-disable brace-style */
+// prettier-ignore
 if (condition1) {
   foo
 } else if (condition2) {
@@ -30,21 +21,25 @@ else
 {
   baz
 }
+/* eslint-enable brace-style */`,
+    output: `/* eslint-disable brace-style */
+// prettier-ignore
+if (condition1) {
+  foo
+} else if (condition2) {
+  bar
+}
+else
+{
+  baz
+}
+/* eslint-enable brace-style */
 `,
   },
   {
     name: 'ignore comment #2',
-    input: `/* prettier-ignore */
-if (condition1) {
-  foo
-} else if (condition2) {
-  bar
-}
-else
-{
-  baz
-}`,
-    output: `/* prettier-ignore */
+    input: `/* eslint-disable brace-style */
+/* prettier-ignore */
 if (condition1) {
   foo
 } else if (condition2) {
@@ -54,11 +49,25 @@ else
 {
   baz
 }
+/* eslint-enable brace-style */`,
+    output: `/* eslint-disable brace-style */
+/* prettier-ignore */
+if (condition1) {
+  foo
+} else if (condition2) {
+  bar
+}
+else
+{
+  baz
+}
+/* eslint-enable brace-style */
 `,
   },
   {
     name: 'ignore comment #3',
     input: `
+/* eslint-disable brace-style */
 // prettier-ignore
 export function MyComponent() {
   return (
@@ -78,8 +87,10 @@ export function MyComponent() {
     </div>
   );
 }
+/* eslint-enable brace-style */
 `,
-    output: `// prettier-ignore
+    output: `/* eslint-disable brace-style */
+// prettier-ignore
 export function MyComponent() {
   return (
     <div>
@@ -98,6 +109,7 @@ export function MyComponent() {
     </div>
   );
 }
+/* eslint-enable brace-style */
 `,
   },
   {
@@ -106,6 +118,7 @@ export function MyComponent() {
 export function MyComponent() {
   return (
     <div>
+      {/* eslint-disable brace-style */}
       {/* prettier-ignore */}
       <button
         type="button"
@@ -113,6 +126,7 @@ export function MyComponent() {
       >
         Click me
       </button>
+      {/* eslint-enable brace-style */}
       <button
         type="button"
         onClick={() => {}}
@@ -127,6 +141,7 @@ export function MyComponent() {
 {
   return (
     <div>
+      {/* eslint-disable brace-style */}
       {/* prettier-ignore */}
       <button
         type="button"
@@ -134,6 +149,7 @@ export function MyComponent() {
       >
         Click me
       </button>
+      {/* eslint-enable brace-style */}
       <button type="button" onClick={() =>
       {}}>
         Click me
@@ -151,8 +167,10 @@ export function MyComponent() {
     <div>
       <button
         type="button"
+        /* eslint-disable brace-style */
         // prettier-ignore
         onClick={() => {}}
+        /* eslint-enable brace-style */
       >
         Click me
       </button>
@@ -172,8 +190,10 @@ export function MyComponent() {
     <div>
       <button
         type="button"
+        /* eslint-disable brace-style */
         // prettier-ignore
         onClick={() => {}}
+        /* eslint-enable brace-style */
       >
         Click me
       </button>
@@ -252,8 +272,18 @@ else
 
 describe('babel/prettier-ignore/allman', () => {
   for (const fixture of fixtures) {
-    test(fixture.name, () => {
-      expect(format(fixture.input, options)).toBe(fixture.output);
+    const formattedText = format(fixture.input, options);
+
+    describe(fixture.name, () => {
+      test('theoretical', async () => {
+        const [result] = await allmanLinter.lintText(formattedText);
+
+        expect(result.fixableErrorCount).toBe(0);
+      });
+
+      test('practical', () => {
+        expect(formattedText).toBe(fixture.output);
+      });
     });
   }
 });

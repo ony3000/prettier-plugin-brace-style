@@ -1,5 +1,5 @@
 import type { Fixture } from '../../settings';
-import { format, baseOptions } from '../../settings';
+import { format, baseOptions, stroustrupLinter } from '../../settings';
 
 const options = {
   ...baseOptions,
@@ -48,8 +48,18 @@ do {
 
 describe('babel/while/stroustrup', () => {
   for (const fixture of fixtures) {
-    test(fixture.name, () => {
-      expect(format(fixture.input, options)).toBe(fixture.output);
+    const formattedText = format(fixture.input, options);
+
+    describe(fixture.name, () => {
+      test('theoretical', async () => {
+        const [result] = await stroustrupLinter.lintText(formattedText);
+
+        expect(result.fixableErrorCount).toBe(0);
+      });
+
+      test('practical', () => {
+        expect(formattedText).toBe(fixture.output);
+      });
     });
   }
 });

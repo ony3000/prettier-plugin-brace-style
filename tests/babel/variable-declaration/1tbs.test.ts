@@ -1,5 +1,5 @@
 import type { Fixture } from '../../settings';
-import { format, baseOptions } from '../../settings';
+import { format, baseOptions, oneTBSLinter } from '../../settings';
 
 const options = {
   ...baseOptions,
@@ -62,8 +62,18 @@ const foo = [// element
 
 describe('babel/variable-declaration/1tbs', () => {
   for (const fixture of fixtures) {
-    test(fixture.name, () => {
-      expect(format(fixture.input, options)).toBe(fixture.output);
+    const formattedText = format(fixture.input, options);
+
+    describe(fixture.name, () => {
+      test('theoretical', async () => {
+        const [result] = await oneTBSLinter.lintText(formattedText);
+
+        expect(result.fixableErrorCount).toBe(0);
+      });
+
+      test('practical', () => {
+        expect(formattedText).toBe(fixture.output);
+      });
     });
   }
 });
