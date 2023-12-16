@@ -3,12 +3,15 @@ lockfileVersion: '6.0'
 dependencies:
   prettier-plugin-brace-style:
     specifier: 0.3.2
-    version: 0.3.2(prettier@2.8.4)
+    version: 0.3.2(@prettier/sync@0.3.0)(prettier@3.0.3)
 
 devDependencies:
+  '@prettier/sync':
+    specifier: 0.3.0
+    version: 0.3.0(prettier@3.0.3)
   '@trivago/prettier-plugin-sort-imports':
-    specifier: 4.1.1
-    version: 4.1.1(prettier@2.8.4)
+    specifier: 4.2.0
+    version: 4.2.0(prettier@3.0.3)
   '@types/jest':
     specifier: 29.5.2
     version: 29.5.2
@@ -49,8 +52,8 @@ devDependencies:
     specifier: 29.5.0
     version: 29.5.0(@types/node@20.2.5)
   prettier:
-    specifier: 2.8.4
-    version: 2.8.4
+    specifier: 3.0.3
+    version: 3.0.3
   ts-jest:
     specifier: 29.1.0
     version: 29.1.0(@babel/core@7.22.1)(jest@29.5.0)(typescript@4.9.5)
@@ -774,6 +777,13 @@ packages:
       tslib: 2.5.3
     dev: true
 
+  /@prettier/sync@0.3.0(prettier@3.0.3):
+    resolution: {integrity: sha512-3dcmCyAxIcxy036h1I7MQU/uEEBq8oLwf1CE3xeze+MPlgkdlb/+w6rGR/1dhp6Hqi17fRS6nvwnOzkESxEkOw==}
+    peerDependencies:
+      prettier: ^3.0.0
+    dependencies:
+      prettier: 3.0.3
+
   /@sinclair/typebox@0.25.24:
     resolution: {integrity: sha512-XJfwUVUKDHF5ugKwIcxEgc9k8b7HbznCp6eUfWgu710hMPNIO4aw4/zB5RogDQz8nd6gyCDpU9O/m6qYEWY6yQ==}
     dev: true
@@ -790,11 +800,11 @@ packages:
       '@sinonjs/commons': 3.0.0
     dev: true
 
-  /@trivago/prettier-plugin-sort-imports@4.1.1(prettier@2.8.4):
-    resolution: {integrity: sha512-dQ2r2uzNr1x6pJsuh/8x0IRA3CBUB+pWEW3J/7N98axqt7SQSm+2fy0FLNXvXGg77xEDC7KHxJlHfLYyi7PDcw==}
+  /@trivago/prettier-plugin-sort-imports@4.2.0(prettier@3.0.3):
+    resolution: {integrity: sha512-YBepjbt+ZNBVmN3ev1amQH3lWCmHyt5qTbLCp/syXJRu/Kw2koXh44qayB1gMRxcL/gV8egmjN5xWSrYyfUtyw==}
     peerDependencies:
       '@vue/compiler-sfc': 3.x
-      prettier: 2.x
+      prettier: 2.x - 3.x
     peerDependenciesMeta:
       '@vue/compiler-sfc':
         optional: true
@@ -805,7 +815,7 @@ packages:
       '@babel/types': 7.17.0
       javascript-natural-sort: 0.7.1
       lodash: 4.17.21
-      prettier: 2.8.4
+      prettier: 3.0.3
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -3301,7 +3311,7 @@ packages:
     engines: {node: '>= 0.8.0'}
     dev: true
 
-  /prettier-plugin-brace-style@0.3.2(prettier@2.8.4):
+  /prettier-plugin-brace-style@0.3.2(@prettier/sync@0.3.0)(prettier@3.0.3):
     resolution: {integrity: sha512-uUWuC9ZT3Du36EDEAJqT2q7Jh8aXnwp+HSXOtSvlMnZ5ymGpdbKU2VV9VVK5+hyQoolrvlQOJspfOr1qwZl/pA==}
     peerDependencies:
       '@prettier/sync': ^0.3.0
@@ -3310,12 +3320,13 @@ packages:
       '@prettier/sync':
         optional: true
     dependencies:
-      prettier: 2.8.4
+      '@prettier/sync': 0.3.0(prettier@3.0.3)
+      prettier: 3.0.3
     dev: false
 
-  /prettier@2.8.4:
-    resolution: {integrity: sha512-vIS4Rlc2FNh0BySk3Wkd6xmwxB0FpOndW5fisM5H8hsZSxU2VWVB5CWIkIjWvrHjIhxk2g3bfMKM87zNTrZddw==}
-    engines: {node: '>=10.13.0'}
+  /prettier@3.0.3:
+    resolution: {integrity: sha512-L/4pUDMxcNa8R/EthV08Zt42WBO4h1rarVtK0K+QJG0X187OLo7l699jWw0GKuwzkPQ//jMFA/8Xm6Fh3J/DAg==}
+    engines: {node: '>=14'}
     hasBin: true
 
   /pretty-format@29.5.0:
