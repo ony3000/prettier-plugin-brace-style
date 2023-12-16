@@ -57,7 +57,6 @@ const fixtures: Fixture[] = [
 describe('babel/import/allman', () => {
   for (const fixture of fixtures) {
     test(fixture.name, async () => {
-      // @ts-ignore
       expect(await format(fixture.input, options)).toBe(fixture.output);
     });
   }

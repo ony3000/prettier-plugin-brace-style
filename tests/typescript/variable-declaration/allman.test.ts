@@ -63,7 +63,6 @@ const foo = [// element
 describe('typescript/variable-declaration/allman', () => {
   for (const fixture of fixtures) {
     test(fixture.name, async () => {
-      // @ts-ignore
       expect(await format(fixture.input, options)).toBe(fixture.output);
     });
   }
