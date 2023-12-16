@@ -1,24 +1,11 @@
 {
-  "name": "prettier-plugin-brace-style",
-  "version": "0.3.2",
-  "description": "A Prettier plugin that can apply ESLint's brace-style rules to JavaScript and TypeScript files.",
+  "private": true,
+  "name": "testing-prettier-plugin-brace-style",
+  "version": "0.0.0",
+  "description": "This is a branch for testing `prettier-plugin-brace-style`.",
   "repository": "https://github.com/ony3000/prettier-plugin-brace-style",
-  "keywords": [
-    "prettier",
-    "plugin",
-    "brace",
-    "style",
-    "eslint",
-    "brace-style",
-    "curly",
-    "bracket"
-  ],
   "author": "Hyeonjong <nianelo4@gmail.com>",
   "license": "MIT",
-  "files": [
-    "dist"
-  ],
-  "main": "./dist/index.js",
   "scripts": {
     "lint": "eslint tests",
     "test:v2": "cross-env NODE_OPTIONS=--experimental-vm-modules PRETTIER_VERSION=2 jest --ci --passWithNoTests",
