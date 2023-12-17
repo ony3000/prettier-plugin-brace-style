@@ -1,3 +1,6 @@
+import type { ZodTypeAny, infer as ZodInfer } from 'zod';
+import { z } from 'zod';
+
 enum BraceType {
   OB = 'OpeningBrace',
   OBTO = 'OpeningBraceInTernaryOperator',
@@ -29,12 +32,8 @@ type NarrowedParserOptions = {
   braceStyle: '1tbs' | 'stroustrup' | 'allman';
 };
 
-function isObject(arg: unknown): arg is object {
-  return typeof arg === 'object' && arg !== null;
-}
-
-function isNodeRange(arg: unknown): arg is NodeRange {
-  return Array.isArray(arg) && arg.length === 2 && arg.every((item) => typeof item === 'number');
+function isTypeof<T extends ZodTypeAny>(arg: unknown, expectedSchema: T): arg is ZodInfer<T> {
+  return expectedSchema.safeParse(arg).success;
 }
 
 function findTargetBraceNodes(ast: any): BraceNode[] {
@@ -64,8 +63,8 @@ function findTargetBraceNodes(ast: any): BraceNode[] {
     }
   }
 
-  function recursion(node: unknown, parentNode?: object & Record<'type', unknown>): void {
-    if (!isObject(node) || !('type' in node)) {
+  function recursion(node: unknown, parentNode?: { type?: unknown }): void {
+    if (!isTypeof(node, z.object({ type: z.unknown() }))) {
       return;
     }
 
@@ -84,7 +83,14 @@ function findTargetBraceNodes(ast: any): BraceNode[] {
       recursion(value, node);
     });
 
-    if (!('range' in node) || !isNodeRange(node.range)) {
+    if (
+      !isTypeof(
+        node,
+        z.object({
+          range: z.custom<NodeRange>((value) => isTypeof(value, z.tuple([z.number(), z.number()]))),
+        }),
+      )
+    ) {
       return;
     }
 
@@ -92,10 +98,19 @@ function findTargetBraceNodes(ast: any): BraceNode[] {
 
     switch (node.type) {
       case 'TSEnumDeclaration': {
-        if ('id' in node && isObject(node.id) && 'name' in node.id) {
-          const prefix = `${'declare' in node && node.declare ? 'declare ' : ''}${
-            'const' in node && node.const ? 'const ' : ''
-          }`;
+        if (
+          isTypeof(
+            node,
+            z.object({
+              id: z.object({
+                name: z.unknown(),
+              }),
+              declare: z.unknown(),
+              const: z.unknown(),
+            }),
+          )
+        ) {
+          const prefix = `${node.declare ? 'declare ' : ''}${node.const ? 'const ' : ''}`;
           const offset = `${prefix}enum ${node.id.name} `.length;
 
           braceEnclosingRanges.push([rangeStart, rangeEnd]);
@@ -127,7 +142,16 @@ function findTargetBraceNodes(ast: any): BraceNode[] {
         break;
       }
       case 'SwitchStatement': {
-        if ('discriminant' in node && isObject(node.discriminant) && 'name' in node.discriminant) {
+        if (
+          isTypeof(
+            node,
+            z.object({
+              discriminant: z.object({
+                name: z.unknown(),
+              }),
+            }),
+          )
+        ) {
           const offset = `switch (${node.discriminant.name}) `.length;
 
           braceEnclosingRanges.push([rangeStart, rangeEnd]);
@@ -168,8 +192,12 @@ function findTargetBraceNodes(ast: any): BraceNode[] {
       case 'Block':
       case 'Line': {
         if (
-          'value' in node &&
-          typeof node.value === 'string' &&
+          isTypeof(
+            node,
+            z.object({
+              value: z.string(),
+            }),
+          ) &&
           node.value.trim() === 'prettier-ignore'
         ) {
           treatNextNodeAsPlainText([rangeStart, rangeEnd]);
@@ -177,18 +205,22 @@ function findTargetBraceNodes(ast: any): BraceNode[] {
         break;
       }
       case 'File': {
-        if ('comments' in node && Array.isArray(node.comments)) {
-          node.comments.forEach((comment: unknown) => {
-            if (
-              isObject(comment) &&
-              'start' in comment &&
-              typeof comment.start === 'number' &&
-              'end' in comment &&
-              typeof comment.end === 'number' &&
-              'value' in comment &&
-              typeof comment.value === 'string' &&
-              comment.value.trim() === 'prettier-ignore'
-            ) {
+        if (
+          isTypeof(
+            node,
+            z.object({
+              comments: z.array(
+                z.object({
+                  start: z.number(),
+                  end: z.number(),
+                  value: z.string(),
+                }),
+              ),
+            }),
+          )
+        ) {
+          node.comments.forEach((comment) => {
+            if (comment.value.trim() === 'prettier-ignore') {
               treatNextNodeAsPlainText([comment.start, comment.end]);
             }
           });
