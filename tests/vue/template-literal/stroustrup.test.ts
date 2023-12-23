@@ -10,7 +10,7 @@ const options = {
 const fixtures: Fixture[] = [
   {
     name: 'template literal',
-input: `
+    input: `
 <script setup lang="ts">
 const x = \`
 if (condition1) {
@@ -46,7 +46,7 @@ else
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 const x = \`
 if (condition1) {
   foo
@@ -86,7 +86,7 @@ else
   },
   {
     name: 'nested template literal',
-input: `
+    input: `
 <script setup lang="ts">
 const x = \`foo: \${1 + (function () { return 2; })() + 3}\`
 </script>
@@ -102,7 +102,7 @@ const x = \`foo: \${1 + (function () { return 2; })() + 3}\`
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 const x = \`foo: \${
   1 +
   (function () {

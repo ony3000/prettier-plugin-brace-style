@@ -10,7 +10,7 @@ const options = {
 const fixtures: Fixture[] = [
   {
     name: 'class declaration (empty body)',
-input: `
+    input: `
 <script setup lang="ts">
 class Foo {}
 </script>
@@ -26,7 +26,7 @@ class Foo {}
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 class Foo
 {}
 </script>
@@ -49,7 +49,7 @@ class Foo
   },
   {
     name: 'class declaration',
-input: `
+    input: `
 <script setup lang="ts">
 class Rectangle {
   constructor(height, width) {
@@ -81,7 +81,7 @@ class Rectangle {
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 class Rectangle
 {
   constructor(height, width)
@@ -124,7 +124,7 @@ class Rectangle
   },
   {
     name: 'class expression',
-input: `
+    input: `
 <script setup lang="ts">
 const Rectangle = class {
   constructor(height, width) {
@@ -156,7 +156,7 @@ const Rectangle = class {
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 const Rectangle = class
 {
   constructor(height, width)
@@ -199,7 +199,7 @@ const Rectangle = class
   },
   {
     name: 'class declaration (with getter/setter)',
-input: `
+    input: `
 <script setup lang="ts">
 class User {
 
@@ -253,7 +253,7 @@ class User {
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 class User
 {
   constructor(name)
@@ -318,7 +318,7 @@ class User
   },
   {
     name: 'class declaration (with static things)',
-input: `
+    input: `
 <script setup lang="ts">
 class ClassWithStaticMethod {
   static staticProperty = 'someValue';
@@ -350,7 +350,7 @@ class ClassWithStaticMethod {
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 class ClassWithStaticMethod
 {
   static staticProperty = "someValue";

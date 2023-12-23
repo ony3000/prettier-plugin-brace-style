@@ -10,7 +10,7 @@ const options = {
 const fixtures: Fixture[] = [
   {
     name: 'for',
-input: `
+    input: `
 <script setup lang="ts">
 for (let i = 0; i < 9; i++) {
   console.log(i);
@@ -32,7 +32,7 @@ for (let i = 0; i < 9; i++) {
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 for (let i = 0; i < 9; i++)
 {
   console.log(i);
@@ -61,7 +61,7 @@ for (let i = 0; i < 9; i++)
   },
   {
     name: 'for...in',
-input: `
+    input: `
 <script setup lang="ts">
 const obj = { a: 1, b: 2, c: 3 };
 
@@ -85,7 +85,7 @@ for (const prop in obj) {
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 const obj = { a: 1, b: 2, c: 3 };
 
 for (const prop in obj)
@@ -116,7 +116,7 @@ for (const prop in obj)
   },
   {
     name: 'for...of',
-input: `
+    input: `
 <script setup lang="ts">
 const array1 = ['a', 'b', 'c'];
 
@@ -140,7 +140,7 @@ for (const element of array1) {
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 const array1 = ["a", "b", "c"];
 
 for (const element of array1)
@@ -171,7 +171,7 @@ for (const element of array1)
   },
   {
     name: 'for await...of',
-input: `
+    input: `
 <script setup lang="ts">
 async function* asyncGenerator() {
   let i = 0;
@@ -209,7 +209,7 @@ async function* asyncGenerator() {
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 async function* asyncGenerator()
 {
   let i = 0;

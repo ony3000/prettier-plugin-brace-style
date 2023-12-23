@@ -10,7 +10,7 @@ const options = {
 const fixtures: Fixture[] = [
   {
     name: 'if',
-input: `
+    input: `
 <script setup lang="ts">
 if (foo)
 {
@@ -32,7 +32,7 @@ if (foo)
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 if (foo) {
   bar();
 }
@@ -56,7 +56,7 @@ if (foo) {
   },
   {
     name: 'if...else',
-input: `
+    input: `
 <script setup lang="ts">
 if (foo) {
   bar();
@@ -82,7 +82,7 @@ else {
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 if (foo) {
   bar();
 } else {
@@ -110,7 +110,7 @@ if (foo) {
   },
   {
     name: 'if...elseif...else',
-input: `
+    input: `
 <script setup lang="ts">
 if (foo) {
   bar();
@@ -138,7 +138,7 @@ if (foo) {
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 if (foo) {
   bar();
 } else if (baz) {
@@ -170,7 +170,7 @@ if (foo) {
   },
   {
     name: 'if...else (with comment)',
-input: `
+    input: `
 <script setup lang="ts">
 // foo is truthy
 if (foo) {
@@ -200,7 +200,7 @@ else {
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 // foo is truthy
 if (foo) {
   bar();
@@ -234,7 +234,7 @@ else {
   },
   {
     name: 'if (containing only comments in brackets #1)',
-input: `
+    input: `
 <script setup lang="ts">
 if (condition) {
   // statement
@@ -254,7 +254,7 @@ if (condition) {
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 if (condition) {
   // statement
 }
@@ -278,7 +278,7 @@ if (condition) {
   },
   {
     name: 'if (containing only comments in brackets #2)',
-input: `
+    input: `
 <script setup lang="ts">
 if (condition) {
   /* statement */
@@ -298,7 +298,7 @@ if (condition) {
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 if (condition) {
   /* statement */
 }
@@ -322,7 +322,7 @@ if (condition) {
   },
   {
     name: 'if (containing only comments in brackets #3)',
-input: `
+    input: `
 <script setup lang="ts">
 if (condition) {/* statement */}
 </script>
@@ -338,7 +338,7 @@ if (condition) {/* statement */}
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 if (condition) {
   /* statement */
 }
@@ -362,7 +362,7 @@ if (condition) {
   },
   {
     name: 'if (containing only comments in brackets #4)',
-input: `
+    input: `
 <script setup lang="ts">
 if (condition) {/* statement */
   // statement
@@ -382,7 +382,7 @@ if (condition) {/* statement */
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 if (condition) {
   /* statement */
   // statement
@@ -410,7 +410,7 @@ if (condition) {
   },
   {
     name: 'if...elseif...else (containing only comments in brackets)',
-input: `
+    input: `
 <script setup lang="ts">
 if (condition1) {/* statement1 */}
 else if (condition2) {/* statement2 */}
@@ -430,7 +430,7 @@ else {/* statement3 */}
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 if (condition1) {
   /* statement1 */
 } else if (condition2) {
@@ -462,7 +462,7 @@ if (condition1) {
   },
   {
     name: 'nested if (containing only comments in brackets)',
-input: `
+    input: `
 <script setup lang="ts">
 if (condition1) {
   if (condition2) {/* statement */}
@@ -482,7 +482,7 @@ if (condition1) {
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 if (condition1) {
   if (condition2) {
     /* statement */

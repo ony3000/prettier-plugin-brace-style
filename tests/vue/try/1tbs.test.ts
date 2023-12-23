@@ -10,7 +10,7 @@ const options = {
 const fixtures: Fixture[] = [
   {
     name: 'try...catch',
-input: `
+    input: `
 <script setup lang="ts">
 try {
   throw new TypeError('oops');
@@ -36,7 +36,7 @@ try {
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 try {
   throw new TypeError("oops");
 } catch (ex) {
@@ -66,7 +66,7 @@ try {
   },
   {
     name: 'try...finally',
-input: `
+    input: `
 <script setup lang="ts">
 openMyFile();
 try {
@@ -92,7 +92,7 @@ try {
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 openMyFile();
 try {
   writeMyFile(theData);
@@ -122,7 +122,7 @@ try {
   },
   {
     name: 'try...catch...finally',
-input: `
+    input: `
 <script setup lang="ts">
 try {
   throw new Error('oops');
@@ -150,7 +150,7 @@ try {
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 try {
   throw new Error("oops");
 } catch (ex) {
@@ -182,7 +182,7 @@ try {
   },
   {
     name: 'nested try',
-input: `
+    input: `
 <script setup lang="ts">
 try {
   try {
@@ -214,7 +214,7 @@ try {
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 try {
   try {
     throw new Error("oops");

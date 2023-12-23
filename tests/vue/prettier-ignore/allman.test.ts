@@ -10,7 +10,7 @@ const options = {
 const fixtures: Fixture[] = [
   {
     name: 'ignore comment #1',
-input: `
+    input: `
 <script setup lang="ts">
 // prettier-ignore
 if (condition1) {
@@ -44,7 +44,7 @@ else
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 // prettier-ignore
 if (condition1) {
   foo
@@ -83,7 +83,7 @@ else
   },
   {
     name: 'ignore comment #2',
-input: `
+    input: `
 <script setup lang="ts">
 /* prettier-ignore */
 if (condition1) {
@@ -117,7 +117,7 @@ else
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 /* prettier-ignore */
 if (condition1) {
   foo
@@ -156,7 +156,7 @@ else
   },
   {
     name: 'ignore comment #3',
-input: `
+    input: `
 <!-- prettier-ignore -->
 <template>
   <div>
@@ -179,7 +179,7 @@ input: `
   </div>
 </template>
 `,
-output: `<!-- prettier-ignore -->
+    output: `<!-- prettier-ignore -->
 <template>
   <div>
     <button
@@ -204,7 +204,7 @@ output: `<!-- prettier-ignore -->
   },
   {
     name: 'ignore comment #4',
-input: `
+    input: `
 <template>
   <div>
     <!-- prettier-ignore -->
@@ -227,7 +227,7 @@ input: `
   </div>
 </template>
 `,
-output: `<template>
+    output: `<template>
   <div>
     <!-- prettier-ignore -->
     <button
@@ -255,7 +255,7 @@ output: `<template>
   },
   {
     name: 'comments that contain the phrase `prettier-ignore` but do not prevent formatting #1',
-input: `
+    input: `
 <script setup lang="ts">
 /**
  * prettier-ignore
@@ -293,7 +293,7 @@ else
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 /**
  * prettier-ignore
  */
@@ -342,7 +342,7 @@ else
   },
   {
     name: 'comments that contain the phrase `prettier-ignore` but do not prevent formatting #2',
-input: `
+    input: `
 <script setup lang="ts">
 // /* prettier-ignore */
 if (condition1) {
@@ -376,7 +376,7 @@ else
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 // /* prettier-ignore */
 if (condition1)
 {

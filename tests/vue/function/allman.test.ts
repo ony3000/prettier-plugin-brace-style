@@ -10,7 +10,7 @@ const options = {
 const fixtures: Fixture[] = [
   {
     name: 'function declaration',
-input: `
+    input: `
 <script setup lang="ts">
 function sum(a, b) {
   return a + b;
@@ -30,7 +30,7 @@ function sum(a, b) {
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 function sum(a, b)
 {
   return a + b;
@@ -57,7 +57,7 @@ function sum(a, b)
   },
   {
     name: 'function expression',
-input: `
+    input: `
 <script setup lang="ts">
 const sum = function (a, b) {
   return a + b;
@@ -77,7 +77,7 @@ const sum = function (a, b) {
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 const sum = function (a, b)
 {
   return a + b;
@@ -104,7 +104,7 @@ const sum = function (a, b)
   },
   {
     name: 'arrow function expression',
-input: `
+    input: `
 <script setup lang="ts">
 const sum = (a, b) => {
   return a + b;
@@ -124,7 +124,7 @@ const sum = (a, b) => {
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 const sum = (a, b) =>
 {
   return a + b;
@@ -151,7 +151,7 @@ const sum = (a, b) =>
   },
   {
     name: 'function (containing only comments in brackets #1)',
-input: `
+    input: `
 <script setup lang="ts">
 function foo(/* args here */) {
   statement;
@@ -171,7 +171,7 @@ function foo(/* args here */) {
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 function foo(/* args here */)
 {
   statement;
@@ -198,7 +198,7 @@ function foo(/* args here */)
   },
   {
     name: 'function (containing only comments in brackets #2)',
-input: `
+    input: `
 <script setup lang="ts">
 function foo(
   /* args here */
@@ -222,7 +222,7 @@ function foo(
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 function foo()
 {
 /* args here */
@@ -251,7 +251,7 @@ function foo()
   },
   {
     name: 'function (containing only comments in brackets #3)',
-input: `
+    input: `
 <script setup lang="ts">
 function foo(
   // args here
@@ -275,7 +275,7 @@ function foo(
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 function foo()
 {
 // args here
@@ -304,7 +304,7 @@ function foo()
   },
   {
     name: 'function (containing only comments in brackets #4)',
-input: `
+    input: `
 <script setup lang="ts">
 function foo(/* arg */ // arg
   // arg
@@ -328,7 +328,7 @@ function foo(/* arg */ // arg
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 function foo /* arg */()
 { // arg
 // arg
@@ -359,7 +359,7 @@ function foo /* arg */()
   },
   {
     name: 'empty function',
-input: `
+    input: `
 <script setup lang="ts">
 function foo() {}
 </script>
@@ -375,7 +375,7 @@ function foo() {}
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 function foo()
 {}
 </script>
@@ -398,7 +398,7 @@ function foo()
   },
   {
     name: 'empty function with comment #1',
-input: `
+    input: `
 <script setup lang="ts">
 function /*comment1*/ foo() {}
 </script>
@@ -414,7 +414,7 @@ function /*comment1*/ foo() {}
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 function /*comment1*/ foo()
 {}
 </script>
@@ -437,7 +437,7 @@ function /*comment1*/ foo()
   },
   {
     name: 'empty function with comment #2',
-input: `
+    input: `
 <script setup lang="ts">
 function
 /*comment2*/
@@ -457,7 +457,7 @@ foo() {}
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 function /*comment2*/
 foo()
 {}
@@ -482,7 +482,7 @@ foo()
   },
   {
     name: 'empty function with comment #3',
-input: `
+    input: `
 <script setup lang="ts">
 function foo(/*comment3*/) {}
 </script>
@@ -498,7 +498,7 @@ function foo(/*comment3*/) {}
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 function foo(/*comment3*/)
 {}
 </script>
@@ -521,7 +521,7 @@ function foo(/*comment3*/)
   },
   {
     name: 'empty function with comment #4',
-input: `
+    input: `
 <script setup lang="ts">
 function foo() /*comment4*/ {}
 </script>
@@ -537,7 +537,7 @@ function foo() /*comment4*/ {}
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 function foo() /*comment4*/
 {}
 </script>
@@ -560,7 +560,7 @@ function foo() /*comment4*/
   },
   {
     name: 'empty function with comment #5',
-input: `
+    input: `
 <script setup lang="ts">
 function foo() {} /*comment5*/
 </script>
@@ -576,7 +576,7 @@ function foo() {} /*comment5*/
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 function foo()
 {} /*comment5*/
 </script>
@@ -599,7 +599,7 @@ function foo()
   },
   {
     name: 'empty function expression',
-input: `
+    input: `
 <script setup lang="ts">
 const foo = function () {}
 </script>
@@ -615,7 +615,7 @@ const foo = function () {}
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 const foo = function ()
 {};
 </script>
@@ -638,7 +638,7 @@ const foo = function ()
   },
   {
     name: 'empty function expression with comment #1',
-input: `
+    input: `
 <script setup lang="ts">
 const foo = function /*comment1*/ () {}
 </script>
@@ -654,7 +654,7 @@ const foo = function /*comment1*/ () {}
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 const foo = function () /*comment1*/
 {};
 </script>
@@ -677,7 +677,7 @@ const foo = function () /*comment1*/
   },
   {
     name: 'empty function expression with comment #2',
-input: `
+    input: `
 <script setup lang="ts">
 const foo = function (/*comment2*/) {}
 </script>
@@ -693,7 +693,7 @@ const foo = function (/*comment2*/) {}
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 const foo = function (/*comment2*/)
 {};
 </script>
@@ -716,7 +716,7 @@ const foo = function (/*comment2*/)
   },
   {
     name: 'empty function expression with comment #3',
-input: `
+    input: `
 <script setup lang="ts">
 const foo = function () /*comment3*/ {}
 </script>
@@ -732,7 +732,7 @@ const foo = function () /*comment3*/ {}
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 const foo = function () /*comment3*/
 {};
 </script>
@@ -755,7 +755,7 @@ const foo = function () /*comment3*/
   },
   {
     name: 'empty function expression with comment #4',
-input: `
+    input: `
 <script setup lang="ts">
 const foo = function ()
 /*comment4*/
@@ -775,7 +775,7 @@ const foo = function ()
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 const foo = function () /*comment4*/
 {};
 </script>
@@ -798,7 +798,7 @@ const foo = function () /*comment4*/
   },
   {
     name: 'empty function expression with comment #5',
-input: `
+    input: `
 <script setup lang="ts">
 const foo = function () {} /*comment5*/
 </script>
@@ -814,7 +814,7 @@ const foo = function () {} /*comment5*/
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 const foo = function ()
 {}; /*comment5*/
 </script>
@@ -837,7 +837,7 @@ const foo = function ()
   },
   {
     name: 'empty arrow function expression',
-input: `
+    input: `
 <script setup lang="ts">
 const foo = () => {}
 </script>
@@ -853,7 +853,7 @@ const foo = () => {}
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 const foo = () =>
 {};
 </script>
@@ -876,7 +876,7 @@ const foo = () =>
   },
   {
     name: 'empty arrow function expression with comment #1',
-input: `
+    input: `
 <script setup lang="ts">
 const foo = (/*comment1*/) => {}
 </script>
@@ -892,7 +892,7 @@ const foo = (/*comment1*/) => {}
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 const foo = (/*comment1*/) =>
 {};
 </script>
@@ -915,7 +915,7 @@ const foo = (/*comment1*/) =>
   },
   {
     name: 'empty arrow function expression with comment #2',
-input: `
+    input: `
 <script setup lang="ts">
 const foo = () /*comment2*/ => {}
 </script>
@@ -931,7 +931,7 @@ const foo = () /*comment2*/ => {}
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 const foo = () /*comment2*/ =>
 {};
 </script>
@@ -954,7 +954,7 @@ const foo = () /*comment2*/ =>
   },
   {
     name: 'empty arrow function expression with comment #3',
-input: `
+    input: `
 <script setup lang="ts">
 const foo = () => /*comment3*/ {}
 </script>
@@ -970,7 +970,7 @@ const foo = () => /*comment3*/ {}
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 const foo = () => /*comment3*/
 {};
 </script>
@@ -993,7 +993,7 @@ const foo = () => /*comment3*/
   },
   {
     name: 'empty arrow function expression with comment #4',
-input: `
+    input: `
 <script setup lang="ts">
 const foo = () =>
 /*comment4*/
@@ -1013,7 +1013,7 @@ const foo = () =>
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 const foo = () =>
   /*comment4*/
   {};
@@ -1038,7 +1038,7 @@ const foo = () =>
   },
   {
     name: 'empty arrow function expression with comment #5',
-input: `
+    input: `
 <script setup lang="ts">
 const foo = () => {} /*comment5*/
 </script>
@@ -1054,7 +1054,7 @@ const foo = () => {} /*comment5*/
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 const foo = () =>
 {}; /*comment5*/
 </script>
@@ -1077,7 +1077,7 @@ const foo = () =>
   },
   {
     name: 'anonymous function expression',
-input: `
+    input: `
 <script setup lang="ts">
 (function () {})
 </script>
@@ -1093,7 +1093,7 @@ input: `
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 (function ()
 {});
 </script>
@@ -1116,7 +1116,7 @@ output: `<script setup lang="ts">
   },
   {
     name: 'IIFE #1',
-input: `
+    input: `
 <script setup lang="ts">
 (function () {})()
 </script>
@@ -1132,7 +1132,7 @@ input: `
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 (function ()
 {})();
 </script>
@@ -1155,7 +1155,7 @@ output: `<script setup lang="ts">
   },
   {
     name: 'IIFE #2',
-input: `
+    input: `
 <script setup lang="ts">
 (() => {})()
 </script>
@@ -1171,7 +1171,7 @@ input: `
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 (() =>
 {})();
 </script>
@@ -1194,7 +1194,7 @@ output: `<script setup lang="ts">
   },
   {
     name: 'promise chain',
-input: `
+    input: `
 <script setup lang="ts">
 myPromise.then((value) => { console.log(value) }).catch((err) => { console.error(err) })
 </script>
@@ -1210,7 +1210,7 @@ myPromise.then((value) => { console.log(value) }).catch((err) => { console.error
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 myPromise
   .then((value) =>
   {
@@ -1247,7 +1247,7 @@ myPromise
   },
   {
     name: 'object literal parameter #1',
-input: `
+    input: `
 <script setup lang="ts">
 foo({
   bar,
@@ -1269,7 +1269,7 @@ foo({
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 foo({
   bar,
   baz: "baz",
@@ -1296,7 +1296,7 @@ foo({
   },
   {
     name: 'object literal parameter #2',
-input: `
+    input: `
 <script setup lang="ts">
 foo(bar, {
   baz: 'baz'
@@ -1316,7 +1316,7 @@ foo(bar, {
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 foo(bar, {
   baz: "baz",
 });
@@ -1341,7 +1341,7 @@ foo(bar, {
   },
   {
     name: 'object literal parameter #3',
-input: `
+    input: `
 <script setup lang="ts">
 foo({bar: 'bar'}, {
   baz: 'baz'
@@ -1361,7 +1361,7 @@ foo({bar: 'bar'}, {
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 foo(
   { bar: "bar" },
   {
@@ -1392,7 +1392,7 @@ foo(
   },
   {
     name: 'function that returns object literal #1',
-input: `
+    input: `
 <script setup lang="ts">
 function foo() { return {} }
 </script>
@@ -1408,7 +1408,7 @@ function foo() { return {} }
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 function foo()
 {
   return {};
@@ -1435,7 +1435,7 @@ function foo()
   },
   {
     name: 'function that returns object literal #2',
-input: `
+    input: `
 <script setup lang="ts">
 function foo() { return { foo: 'bar' } }
 </script>
@@ -1451,7 +1451,7 @@ function foo() { return { foo: 'bar' } }
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 function foo()
 {
   return { foo: "bar" };
@@ -1478,7 +1478,7 @@ function foo()
   },
   {
     name: 'function that returns object literal #3',
-input: `
+    input: `
 <script setup lang="ts">
 function foo() {
   return {
@@ -1504,7 +1504,7 @@ function foo() {
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 function foo()
 {
   return {
@@ -1537,7 +1537,7 @@ function foo()
   },
   {
     name: 'arrow function that returns object literal #1',
-input: `
+    input: `
 <script setup lang="ts">
 const foo = () => ({})
 </script>
@@ -1553,7 +1553,7 @@ const foo = () => ({})
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 const foo = () => ({});
 </script>
 
@@ -1574,7 +1574,7 @@ const foo = () => ({});
   },
   {
     name: 'arrow function that returns object literal #2',
-input: `
+    input: `
 <script setup lang="ts">
 const foo = () => ({ foo: 'bar' })
 </script>
@@ -1590,7 +1590,7 @@ const foo = () => ({ foo: 'bar' })
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 const foo = () => ({ foo: "bar" });
 </script>
 
@@ -1611,7 +1611,7 @@ const foo = () => ({ foo: "bar" });
   },
   {
     name: 'arrow function that returns object literal #3',
-input: `
+    input: `
 <script setup lang="ts">
 const foo = () => ({
   foo: 'bar',
@@ -1633,7 +1633,7 @@ const foo = () => ({
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 const foo = () => ({
   foo: "bar",
   baz,

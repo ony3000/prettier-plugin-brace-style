@@ -10,7 +10,7 @@ const options = {
 const fixtures: Fixture[] = [
   {
     name: 'labeled block',
-input: `
+    input: `
 <script setup lang="ts">
 foo: {
   console.log('face');
@@ -36,7 +36,7 @@ console.log('swap');
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 foo:
 {
   console.log("face");

@@ -10,7 +10,7 @@ const options = {
 const fixtures: Fixture[] = [
   {
     name: 'empty object assignment',
-input: `
+    input: `
 <script setup lang="ts">
 const foo = {}
 </script>
@@ -26,7 +26,7 @@ const foo = {}
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 const foo = {};
 </script>
 
@@ -46,7 +46,7 @@ const foo = {};
   },
   {
     name: 'object assignment #1',
-input: `
+    input: `
 <script setup lang="ts">
 const foo = {
   bar: {
@@ -70,7 +70,7 @@ const foo = {
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 const foo = {
   bar: {
     baz: "baz",
@@ -98,7 +98,7 @@ const foo = {
   },
   {
     name: 'object assignment #1 with comment #1',
-input: `
+    input: `
 <script setup lang="ts">
 const foo = /*comment1*/ {
   bar: {
@@ -122,7 +122,7 @@ const foo = /*comment1*/ {
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 const foo = /*comment1*/ {
   bar: {
     baz: "baz",
@@ -150,7 +150,7 @@ const foo = /*comment1*/ {
   },
   {
     name: 'object assignment #1 with comment #2',
-input: `
+    input: `
 <script setup lang="ts">
 const foo =
 /*comment2*/
@@ -178,7 +178,7 @@ const foo =
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 const foo =
   /*comment2*/
   {
@@ -210,7 +210,7 @@ const foo =
   },
   {
     name: 'object assignment #1 with comment #3',
-input: `
+    input: `
 <script setup lang="ts">
 const foo = {
   /*comment3*/ bar: {
@@ -234,7 +234,7 @@ const foo = {
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 const foo = {
   /*comment3*/ bar: {
     baz: "baz",
@@ -262,7 +262,7 @@ const foo = {
   },
   {
     name: 'object assignment #1 with comment #4',
-input: `
+    input: `
 <script setup lang="ts">
 const foo = {
   bar: /*comment4*/ {
@@ -286,7 +286,7 @@ const foo = {
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 const foo = {
   bar: /*comment4*/ {
     baz: "baz",
@@ -314,7 +314,7 @@ const foo = {
   },
   {
     name: 'object assignment #1 with comment #5',
-input: `
+    input: `
 <script setup lang="ts">
 const foo = {
   bar:
@@ -342,7 +342,7 @@ const foo = {
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 const foo = {
   bar:
     /*comment5*/
@@ -374,7 +374,7 @@ const foo = {
   },
   {
     name: 'object assignment #2',
-input: `
+    input: `
 <script setup lang="ts">
 const foo = {
   bar() {},
@@ -397,7 +397,7 @@ const foo = {
 </template>
 
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 const foo = {
   bar() {},
   ["baz"]() {},
@@ -423,7 +423,7 @@ const foo = {
   },
   {
     name: 'object assignment #2 with comment #1',
-input: `
+    input: `
 <script setup lang="ts">
 const foo = {
   bar/*comment1*/() {},
@@ -445,7 +445,7 @@ const foo = {
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 const foo = {
   bar /*comment1*/() {},
   ["baz"]() {},
@@ -471,7 +471,7 @@ const foo = {
   },
   {
     name: 'object assignment #2 with comment #2',
-input: `
+    input: `
 <script setup lang="ts">
 const foo = {
   bar(/*comment2*/) {},
@@ -493,7 +493,7 @@ const foo = {
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 const foo = {
   bar(/*comment2*/) {},
   ["baz"]() {},
@@ -519,7 +519,7 @@ const foo = {
   },
   {
     name: 'object assignment #2 with comment #3',
-input: `
+    input: `
 <script setup lang="ts">
 const foo = {
   bar()/*comment3*/{},
@@ -541,7 +541,7 @@ const foo = {
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 const foo = {
   bar() /*comment3*/ {},
   ["baz"]() {},
@@ -567,7 +567,7 @@ const foo = {
   },
   {
     name: 'object assignment #2 with comment #4',
-input: `
+    input: `
 <script setup lang="ts">
 const foo = {
   bar()
@@ -593,7 +593,7 @@ const foo = {
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 const foo = {
   bar() /*comment4*/
   {},
@@ -621,7 +621,7 @@ const foo = {
   },
   {
     name: 'conditional assignment #1',
-input: `
+    input: `
 <script setup lang="ts">
 const foo = true && {
   bar: 'baz'
@@ -641,7 +641,7 @@ const foo = true && {
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 const foo = true && {
   bar: "baz",
 };
@@ -665,7 +665,7 @@ const foo = true && {
   },
   {
     name: 'conditional assignment #1 with comment #1',
-input: `
+    input: `
 <script setup lang="ts">
 const foo =/*comment1*/true && {
   bar: 'baz'
@@ -685,7 +685,7 @@ const foo =/*comment1*/true && {
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 const foo = /*comment1*/ true && {
   bar: "baz",
 };
@@ -709,7 +709,7 @@ const foo = /*comment1*/ true && {
   },
   {
     name: 'conditional assignment #1 with comment #2',
-input: `
+    input: `
 <script setup lang="ts">
 const foo = true/*comment2*/&& {
   bar: 'baz'
@@ -729,7 +729,7 @@ const foo = true/*comment2*/&& {
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 const foo = true /*comment2*/ && {
   bar: "baz",
 };
@@ -753,7 +753,7 @@ const foo = true /*comment2*/ && {
   },
   {
     name: 'conditional assignment #1 with comment #3',
-input: `
+    input: `
 <script setup lang="ts">
 const foo = true &&/*comment3*/{
   bar: 'baz'
@@ -773,7 +773,7 @@ const foo = true &&/*comment3*/{
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 const foo = true && /*comment3*/ {
   bar: "baz",
 };
@@ -797,7 +797,7 @@ const foo = true && /*comment3*/ {
   },
   {
     name: 'conditional assignment #1 with comment #4',
-input: `
+    input: `
 <script setup lang="ts">
 const foo = true &&
 /*comment4*/
@@ -821,7 +821,7 @@ const foo = true &&
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 const foo = true && /*comment4*/
 {
   bar: "baz",
@@ -847,7 +847,7 @@ const foo = true && /*comment4*/
   },
   {
     name: 'conditional assignment #2',
-input: `
+    input: `
 <script setup lang="ts">
 const foo = false || {
   bar: 'baz'
@@ -867,7 +867,7 @@ const foo = false || {
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 const foo = false || {
   bar: "baz",
 };
@@ -891,7 +891,7 @@ const foo = false || {
   },
   {
     name: 'conditional assignment #3',
-input: `
+    input: `
 <script setup lang="ts">
 const foo = null ?? {
   bar: 'baz'
@@ -911,7 +911,7 @@ const foo = null ?? {
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 const foo = null ?? {
   bar: "baz",
 };
@@ -935,7 +935,7 @@ const foo = null ?? {
   },
   {
     name: 'destructuring assignment #1',
-input: `
+    input: `
 <script setup lang="ts">
 const {foo, bar: {baz}} = {}
 </script>
@@ -951,7 +951,7 @@ const {foo, bar: {baz}} = {}
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 const {
   foo,
   bar: { baz },
@@ -977,7 +977,7 @@ const {
   },
   {
     name: 'destructuring assignment #2',
-input: `
+    input: `
 <script setup lang="ts">
 arr.forEach(({ data: { message: { errors } } }) => {
   // code
@@ -997,7 +997,7 @@ arr.forEach(({ data: { message: { errors } } }) => {
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 arr.forEach(
   ({
     data: {

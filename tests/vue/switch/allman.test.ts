@@ -10,7 +10,7 @@ const options = {
 const fixtures: Fixture[] = [
   {
     name: 'switch',
-input: `
+    input: `
 <script setup lang="ts">
 switch (expr) {
   case 'Oranges':
@@ -46,7 +46,7 @@ switch (expr) {
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 switch (expr)
 {
   case "Oranges":
@@ -89,7 +89,7 @@ switch (expr)
   },
   {
     name: 'switch (case with block)',
-input: `
+    input: `
 <script setup lang="ts">
 switch (action) {
   case 'say_hello': {
@@ -133,7 +133,7 @@ switch (action) {
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 switch (action)
 {
   case "say_hello": {

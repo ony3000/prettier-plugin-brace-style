@@ -10,7 +10,7 @@ const options = {
 const fixtures: Fixture[] = [
   {
     name: 'while',
-input: `
+    input: `
 <script setup lang="ts">
 let n = 0;
 
@@ -34,7 +34,7 @@ while (n < 3) {
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 let n = 0;
 
 while (n < 3)
@@ -65,7 +65,7 @@ while (n < 3)
   },
   {
     name: 'do...while',
-input: `
+    input: `
 <script setup lang="ts">
 let result = '';
 let i = 0;
@@ -93,7 +93,7 @@ do {
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 let result = "";
 let i = 0;
 

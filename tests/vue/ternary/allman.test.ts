@@ -10,7 +10,7 @@ const options = {
 const fixtures: Fixture[] = [
   {
     name: 'ternary operator',
-input: `
+    input: `
 <script setup lang="ts">
 const x = condition ? function foo() {} : function bar() {return 0;}
 </script>
@@ -26,7 +26,7 @@ const x = condition ? function foo() {} : function bar() {return 0;}
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 const x = condition
   ? function foo()
     {}
@@ -59,7 +59,7 @@ const x = condition
   },
   {
     name: 'nested ternary operator',
-input: `
+    input: `
 <script setup lang="ts">
 const x = condition1
 ? (condition2 ? function foo() {} : function bar() {return 0;})
@@ -79,7 +79,7 @@ const x = condition1
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 const x = condition1
   ? condition2
     ? function foo()

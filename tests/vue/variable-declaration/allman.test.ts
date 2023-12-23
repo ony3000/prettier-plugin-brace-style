@@ -10,7 +10,7 @@ const options = {
 const fixtures: Fixture[] = [
   {
     name: 'variable declaration (containing only comments in brackets #1)',
-input: `
+    input: `
 <script setup lang="ts">
 const foo = [
   // elements
@@ -30,7 +30,7 @@ const foo = [
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 const foo = [
   // elements
 ];
@@ -55,7 +55,7 @@ const foo = [
   },
   {
     name: 'variable declaration (containing only comments in brackets #2)',
-input: `
+    input: `
 <script setup lang="ts">
 const foo = [
   /* elements */
@@ -75,7 +75,7 @@ const foo = [
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 const foo = [
   /* elements */
 ];
@@ -100,7 +100,7 @@ const foo = [
   },
   {
     name: 'variable declaration (containing only comments in brackets #3)',
-input: `
+    input: `
 <script setup lang="ts">
 const foo = [/* elements */];
 </script>
@@ -116,7 +116,7 @@ const foo = [/* elements */];
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 const foo = [
   /* elements */
 ];
@@ -141,7 +141,7 @@ const foo = [
   },
   {
     name: 'variable declaration (containing only comments in brackets #4)',
-input: `
+    input: `
 <script setup lang="ts">
 const foo = [// element
   /* element */
@@ -163,7 +163,7 @@ const foo = [// element
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 const foo = [
   // element
   /* element */
