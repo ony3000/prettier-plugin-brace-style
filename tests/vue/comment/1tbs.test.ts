@@ -10,7 +10,7 @@ const options = {
 const fixtures: Fixture[] = [
   {
     name: 'single line comment',
-input: `
+    input: `
 <script setup lang="ts">
 //class Foo {}
 </script>
@@ -26,7 +26,7 @@ input: `
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 //class Foo {}
 </script>
 
@@ -46,7 +46,7 @@ output: `<script setup lang="ts">
   },
   {
     name: 'single line comment applied to multi line',
-input: `
+    input: `
 <script setup lang="ts">
 // function foo() {
 //   bar;
@@ -66,7 +66,7 @@ input: `
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 // function foo() {
 //   bar;
 // }
@@ -90,7 +90,7 @@ output: `<script setup lang="ts">
   },
   {
     name: 'multi line comment',
-input: `
+    input: `
 <script setup lang="ts">
 /*
 if (foo) {
@@ -118,7 +118,7 @@ if (foo) {
   </button>
 </template>
 `,
-output: `<script setup lang="ts">
+    output: `<script setup lang="ts">
 /*
 if (foo) {
   bar();
