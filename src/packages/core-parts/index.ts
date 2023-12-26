@@ -1,6 +1,8 @@
 import type { ZodTypeAny, infer as ZodInfer } from 'zod';
 import { z } from 'zod';
 
+const EOL = '\n';
+
 enum BraceType {
   OB = 'OpeningBrace',
   OBTO = 'OpeningBraceInTernaryOperator',
@@ -249,24 +251,16 @@ function findTargetBraceNodes(ast: any): BraceNode[] {
     .sort((former, latter) => former.range[0] - latter.range[0]);
 }
 
-export function parseLineByLineAndAssemble(
+function parseLineByLine(
   formattedText: string,
-  ast: any,
-  options: NarrowedParserOptions,
-): string {
-  if (formattedText === '' || options.braceStyle === '1tbs') {
-    return formattedText;
-  }
-
-  const EOL = '\n';
-  const indentUnit = options.useTabs ? '\t' : ' '.repeat(options.tabWidth);
-
-  const targetBraceNodes = findTargetBraceNodes(ast);
+  indentUnit: string,
+  targetBraceNodes: BraceNode[],
+): LineNode[] {
   const formattedLines = formattedText.split(EOL);
   let rangeStartOfLine = 0;
   let rangeEndOfLine: number;
 
-  const lineNodes: LineNode[] = formattedLines.map((line) => {
+  return formattedLines.map((line) => {
     const indentMatchResult = line.match(new RegExp(`^(${indentUnit})*`));
     const indentLevel = indentMatchResult![0].length / indentUnit.length;
 
@@ -334,8 +328,12 @@ export function parseLineByLineAndAssemble(
       parts,
     };
   });
+}
 
-  // If 'Text' exists after 'ClosingBrace', add a line break between 'ClosingBrace' and 'Text'.
+/**
+ * If `Text` exists after `ClosingBrace`, add a line break between `ClosingBrace` and `Text`.
+ */
+function splitLineStartingWithClosingBrace(lineNodes: LineNode[]) {
   for (let index = lineNodes.length - 1; index >= 0; index -= 1) {
     const { indentLevel, parts } = lineNodes[index];
     const firstPart = parts.at(0);
@@ -359,43 +357,69 @@ export function parseLineByLineAndAssemble(
       }
     }
   }
+}
 
-  if (options.braceStyle === 'allman') {
-    // If 'Text' exists before 'OpeningBrace', add a line break between 'OpeningBrace' and 'Text'.
-    for (let index = lineNodes.length - 1; index >= 0; index -= 1) {
-      const { indentLevel, parts } = lineNodes[index];
-      const lastPart = parts.at(-1);
+/**
+ * If `Text` exists before `OpeningBrace`, add a line break between `OpeningBrace` and `Text`.
+ */
+function splitLineEndingWithOpeningBrace(lineNodes: LineNode[]) {
+  for (let index = lineNodes.length - 1; index >= 0; index -= 1) {
+    const { indentLevel, parts } = lineNodes[index];
+    const lastPart = parts.at(-1);
 
-      if (lastPart?.type === BraceType.OB || lastPart?.type === BraceType.OBTO) {
-        const secondLastPart = parts.at(-2);
+    if (lastPart?.type === BraceType.OB || lastPart?.type === BraceType.OBTO) {
+      const secondLastPart = parts.at(-2);
 
-        if (secondLastPart) {
-          lineNodes.splice(
-            index,
-            1,
-            {
-              indentLevel,
-              parts: [
-                ...parts.slice(0, -2),
-                { type: secondLastPart.type, body: secondLastPart.body.trimEnd() },
-              ],
-            },
-            {
-              indentLevel: lastPart?.type === BraceType.OBTO ? indentLevel + 1 : indentLevel,
-              parts: [lastPart],
-            },
-          );
-        }
+      if (secondLastPart) {
+        lineNodes.splice(
+          index,
+          1,
+          {
+            indentLevel,
+            parts: [
+              ...parts.slice(0, -2),
+              { type: secondLastPart.type, body: secondLastPart.body.trimEnd() },
+            ],
+          },
+          {
+            indentLevel: lastPart?.type === BraceType.OBTO ? indentLevel + 1 : indentLevel,
+            parts: [lastPart],
+          },
+        );
       }
     }
   }
+}
 
-  const assembledText = lineNodes
+function assembleLine(lineNodes: LineNode[], indentUnit: string): string {
+  return lineNodes
     .map(
       ({ indentLevel, parts }) =>
         `${indentUnit.repeat(indentLevel)}${parts.map(({ body }) => body).join('')}`,
     )
     .join(EOL);
+}
 
-  return assembledText;
+export function parseLineByLineAndAssemble(
+  formattedText: string,
+  ast: any,
+  options: NarrowedParserOptions,
+): string {
+  if (formattedText === '' || options.braceStyle === '1tbs') {
+    return formattedText;
+  }
+
+  const indentUnit = options.useTabs ? '\t' : ' '.repeat(options.tabWidth);
+
+  const targetBraceNodes = findTargetBraceNodes(ast);
+
+  const lineNodes = parseLineByLine(formattedText, indentUnit, targetBraceNodes);
+
+  splitLineStartingWithClosingBrace(lineNodes);
+
+  if (options.braceStyle === 'allman') {
+    splitLineEndingWithOpeningBrace(lineNodes);
+  }
+
+  return assembleLine(lineNodes, indentUnit);
 }
