@@ -1,25 +1,20 @@
 import { parseLineByLineAndAssemble } from 'core-parts';
-import type { AstPath, ParserOptions, Doc, Printer, Plugin } from 'prettier';
+import type { AstPath, ParserOptions, Doc, Printer, Parser } from 'prettier';
 import { format } from 'prettier';
+import { parsers as babelParsers } from 'prettier/parser-babel';
+import { parsers as typescriptParsers } from 'prettier/parser-typescript';
 
-function createPrinter(parserName: 'babel' | 'typescript'): Printer {
+function createPrinter(parserName: 'babel' | 'typescript', defaultParser: Parser): Printer {
   function main(
     path: AstPath,
     options: ParserOptions,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     print: (path: AstPath) => Doc,
   ): Doc {
-    const plugins = options.plugins.filter((plugin) => typeof plugin !== 'string') as Plugin[];
-    const pluginCandidate = plugins.find((plugin) => plugin.parsers?.[parserName]);
+    const comments = path.getValue()?.comments;
 
-    if (!pluginCandidate) {
-      throw new Error('A plugin with the given parser does not exist.');
-    }
-
-    const node = path.getValue();
-
-    if (node?.comments) {
-      node.comments.forEach((comment: any) => {
+    if (comments && Array.isArray(comments)) {
+      comments.forEach((comment: any) => {
         // eslint-disable-next-line no-param-reassign
         comment.printed = true;
       });
@@ -28,11 +23,10 @@ function createPrinter(parserName: 'babel' | 'typescript'): Printer {
     const { originalText } = options;
     const formattedText = format(originalText, {
       ...options,
-      plugins: [pluginCandidate],
+      plugins: [],
       endOfLine: 'lf',
     });
-    const parser = pluginCandidate.parsers![parserName];
-    const ast = parser.parse(formattedText, pluginCandidate.parsers!, options);
+    const ast = defaultParser.parse(formattedText, { [parserName]: defaultParser }, options);
 
     return parseLineByLineAndAssemble(
       formattedText,
@@ -48,6 +42,6 @@ function createPrinter(parserName: 'babel' | 'typescript'): Printer {
 }
 
 export const printers: { [astFormat: string]: Printer } = {
-  'babel-ast': createPrinter('babel'),
-  'typescript-ast': createPrinter('typescript'),
+  'babel-ast': createPrinter('babel', babelParsers.babel),
+  'typescript-ast': createPrinter('typescript', typescriptParsers.typescript),
 };
