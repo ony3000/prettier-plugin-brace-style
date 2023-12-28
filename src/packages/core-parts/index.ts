@@ -11,6 +11,8 @@ enum BraceType {
   CBNT = 'ClosingBraceButNotTheTarget',
 }
 
+type Dict<T = unknown> = Record<string, T | undefined>;
+
 type NodeRange = [number, number];
 
 type LinePart = {
@@ -31,6 +33,7 @@ type BraceNode = {
 type NarrowedParserOptions = {
   tabWidth: number;
   useTabs: boolean;
+  parser: string;
   braceStyle: '1tbs' | 'stroustrup' | 'allman';
 };
 
@@ -251,6 +254,205 @@ function findTargetBraceNodes(ast: any): BraceNode[] {
     .sort((former, latter) => former.range[0] - latter.range[0]);
 }
 
+function findTargetBraceNodesForVue(
+  ast: any,
+  options: NarrowedParserOptions,
+  addon: Dict<(text: string, options: any) => any>,
+): BraceNode[] {
+  const braceEnclosingRanges: NodeRange[] = [];
+  const braceTypePerIndex: Record<string, BraceType> = {};
+
+  function treatNextNodeAsPlainText(commentRange: NodeRange): void {
+    const [, rangeEnd] = commentRange;
+
+    const ignoringRange = braceEnclosingRanges
+      .filter((nodeRange) => rangeEnd < nodeRange[0])
+      .sort((former, latter) => former[0] - latter[0] || latter[1] - former[1])
+      .at(0);
+
+    if (ignoringRange) {
+      Object.entries(braceTypePerIndex).forEach(([key, value]) => {
+        const rangeStartOfBrace = Number(key);
+
+        if (ignoringRange[0] <= rangeStartOfBrace && rangeStartOfBrace < ignoringRange[1]) {
+          if (value === BraceType.OB || value === BraceType.OBTO) {
+            braceTypePerIndex[key] = BraceType.OBNT;
+          } else if (value === BraceType.CB) {
+            braceTypePerIndex[key] = BraceType.CBNT;
+          }
+        }
+      });
+    }
+  }
+
+  function recursion(node: unknown, parentNode?: { type?: unknown }): void {
+    if (!isTypeof(node, z.object({ type: z.unknown() }))) {
+      return;
+    }
+
+    Object.entries(node).forEach(([key, value]) => {
+      if (key === 'type') {
+        return;
+      }
+
+      if (Array.isArray(value)) {
+        value.forEach((childNode: unknown) => {
+          recursion(childNode, node);
+        });
+        return;
+      }
+
+      recursion(value, node);
+    });
+
+    if (
+      !isTypeof(
+        node,
+        z.object({
+          sourceSpan: z.object({
+            start: z.object({
+              offset: z.number(),
+            }),
+            end: z.object({
+              offset: z.number(),
+            }),
+          }),
+        }),
+      )
+    ) {
+      return;
+    }
+
+    const [rangeStart, rangeEnd] = [node.sourceSpan.start.offset, node.sourceSpan.end.offset];
+
+    switch (node.type) {
+      case 'attribute': {
+        const boundAttributeRegExp = /^(?:v-bind)?:/;
+        const eventListenerAttributeRegExp = /^(?:v-on:|@)/;
+
+        if (
+          isTypeof(
+            parentNode,
+            z.object({
+              sourceSpan: z.object({
+                start: z.object({
+                  line: z.number(),
+                }),
+              }),
+            }),
+          ) &&
+          parentNode.type === 'element' &&
+          isTypeof(
+            node,
+            z.object({
+              sourceSpan: z.object({
+                start: z.object({
+                  line: z.number(),
+                }),
+              }),
+              name: z.string(),
+              value: z.string(),
+              valueSpan: z.object({
+                start: z.object({
+                  offset: z.number(),
+                }),
+                end: z.object({
+                  offset: z.number(),
+                }),
+              }),
+            }),
+          )
+        ) {
+          braceEnclosingRanges.push([rangeStart, rangeEnd]);
+
+          const isBoundAttribute = node.name.match(boundAttributeRegExp) !== null;
+          const isEventListenerAttribute = node.name.match(eventListenerAttributeRegExp) !== null;
+
+          if (isBoundAttribute || isEventListenerAttribute) {
+            if (addon.parseBabel) {
+              const jsxStart = '<div className={';
+              const jsxEnd = '}></div>';
+              const attributeOffset = -jsxStart.length + node.valueSpan.start.offset + 1;
+
+              const babelAst = addon.parseBabel(`${jsxStart}${node.value}${jsxEnd}`, {
+                ...options,
+                parser: 'babel',
+              });
+              const targetBraceNodesInAttribute = findTargetBraceNodes(babelAst);
+
+              targetBraceNodesInAttribute.forEach(({ type, range: [braceNodeRangeStart] }) => {
+                braceTypePerIndex[braceNodeRangeStart + attributeOffset] = type;
+              });
+            }
+          }
+        }
+        break;
+      }
+      case 'element': {
+        if (
+          isTypeof(
+            node,
+            z.object({
+              sourceSpan: z.object({
+                start: z.object({
+                  line: z.number(),
+                }),
+              }),
+              startSourceSpan: z.object({
+                end: z.object({
+                  offset: z.number(),
+                }),
+              }),
+              name: z.string(),
+              children: z.array(
+                z.object({
+                  value: z.string(),
+                }),
+              ),
+            }),
+          ) &&
+          node.name === 'script'
+        ) {
+          const scriptOffset = node.startSourceSpan.end.offset;
+
+          braceEnclosingRanges.push([rangeStart, rangeEnd]);
+
+          if (addon.parseTypescript) {
+            const typescriptAst = addon.parseTypescript(node.children.at(0)?.value ?? '', {
+              ...options,
+              parser: 'typescript',
+            });
+            const targetBraceNodesInScript = findTargetBraceNodes(typescriptAst);
+
+            targetBraceNodesInScript.forEach(({ type, range: [braceNodeRangeStart] }) => {
+              braceTypePerIndex[braceNodeRangeStart + scriptOffset] = type;
+            });
+          }
+        }
+        break;
+      }
+      default: {
+        // nothing to do
+        break;
+      }
+    }
+  }
+
+  recursion(ast);
+
+  return Object.entries(braceTypePerIndex)
+    .map<BraceNode>(([key, value]) => {
+      const rangeStart = Number(key);
+
+      return { type: value, range: [rangeStart, rangeStart + 1] };
+    })
+    .filter(
+      (item) =>
+        item.type === BraceType.OB || item.type === BraceType.OBTO || item.type === BraceType.CB,
+    )
+    .sort((former, latter) => former.range[0] - latter.range[0]);
+}
+
 function parseLineByLine(
   formattedText: string,
   indentUnit: string,
@@ -404,6 +606,7 @@ export function parseLineByLineAndAssemble(
   formattedText: string,
   ast: any,
   options: NarrowedParserOptions,
+  addon: Dict<(text: string, options: any) => any>,
 ): string {
   if (formattedText === '' || options.braceStyle === '1tbs') {
     return formattedText;
@@ -411,7 +614,12 @@ export function parseLineByLineAndAssemble(
 
   const indentUnit = options.useTabs ? '\t' : ' '.repeat(options.tabWidth);
 
-  const targetBraceNodes = findTargetBraceNodes(ast);
+  let targetBraceNodes: BraceNode[];
+  if (options.parser === 'vue') {
+    targetBraceNodes = findTargetBraceNodesForVue(ast, options, addon);
+  } else {
+    targetBraceNodes = findTargetBraceNodes(ast);
+  }
 
   const lineNodes = parseLineByLine(formattedText, indentUnit, targetBraceNodes);
 

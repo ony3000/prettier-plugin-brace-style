@@ -5,6 +5,13 @@ import { parsers as babelParsers } from 'prettier/parser-babel';
 import { parsers as htmlParsers } from 'prettier/parser-html';
 import { parsers as typescriptParsers } from 'prettier/parser-typescript';
 
+const addon = {
+  parseBabel: (text: string, options: ParserOptions) =>
+    babelParsers.babel.parse(text, { babel: babelParsers.babel }, options),
+  parseTypescript: (text: string, options: ParserOptions) =>
+    typescriptParsers.typescript.parse(text, { typescript: typescriptParsers.typescript }, options),
+};
+
 function createPrinter(parserName: 'babel' | 'typescript' | 'vue', defaultParser: Parser): Printer {
   function main(
     path: AstPath,
@@ -34,6 +41,7 @@ function createPrinter(parserName: 'babel' | 'typescript' | 'vue', defaultParser
       ast,
       // @ts-ignore
       options,
+      addon,
     );
   }
 
