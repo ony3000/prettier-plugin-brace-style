@@ -1,33 +1,12 @@
 import type { ZodTypeAny, infer as ZodInfer } from 'zod';
 import { z } from 'zod';
 
-enum BraceType {
-  OB = 'OpeningBrace',
-  OBTO = 'OpeningBraceInTernaryOperator',
-  OBNT = 'OpeningBraceButNotTheTarget',
-  CB = 'ClosingBrace',
-  CBNT = 'ClosingBraceButNotTheTarget',
-}
-
-type Dict<T = unknown> = Record<string, T | undefined>;
-
-type NodeRange = [number, number];
-
-type BraceNode = {
-  type: BraceType;
-  range: NodeRange;
-};
+import type { Dict, NodeRange, BraceNode, NarrowedParserOptions } from './shared';
+import { BraceType } from './shared';
 
 type ASTNode = {
   type: string;
   range: NodeRange;
-};
-
-type NarrowedParserOptions = {
-  tabWidth: number;
-  useTabs: boolean;
-  parser: string;
-  braceStyle: '1tbs' | 'stroustrup' | 'allman';
 };
 
 function isTypeof<T extends ZodTypeAny>(arg: unknown, expectedSchema: T): arg is ZodInfer<T> {

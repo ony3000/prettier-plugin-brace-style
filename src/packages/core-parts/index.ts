@@ -1,18 +1,8 @@
 import { findTargetBraceNodes, findTargetBraceNodesForVue } from './finder';
+import type { Dict, BraceNode, NarrowedParserOptions } from './shared';
+import { BraceType } from './shared';
 
 const EOL = '\n';
-
-enum BraceType {
-  OB = 'OpeningBrace',
-  OBTO = 'OpeningBraceInTernaryOperator',
-  OBNT = 'OpeningBraceButNotTheTarget',
-  CB = 'ClosingBrace',
-  CBNT = 'ClosingBraceButNotTheTarget',
-}
-
-type Dict<T = unknown> = Record<string, T | undefined>;
-
-type NodeRange = [number, number];
 
 type LinePart = {
   type: string;
@@ -22,18 +12,6 @@ type LinePart = {
 type LineNode = {
   indentLevel: number;
   parts: LinePart[];
-};
-
-type BraceNode = {
-  type: BraceType;
-  range: NodeRange;
-};
-
-type NarrowedParserOptions = {
-  tabWidth: number;
-  useTabs: boolean;
-  parser: string;
-  braceStyle: '1tbs' | 'stroustrup' | 'allman';
 };
 
 function parseLineByLine(
