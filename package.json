@@ -29,10 +29,14 @@
     "merge-deps": "rimraf package.merged.json && merge-packages ./ src/packages/core-parts/ src/packages/v2-plugin/ src/packages/v3-plugin/",
     "prepare-release": "pnpm run build:plain && npm version prerelease --preid=alpha --git-tag-version=false && pnpm run merge-deps && npm pack"
   },
+  "dependencies": {
+    "zod": "3.22.4"
+  },
   "devDependencies": {
     "@prettier/sync": "0.3.0",
     "@trivago/prettier-plugin-sort-imports": "4.1.1",
     "@types/node": "20.2.5",
+    "@types/prettier": "2.7.3",
     "@typescript-eslint/eslint-plugin": "5.54.0",
     "@typescript-eslint/parser": "5.54.0",
     "esbuild": "0.17.19",
