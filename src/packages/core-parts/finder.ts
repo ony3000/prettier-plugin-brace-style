@@ -75,7 +75,7 @@ export function findTargetBraceNodes(ast: any): BraceNode[] {
    */
   const prettierIgnoreNodes: ASTNode[] = [];
   /**
-   * Starting and ending braces in `braceEnclosingNodes`
+   * Single brace character as node
    */
   const braceNodes: BraceNode[] = [];
 
@@ -318,7 +318,7 @@ export function findTargetBraceNodesForVue(
    */
   const prettierIgnoreNodes: ASTNode[] = [];
   /**
-   * Starting and ending braces in `braceEnclosingNodes`
+   * Single brace character as node
    */
   const braceNodes: BraceNode[] = [];
 
