@@ -2,6 +2,8 @@
 
 A Prettier plugin that can apply ESLint's [brace-style](https://eslint.org/docs/latest/rules/brace-style) rules.
 
+![A use case for this plugin.](.github/banner.png)
+
 ## Installation
 
 For Prettier v2:
