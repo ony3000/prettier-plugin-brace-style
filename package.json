@@ -11,7 +11,7 @@
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --ci --passWithNoTests"
   },
   "dependencies": {
-    "prettier-plugin-brace-style": "0.4.0"
+    "prettier-plugin-brace-style": "0.4.1"
   },
   "devDependencies": {
     "@prettier/sync": "0.3.0",
