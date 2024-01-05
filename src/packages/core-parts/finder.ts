@@ -393,25 +393,29 @@ export function findTargetBraceNodesForVue(
 
           if (hasBindDirective || hasOnDirective) {
             if (addon.parseBabel) {
-              const jsxStart = '<div className={';
-              const jsxEnd = '}></div>';
-              const attributeOffset = -jsxStart.length + node.valueSpan.start.offset + 1;
+              try {
+                const jsxStart = '<div className={';
+                const jsxEnd = '}></div>';
+                const attributeOffset = -jsxStart.length + node.valueSpan.start.offset + 1;
 
-              const babelAst = addon.parseBabel(`${jsxStart}${node.value}${jsxEnd}`, {
-                ...options,
-                parser: 'babel',
-              });
-              const targetBraceNodesInAttribute = findTargetBraceNodes(babelAst).map<BraceNode>(
-                ({ type, range: [braceNodeRangeStart, braceNodeRangeEnd] }) => ({
-                  type,
-                  range: [
-                    braceNodeRangeStart + attributeOffset,
-                    braceNodeRangeEnd + attributeOffset,
-                  ],
-                }),
-              );
+                const babelAst = addon.parseBabel(`${jsxStart}${node.value}${jsxEnd}`, {
+                  ...options,
+                  parser: 'babel',
+                });
+                const targetBraceNodesInAttribute = findTargetBraceNodes(babelAst).map<BraceNode>(
+                  ({ type, range: [braceNodeRangeStart, braceNodeRangeEnd] }) => ({
+                    type,
+                    range: [
+                      braceNodeRangeStart + attributeOffset,
+                      braceNodeRangeEnd + attributeOffset,
+                    ],
+                  }),
+                );
 
-              braceNodes.push(...targetBraceNodesInAttribute);
+                braceNodes.push(...targetBraceNodesInAttribute);
+              } catch (error) {
+                // no action
+              }
             }
           }
         }
