@@ -1,3 +1,4 @@
+import { describe, expect, test } from 'vitest';
 import { format, baseOptions, allmanLinter } from '../../settings';
 
 const options = {
