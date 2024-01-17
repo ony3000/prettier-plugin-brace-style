@@ -2,13 +2,10 @@ lockfileVersion: '6.0'
 
 dependencies:
   prettier-plugin-brace-style:
-    specifier: 0.4.1
-    version: 0.4.1(@prettier/sync@0.3.0)(prettier@3.0.3)
+    specifier: 0.5.0
+    version: 0.5.0(prettier@3.0.3)
 
 devDependencies:
-  '@prettier/sync':
-    specifier: 0.3.0
-    version: 0.3.0(prettier@3.0.3)
   '@trivago/prettier-plugin-sort-imports':
     specifier: 4.2.1
     version: 4.2.1(prettier@3.0.3)
@@ -531,13 +528,6 @@ packages:
       picocolors: 1.0.0
       tslib: 2.5.3
     dev: true
-
-  /@prettier/sync@0.3.0(prettier@3.0.3):
-    resolution: {integrity: sha512-3dcmCyAxIcxy036h1I7MQU/uEEBq8oLwf1CE3xeze+MPlgkdlb/+w6rGR/1dhp6Hqi17fRS6nvwnOzkESxEkOw==}
-    peerDependencies:
-      prettier: ^3.0.0
-    dependencies:
-      prettier: 3.0.3
 
   /@rollup/rollup-android-arm-eabi@4.9.5:
     resolution: {integrity: sha512-idWaG8xeSRCfRq9KpRysDHJ/rEHBEXcHuJ82XY0yYFIWnLMjZv9vF/7DOq8djQ2n3Lk6+3qfSH8AqlmHlmi1MA==}
@@ -2437,17 +2427,12 @@ packages:
     engines: {node: '>= 0.8.0'}
     dev: true
 
-  /prettier-plugin-brace-style@0.4.1(@prettier/sync@0.3.0)(prettier@3.0.3):
-    resolution: {integrity: sha512-doNEvpNdedtKlYPSfhxNI6L7ylRFKH0Uj+bB+IDkSZi3+kkHYy9wfd/caWNpbFQI9vJ5Mte7Favzjj3mIm2j3Q==}
+  /prettier-plugin-brace-style@0.5.0(prettier@3.0.3):
+    resolution: {integrity: sha512-k9nyvPgkWTijSxHZMX9wr0yDeWk4Y1ZSPv8mMAS8i8G9PNT+6UwdZHfn8PMSDY4ItoHi7XXHzumwNAA7NWcVNA==}
     engines: {node: '>=14'}
     peerDependencies:
-      '@prettier/sync': ^0.3.0
       prettier: ^2 || ^3
-    peerDependenciesMeta:
-      '@prettier/sync':
-        optional: true
     dependencies:
-      '@prettier/sync': 0.3.0(prettier@3.0.3)
       prettier: 3.0.3
     dev: false
 
