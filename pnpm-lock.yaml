@@ -2,8 +2,8 @@ lockfileVersion: '6.0'
 
 dependencies:
   prettier-plugin-brace-style:
-    specifier: 0.4.1
-    version: 0.4.1(prettier@2.8.4)
+    specifier: 0.5.0
+    version: 0.5.0(prettier@2.8.4)
 
 devDependencies:
   '@trivago/prettier-plugin-sort-imports':
@@ -2427,15 +2427,11 @@ packages:
     engines: {node: '>= 0.8.0'}
     dev: true
 
-  /prettier-plugin-brace-style@0.4.1(prettier@2.8.4):
-    resolution: {integrity: sha512-doNEvpNdedtKlYPSfhxNI6L7ylRFKH0Uj+bB+IDkSZi3+kkHYy9wfd/caWNpbFQI9vJ5Mte7Favzjj3mIm2j3Q==}
+  /prettier-plugin-brace-style@0.5.0(prettier@2.8.4):
+    resolution: {integrity: sha512-k9nyvPgkWTijSxHZMX9wr0yDeWk4Y1ZSPv8mMAS8i8G9PNT+6UwdZHfn8PMSDY4ItoHi7XXHzumwNAA7NWcVNA==}
     engines: {node: '>=14'}
     peerDependencies:
-      '@prettier/sync': ^0.3.0
       prettier: ^2 || ^3
-    peerDependenciesMeta:
-      '@prettier/sync':
-        optional: true
     dependencies:
       prettier: 2.8.4
     dev: false
