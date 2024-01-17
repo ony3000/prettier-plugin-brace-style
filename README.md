@@ -12,11 +12,13 @@ For Prettier v2:
 npm install -D prettier@^2 prettier-plugin-brace-style
 ```
 
-For Prettier v3:
+For Prettier v3:[^1]
 
 ```sh
-npm install -D prettier prettier-plugin-brace-style @prettier/sync
+npm install -D prettier prettier-plugin-brace-style
 ```
+
+[^1]: If your version of `prettier-plugin-brace-style` is less than `0.5.0`, you will also need to install `@prettier/sync`.
 
 ## Configuration
 
