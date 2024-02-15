@@ -3,5 +3,9 @@
   "name": "test-settings",
   "version": "0.0.0",
   "author": "Hyeonjong <nianelo4@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@types/eslint": "8.44.9",
+    "eslint": "8.35.0"
+  }
 }
