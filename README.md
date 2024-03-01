@@ -22,43 +22,76 @@ npm install -D prettier prettier-plugin-brace-style
 
 ## Configuration
 
-JSON:
+JSON example:
 
 ```json
 {
-  "plugins": ["prettier-plugin-brace-style"],
-  "braceStyle": "1tbs"
+  "plugins": ["prettier-plugin-brace-style"]
 }
 ```
 
-JS (CommonJS module):
+JS example (CommonJS module):
 
 ```javascript
 module.exports = {
   plugins: ['prettier-plugin-brace-style'],
-  braceStyle: '1tbs',
+  braceStyle: 'stroustrup',
 };
 ```
 
-JS (ES module):
+JS example (ES module):
 
 ```javascript
 export default {
   plugins: ['prettier-plugin-brace-style'],
-  braceStyle: '1tbs',
+  braceStyle: 'allman',
 };
 ```
 
 ## Options
 
-This plugin has only one option, `braceStyle`. Same as ESLint, you can select one of `1tbs` (default), `stroustrup`, `allman`.
+### Brace Style
+
+Enforces consistent brace style for blocks. Same as ESLint, you can select one of `1tbs` (default), `stroustrup`, `allman`.
+
+- `1tbs` example:
+
+  ```
+  if (condition) {
+    statement1;
+  } else {
+    statement2;
+  }
+  ```
+
+- `stroustrup` example:
+
+  ```
+  if (condition) {
+    statement1;
+  }
+  else {
+    statement2;
+  }
+  ```
+
+- `allman` example:
+
+  ```
+  if (condition)
+  {
+    statement1;
+  }
+  else
+  {
+    statement2;
+  }
+  ```
 
 <!-- prettier-ignore -->
-Option&nbsp;value | Description | Example&nbsp;code
+Default | CLI&nbsp;Override | API&nbsp;Override
 --- | --- | ---
-`1tbs` | the opening brace of a block is placed on the same line as its corresponding statement or declaration. | ![example code of 1tbs option](.github/1tbs.png)
-`stroustrup` | the `else` statements in an `if-else` construct, as well as `catch` and `finally`, must be on its own line after the preceding closing brace. | ![example code of stroustrup option](.github/stroustrup.png)
-`allman` | all the braces are expected to be on their own lines without any extra indentation. | ![example code of allman option](.github/allman.png)
+`"1tbs"` | `--brace-style <1tbs\|stroustrup\|allman>` | `braceStyle: "<1tbs\|stroustrup\|allman>"`
 
 ## Compatibility with other Prettier plugins
 
@@ -72,7 +105,7 @@ JSON example:
 ```json
 {
   "plugins": [
-    "another-prettier-plugin",
+    "@trivago/prettier-plugin-sort-imports",
     "prettier-plugin-brace-style",
     "prettier-plugin-merge"
   ],
