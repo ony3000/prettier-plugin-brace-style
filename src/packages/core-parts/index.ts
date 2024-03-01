@@ -1,4 +1,8 @@
-import { findTargetBraceNodes, findTargetBraceNodesForVue } from './finder';
+import {
+  findTargetBraceNodes,
+  findTargetBraceNodesForVue,
+  findTargetBraceNodesForAstro,
+} from './finder';
 import type { Dict, BraceNode, NarrowedParserOptions } from './shared';
 import { BraceType } from './shared';
 
@@ -176,10 +180,19 @@ export function parseLineByLineAndAssemble(
   const indentUnit = options.useTabs ? '\t' : ' '.repeat(options.tabWidth);
 
   let targetBraceNodes: BraceNode[];
-  if (options.parser === 'vue') {
-    targetBraceNodes = findTargetBraceNodesForVue(ast, options, addon);
-  } else {
-    targetBraceNodes = findTargetBraceNodes(ast);
+  switch (options.parser) {
+    case 'astro': {
+      targetBraceNodes = findTargetBraceNodesForAstro(ast, options, addon);
+      break;
+    }
+    case 'vue': {
+      targetBraceNodes = findTargetBraceNodesForVue(ast, options, addon);
+      break;
+    }
+    default: {
+      targetBraceNodes = findTargetBraceNodes(ast);
+      break;
+    }
   }
 
   const lineNodes = parseLineByLine(formattedText, indentUnit, targetBraceNodes);

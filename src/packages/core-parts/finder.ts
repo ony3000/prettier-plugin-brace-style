@@ -492,3 +492,213 @@ export function findTargetBraceNodesForVue(
 
   return filterBraceNodes(nonCommentNodes, prettierIgnoreNodes, braceNodes);
 }
+
+export function findTargetBraceNodesForAstro(
+  ast: any,
+  options: NarrowedParserOptions,
+  addon: Dict<(text: string, options: any) => any>,
+): BraceNode[] {
+  /**
+   * Most nodes
+   */
+  const nonCommentNodes: ASTNode[] = [];
+  /**
+   * Nodes with a valid 'prettier-ignore' syntax
+   */
+  const prettierIgnoreNodes: ASTNode[] = [];
+  /**
+   * Single brace character as node
+   */
+  const braceNodes: BraceNode[] = [];
+
+  function recursion(
+    node: unknown,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    parentNode?: { type?: unknown },
+  ): void {
+    if (!isTypeof(node, z.object({ type: z.string() }))) {
+      return;
+    }
+
+    Object.entries(node).forEach(([key, value]) => {
+      if (key === 'type') {
+        return;
+      }
+
+      if (Array.isArray(value)) {
+        value.forEach((childNode: unknown) => {
+          recursion(childNode, node);
+        });
+        return;
+      }
+
+      recursion(value, node);
+    });
+
+    if (
+      !isTypeof(
+        node,
+        z.object({
+          position: z.object({
+            start: z.object({
+              offset: z.number(),
+            }),
+            end: z
+              .object({
+                offset: z.number(),
+              })
+              .optional(),
+          }),
+          name: z.unknown(),
+          value: z.unknown(),
+        }),
+      )
+    ) {
+      return;
+    }
+
+    const currentNodeRangeStart = node.position.start.offset;
+    const currentNodeRangeEnd = node.position.end
+      ? node.position.end.offset
+      : node.position.start.offset +
+        (node.type === 'attribute'
+          ? `${node.name}=?${node.value}?`.length
+          : `${node.value}`.length);
+    const currentASTNode: ASTNode = {
+      type: node.type,
+      range: [currentNodeRangeStart, currentNodeRangeEnd],
+    };
+
+    switch (node.type) {
+      case 'frontmatter': {
+        nonCommentNodes.push(currentASTNode);
+
+        if (
+          isTypeof(
+            node,
+            z.object({
+              value: z.string(),
+            }),
+          )
+        ) {
+          if (addon.parseTypescript) {
+            const typescriptAst = addon.parseTypescript(node.value, {
+              ...options,
+              parser: 'typescript',
+            });
+            const targetBraceNodesInFrontMatter = findTargetBraceNodes(
+              typescriptAst,
+            ).map<BraceNode>(({ type, range: [braceNodeRangeStart, braceNodeRangeEnd] }) => {
+              const frontMatterOffset = '---'.length;
+
+              return {
+                type,
+                range: [
+                  braceNodeRangeStart + frontMatterOffset,
+                  braceNodeRangeEnd + frontMatterOffset,
+                ],
+              };
+            });
+
+            braceNodes.push(...targetBraceNodesInFrontMatter);
+          }
+        }
+        break;
+      }
+      case 'element': {
+        nonCommentNodes.push(currentASTNode);
+
+        if (
+          isTypeof(
+            node,
+            z.object({
+              name: z.literal('script'),
+              attributes: z.array(
+                z.object({
+                  type: z.literal('attribute'),
+                  kind: z.string(),
+                  name: z.string(),
+                  raw: z.string(),
+                }),
+              ),
+              children: z.array(
+                z.object({
+                  type: z.string(),
+                  value: z.string(),
+                }),
+              ),
+            }),
+          )
+        ) {
+          if (addon.parseTypescript) {
+            const openingTagStart = '<script';
+            const openingTagEnd = '>';
+            const openingTagAttributes = node.attributes.reduce(
+              (prevAttributes, { kind, name, raw }) => {
+                const currentAttribute = `${name}${kind === 'empty' ? '' : `=${raw}`}`;
+
+                return `${prevAttributes} ${currentAttribute}`;
+              },
+              '',
+            );
+            const openingTagOffset = `${openingTagStart}${openingTagAttributes}${openingTagEnd}`
+              .length;
+
+            node.children.forEach(({ type, value }) => {
+              if (type === 'text') {
+                const typescriptAst = addon.parseTypescript!(value, {
+                  ...options,
+                  parser: 'typescript',
+                });
+                const targetBraceNodesInFrontMatter = findTargetBraceNodes(
+                  typescriptAst,
+                ).map<BraceNode>(
+                  ({ type: braceType, range: [braceNodeRangeStart, braceNodeRangeEnd] }) => ({
+                    type: braceType,
+                    range: [
+                      braceNodeRangeStart + currentNodeRangeStart + openingTagOffset,
+                      braceNodeRangeEnd + currentNodeRangeStart + openingTagOffset,
+                    ],
+                  }),
+                );
+
+                braceNodes.push(...targetBraceNodesInFrontMatter);
+              }
+            });
+          }
+        }
+        break;
+      }
+      case 'comment': {
+        if (
+          isTypeof(
+            node,
+            z.object({
+              value: z.string(),
+            }),
+          ) &&
+          node.value.trim() === 'prettier-ignore'
+        ) {
+          const [rangeStart, rangeEnd] = currentASTNode.range;
+          const commentOffset = '<!--'.length;
+
+          prettierIgnoreNodes.push({
+            ...currentASTNode,
+            range: [rangeStart - commentOffset, rangeEnd],
+          });
+        }
+        break;
+      }
+      default: {
+        if (node.type !== 'text') {
+          nonCommentNodes.push(currentASTNode);
+        }
+        break;
+      }
+    }
+  }
+
+  recursion(ast);
+
+  return filterBraceNodes(nonCommentNodes, prettierIgnoreNodes, braceNodes);
+}
