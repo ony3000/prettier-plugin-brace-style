@@ -1,7 +1,7 @@
 {
   "name": "prettier-plugin-brace-style",
   "version": "0.5.0",
-  "description": "A Prettier plugin that can apply ESLint's brace-style rules to JavaScript and TypeScript files.",
+  "description": "A Prettier plugin that can apply ESLint's brace-style rules.",
   "keywords": [
     "prettier",
     "plugin",
@@ -12,7 +12,10 @@
     "curly",
     "bracket"
   ],
-  "repository": "https://github.com/ony3000/prettier-plugin-brace-style",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ony3000/prettier-plugin-brace-style.git"
+  },
   "license": "MIT",
   "author": "Hyeonjong <nianelo4@gmail.com>",
   "main": "./dist/index.js",
