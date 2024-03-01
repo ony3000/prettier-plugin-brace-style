@@ -669,6 +669,26 @@ export function findTargetBraceNodesForAstro(
         }
         break;
       }
+      case 'comment': {
+        if (
+          isTypeof(
+            node,
+            z.object({
+              value: z.string(),
+            }),
+          ) &&
+          node.value.trim() === 'prettier-ignore'
+        ) {
+          const [rangeStart, rangeEnd] = currentASTNode.range;
+          const commentOffset = '<!--'.length;
+
+          prettierIgnoreNodes.push({
+            ...currentASTNode,
+            range: [rangeStart - commentOffset, rangeEnd],
+          });
+        }
+        break;
+      }
       default: {
         if (node.type !== 'text') {
           nonCommentNodes.push(currentASTNode);
