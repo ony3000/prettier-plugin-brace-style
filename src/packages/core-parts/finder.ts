@@ -609,6 +609,14 @@ export function findTargetBraceNodesForAstro(
             node,
             z.object({
               name: z.literal('script'),
+              attributes: z.array(
+                z.object({
+                  type: z.literal('attribute'),
+                  kind: z.string(),
+                  name: z.string(),
+                  raw: z.string(),
+                }),
+              ),
               children: z.array(
                 z.object({
                   type: z.string(),
@@ -619,6 +627,19 @@ export function findTargetBraceNodesForAstro(
           )
         ) {
           if (addon.parseTypescript) {
+            const openingTagStart = '<script';
+            const openingTagEnd = '>';
+            const openingTagAttributes = node.attributes.reduce(
+              (prevAttributes, { kind, name, raw }) => {
+                const currentAttribute = `${name}${kind === 'empty' ? '' : `=${raw}`}`;
+
+                return `${prevAttributes} ${currentAttribute}`;
+              },
+              '',
+            );
+            const openingTagOffset = `${openingTagStart}${openingTagAttributes}${openingTagEnd}`
+              .length;
+
             node.children.forEach(({ type, value }) => {
               if (type === 'text') {
                 const typescriptAst = addon.parseTypescript!(value, {
@@ -628,13 +649,11 @@ export function findTargetBraceNodesForAstro(
                 const targetBraceNodesInFrontMatter = findTargetBraceNodes(
                   typescriptAst,
                 ).map<BraceNode>(({ type, range: [braceNodeRangeStart, braceNodeRangeEnd] }) => {
-                  const openingElementOffset = '<script>'.length;
-
                   return {
                     type,
                     range: [
-                      braceNodeRangeStart + currentNodeRangeStart + openingElementOffset,
-                      braceNodeRangeEnd + currentNodeRangeStart + openingElementOffset,
+                      braceNodeRangeStart + currentNodeRangeStart + openingTagOffset,
+                      braceNodeRangeEnd + currentNodeRangeStart + openingTagOffset,
                     ],
                   };
                 });
