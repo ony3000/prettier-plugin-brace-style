@@ -126,11 +126,11 @@ else
 </script>
 `,
   },
-  /*
   {
     name: 'ignore comment (3)',
     input: `
 <!-- prettier-ignore -->
+<div>
 <script>
 if (condition1) {
   foo
@@ -142,8 +142,10 @@ else
   baz
 }
 </script>
+</div>
 `,
     output: `<!-- prettier-ignore -->
+<div>
 <script>
 if (condition1) {
   foo
@@ -155,9 +157,9 @@ else
   baz
 }
 </script>
+</div>
 `,
   },
-  */
   {
     name: 'comments that contain the phrase `prettier-ignore` but do not prevent formatting (1)',
     input: `
