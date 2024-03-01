@@ -511,7 +511,11 @@ export function findTargetBraceNodesForAstro(
    */
   const braceNodes: BraceNode[] = [];
 
-  function recursion(node: unknown, parentNode?: { type?: unknown }): void {
+  function recursion(
+    node: unknown,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    parentNode?: { type?: unknown },
+  ): void {
     if (!isTypeof(node, z.object({ type: z.string() }))) {
       return;
     }
@@ -648,15 +652,15 @@ export function findTargetBraceNodesForAstro(
                 });
                 const targetBraceNodesInFrontMatter = findTargetBraceNodes(
                   typescriptAst,
-                ).map<BraceNode>(({ type, range: [braceNodeRangeStart, braceNodeRangeEnd] }) => {
-                  return {
-                    type,
+                ).map<BraceNode>(
+                  ({ type: braceType, range: [braceNodeRangeStart, braceNodeRangeEnd] }) => ({
+                    type: braceType,
                     range: [
                       braceNodeRangeStart + currentNodeRangeStart + openingTagOffset,
                       braceNodeRangeEnd + currentNodeRangeStart + openingTagOffset,
                     ],
-                  };
-                });
+                  }),
+                );
 
                 braceNodes.push(...targetBraceNodesInFrontMatter);
               }
