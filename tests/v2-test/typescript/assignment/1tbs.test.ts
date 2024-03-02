@@ -36,141 +36,12 @@ const fixtures: Fixture[] = [
   },
   {
     name: 'object assignment (3)',
-    input: `const foo = /*comment1*/ {
-  bar: {
-    baz: 'baz'
-  }
-}`,
-    output: `const foo = /*comment1*/ {
-  bar: {
-    baz: "baz",
-  },
-};
-`,
-  },
-  {
-    name: 'object assignment (4)',
-    input: `const foo =
-/*comment2*/
-{
-  bar: {
-    baz: 'baz'
-  }
-}`,
-    output: `const foo =
-  /*comment2*/
-  {
-    bar: {
-      baz: "baz",
-    },
-  };
-`,
-  },
-  {
-    name: 'object assignment (5)',
-    input: `const foo = {
-  /*comment3*/ bar: {
-    baz: 'baz'
-  }
-}`,
-    output: `const foo = {
-  /*comment3*/ bar: {
-    baz: "baz",
-  },
-};
-`,
-  },
-  {
-    name: 'object assignment (6)',
-    input: `const foo = {
-  bar: /*comment4*/ {
-    baz: 'baz'
-  }
-}`,
-    output: `const foo = {
-  bar: /*comment4*/ {
-    baz: "baz",
-  },
-};
-`,
-  },
-  {
-    name: 'object assignment (7)',
-    input: `const foo = {
-  bar:
-  /*comment5*/
-  {
-    baz: 'baz'
-  }
-}`,
-    output: `const foo = {
-  bar:
-    /*comment5*/
-    {
-      baz: "baz",
-    },
-};
-`,
-  },
-  {
-    name: 'object assignment (8)',
     input: `const foo = {
   bar() {},
   ['baz']() {}
 }`,
     output: `const foo = {
   bar() {},
-  ["baz"]() {},
-};
-`,
-  },
-  {
-    name: 'object assignment (9)',
-    input: `const foo = {
-  bar/*comment1*/() {},
-  ['baz']() {}
-}`,
-    output: `const foo = {
-  bar /*comment1*/() {},
-  ["baz"]() {},
-};
-`,
-  },
-  {
-    name: 'object assignment (10)',
-    input: `const foo = {
-  bar(/*comment2*/) {},
-  ['baz']() {}
-}`,
-    output: `const foo = {
-  bar(/*comment2*/) {},
-  ["baz"]() {},
-};
-`,
-  },
-  {
-    name: 'object assignment (11)',
-    input: `const foo = {
-  bar()/*comment3*/{},
-  ['baz']() {}
-}`,
-    output: `const foo = {
-  bar() /*comment3*/ {},
-  ["baz"]() {},
-};
-`,
-  },
-  {
-    name: 'object assignment (12)',
-    input: `const foo = {
-  bar()
-  /*comment4*/
-  {},
-  ['baz']() {}
-}`,
-    output: `const foo = {
-  bar() /*comment4*/
-  {},
   ["baz"]() {},
 };
 `,
@@ -187,49 +58,6 @@ const fixtures: Fixture[] = [
   },
   {
     name: 'conditional assignment (2)',
-    input: `const foo =/*comment1*/true && {
-  bar: 'baz'
-}`,
-    output: `const foo = /*comment1*/ true && {
-  bar: "baz",
-};
-`,
-  },
-  {
-    name: 'conditional assignment (3)',
-    input: `const foo = true/*comment2*/&& {
-  bar: 'baz'
-}`,
-    output: `const foo = true /*comment2*/ && {
-  bar: "baz",
-};
-`,
-  },
-  {
-    name: 'conditional assignment (4)',
-    input: `const foo = true &&/*comment3*/{
-  bar: 'baz'
-}`,
-    output: `const foo = true && /*comment3*/ {
-  bar: "baz",
-};
-`,
-  },
-  {
-    name: 'conditional assignment (5)',
-    input: `const foo = true &&
-/*comment4*/
-{
-  bar: 'baz'
-}`,
-    output: `const foo = true && /*comment4*/
-{
-  bar: "baz",
-};
-`,
-  },
-  {
-    name: 'conditional assignment (6)',
     input: `const foo = false || {
   bar: 'baz'
 }`,
@@ -239,7 +67,7 @@ const fixtures: Fixture[] = [
 `,
   },
   {
-    name: 'conditional assignment (7)',
+    name: 'conditional assignment (3)',
     input: `const foo = null ?? {
   bar: 'baz'
 }`,

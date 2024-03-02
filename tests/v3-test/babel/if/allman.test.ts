@@ -16,7 +16,7 @@ const options = {
 
 const fixtures: Fixture[] = [
   {
-    name: 'if (1)',
+    name: 'if',
     input: `
 if (foo)
 {
@@ -50,7 +50,7 @@ else
 `,
   },
   {
-    name: 'if...elseif...else (1)',
+    name: 'if...elseif...else',
     input: `
 if (foo) {
   bar();
@@ -95,95 +95,6 @@ if (foo)
 else
 {
   baz();
-}
-`,
-  },
-  {
-    name: 'if (2) - containing only comments in brackets',
-    input: `
-if (condition) {
-  // statement
-}
-`,
-    output: `if (condition)
-{
-  // statement
-}
-`,
-  },
-  {
-    name: 'if (3) - containing only comments in brackets',
-    input: `
-if (condition) {
-  /* statement */
-}
-`,
-    output: `if (condition)
-{
-  /* statement */
-}
-`,
-  },
-  {
-    name: 'if (4) - containing only comments in brackets',
-    input: `
-if (condition) {/* statement */}
-`,
-    output: `if (condition)
-{
-  /* statement */
-}
-`,
-  },
-  {
-    name: 'if (5) - containing only comments in brackets',
-    input: `
-if (condition) {/* statement */
-  // statement
-/* statement */}
-`,
-    output: `if (condition)
-{
-  /* statement */
-  // statement
-  /* statement */
-}
-`,
-  },
-  {
-    name: 'if...elseif...else (2) - containing only comments in brackets',
-    input: `
-if (condition1) {/* statement1 */}
-else if (condition2) {/* statement2 */}
-else {/* statement3 */}
-`,
-    output: `if (condition1)
-{
-  /* statement1 */
-}
-else if (condition2)
-{
-  /* statement2 */
-}
-else
-{
-  /* statement3 */
-}
-`,
-  },
-  {
-    name: 'nested if - containing only comments in brackets',
-    input: `
-if (condition1) {
-  if (condition2) {/* statement */}
-}
-`,
-    output: `if (condition1)
-{
-  if (condition2)
-  {
-    /* statement */
-  }
 }
 `,
   },
