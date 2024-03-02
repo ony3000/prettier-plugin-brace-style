@@ -161,6 +161,70 @@ else
 `,
   },
   {
+    name: 'ignore comment (4)',
+    input: `
+<div>
+  <!-- prettier-ignore -->
+  <div>
+    <script is:inline>
+    if (condition1) {
+      foo
+    } else if (condition2) {
+      bar
+    }
+    else
+    {
+      baz
+    }
+    </script>
+  </div>
+  <div>
+    <script is:inline>
+    if (condition1) {
+      foo
+    } else if (condition2) {
+      bar
+    }
+    else
+    {
+      baz
+    }
+    </script>
+  </div>
+</div>
+`,
+    output: `<div>
+  <!-- prettier-ignore -->
+  <div>
+    <script is:inline>
+    if (condition1) {
+      foo
+    } else if (condition2) {
+      bar
+    }
+    else
+    {
+      baz
+    }
+    </script>
+  </div>
+  <div>
+    <script is:inline>
+      if (condition1) {
+        foo;
+      }
+      else if (condition2) {
+        bar;
+      }
+      else {
+        baz;
+      }
+    </script>
+  </div>
+</div>
+`,
+  },
+  {
     name: 'comments that contain the phrase `prettier-ignore` but do not prevent formatting (1)',
     input: `
 ---
