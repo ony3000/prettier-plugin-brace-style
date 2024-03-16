@@ -1,5 +1,3 @@
-import { describe, expect, test } from 'vitest';
-
 import type { Fixture } from '../../settings';
 import { format, baseOptions } from '../../settings';
 
@@ -276,6 +274,7 @@ const fixtures: Fixture[] = [
 describe('typescript/assignment/1tbs', () => {
   for (const fixture of fixtures) {
     test(fixture.name, async () => {
+      // @ts-ignore
       expect(await format(fixture.input, options)).toBe(fixture.output);
     });
   }

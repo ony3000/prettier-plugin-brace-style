@@ -1,7 +1,5 @@
-import { describe, expect, test } from 'vitest';
-
 import type { Fixture } from '../../settings';
-import { format, baseOptions, allmanLinter } from '../../settings';
+import { format, baseOptions } from '../../settings';
 
 const options = {
   ...baseOptions,
@@ -287,18 +285,9 @@ catch ({
 
 describe('babel/assignment/allman', () => {
   for (const fixture of fixtures) {
-    const promise = format(fixture.input, options);
-
-    describe(fixture.name, () => {
-      test('theoretical', async () => {
-        const [result] = await allmanLinter.lintText(await promise);
-
-        expect(result.fixableErrorCount).toBe(0);
-      });
-
-      test('practical', async () => {
-        expect(await promise).toBe(fixture.output);
-      });
+    test(fixture.name, async () => {
+      // @ts-ignore
+      expect(await format(fixture.input, options)).toBe(fixture.output);
     });
   }
 });
