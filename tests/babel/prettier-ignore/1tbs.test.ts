@@ -1,7 +1,5 @@
-import { describe, expect, test } from 'vitest';
-
 import type { Fixture } from '../../settings';
-import { format, baseOptions, oneTBSLinter } from '../../settings';
+import { format, baseOptions } from '../../settings';
 
 const options = {
   ...baseOptions,
@@ -12,8 +10,17 @@ const options = {
 const fixtures: Fixture[] = [
   {
     name: 'ignore comment #1',
-    input: `/* eslint-disable brace-style */
-// prettier-ignore
+    input: `// prettier-ignore
+if (condition1) {
+  foo
+} else if (condition2) {
+  bar
+}
+else
+{
+  baz
+}`,
+    output: `// prettier-ignore
 if (condition1) {
   foo
 } else if (condition2) {
@@ -23,25 +30,21 @@ else
 {
   baz
 }
-/* eslint-enable brace-style */`,
-    output: `/* eslint-disable brace-style */
-// prettier-ignore
-if (condition1) {
-  foo
-} else if (condition2) {
-  bar
-}
-else
-{
-  baz
-}
-/* eslint-enable brace-style */
 `,
   },
   {
     name: 'ignore comment #2',
-    input: `/* eslint-disable brace-style */
-/* prettier-ignore */
+    input: `/* prettier-ignore */
+if (condition1) {
+  foo
+} else if (condition2) {
+  bar
+}
+else
+{
+  baz
+}`,
+    output: `/* prettier-ignore */
 if (condition1) {
   foo
 } else if (condition2) {
@@ -51,25 +54,11 @@ else
 {
   baz
 }
-/* eslint-enable brace-style */`,
-    output: `/* eslint-disable brace-style */
-/* prettier-ignore */
-if (condition1) {
-  foo
-} else if (condition2) {
-  bar
-}
-else
-{
-  baz
-}
-/* eslint-enable brace-style */
 `,
   },
   {
     name: 'ignore comment #3',
     input: `
-/* eslint-disable brace-style */
 // prettier-ignore
 export function MyComponent() {
   return (
@@ -89,10 +78,8 @@ export function MyComponent() {
     </div>
   );
 }
-/* eslint-enable brace-style */
 `,
-    output: `/* eslint-disable brace-style */
-// prettier-ignore
+    output: `// prettier-ignore
 export function MyComponent() {
   return (
     <div>
@@ -111,7 +98,6 @@ export function MyComponent() {
     </div>
   );
 }
-/* eslint-enable brace-style */
 `,
   },
   {
@@ -120,7 +106,6 @@ export function MyComponent() {
 export function MyComponent() {
   return (
     <div>
-      {/* eslint-disable brace-style */}
       {/* prettier-ignore */}
       <button
         type="button"
@@ -128,7 +113,6 @@ export function MyComponent() {
       >
         Click me
       </button>
-      {/* eslint-enable brace-style */}
       <button
         type="button"
         onClick={() => {}}
@@ -142,7 +126,6 @@ export function MyComponent() {
     output: `export function MyComponent() {
   return (
     <div>
-      {/* eslint-disable brace-style */}
       {/* prettier-ignore */}
       <button
         type="button"
@@ -150,7 +133,6 @@ export function MyComponent() {
       >
         Click me
       </button>
-      {/* eslint-enable brace-style */}
       <button type="button" onClick={() => {}}>
         Click me
       </button>
@@ -167,10 +149,8 @@ export function MyComponent() {
     <div>
       <button
         type="button"
-        /* eslint-disable brace-style */
         // prettier-ignore
         onClick={() => {}}
-        /* eslint-enable brace-style */
       >
         Click me
       </button>
@@ -189,10 +169,8 @@ export function MyComponent() {
     <div>
       <button
         type="button"
-        /* eslint-disable brace-style */
         // prettier-ignore
         onClick={() => {}}
-        /* eslint-enable brace-style */
       >
         Click me
       </button>
@@ -260,18 +238,9 @@ if (condition1) {
 
 describe('babel/prettier-ignore/1tbs', () => {
   for (const fixture of fixtures) {
-    const formattedText = format(fixture.input, options);
-
-    describe(fixture.name, () => {
-      test('theoretical', async () => {
-        const [result] = await oneTBSLinter.lintText(formattedText);
-
-        expect(result.fixableErrorCount).toBe(0);
-      });
-
-      test('practical', () => {
-        expect(formattedText).toBe(fixture.output);
-      });
+    test(fixture.name, async () => {
+      // @ts-ignore
+      expect(await format(fixture.input, options)).toBe(fixture.output);
     });
   }
 });

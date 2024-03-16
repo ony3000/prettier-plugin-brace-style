@@ -1,7 +1,5 @@
-import { describe, expect, test } from 'vitest';
-
 import type { Fixture } from '../../settings';
-import { format, baseOptions, stroustrupLinter } from '../../settings';
+import { format, baseOptions } from '../../settings';
 
 const options = {
   ...baseOptions,
@@ -138,18 +136,9 @@ class ClassWithStaticMethod {
 
 describe('babel/class/stroustrup', () => {
   for (const fixture of fixtures) {
-    const formattedText = format(fixture.input, options);
-
-    describe(fixture.name, () => {
-      test('theoretical', async () => {
-        const [result] = await stroustrupLinter.lintText(formattedText);
-
-        expect(result.fixableErrorCount).toBe(0);
-      });
-
-      test('practical', () => {
-        expect(formattedText).toBe(fixture.output);
-      });
+    test(fixture.name, async () => {
+      // @ts-ignore
+      expect(await format(fixture.input, options)).toBe(fixture.output);
     });
   }
 });

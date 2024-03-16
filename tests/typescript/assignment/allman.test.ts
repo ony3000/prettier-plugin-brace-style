@@ -1,5 +1,3 @@
-import { describe, expect, test } from 'vitest';
-
 import type { Fixture } from '../../settings';
 import { format, baseOptions } from '../../settings';
 
@@ -287,8 +285,9 @@ catch ({
 
 describe('typescript/assignment/allman', () => {
   for (const fixture of fixtures) {
-    test(fixture.name, () => {
-      expect(format(fixture.input, options)).toBe(fixture.output);
+    test(fixture.name, async () => {
+      // @ts-ignore
+      expect(await format(fixture.input, options)).toBe(fixture.output);
     });
   }
 });
