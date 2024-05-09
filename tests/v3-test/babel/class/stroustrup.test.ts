@@ -16,6 +16,20 @@ const options = {
 
 const fixtures: Fixture[] = [
   {
+    name: 'class with empty methods',
+    input: `
+class Foo {
+  bar () {}
+  baz () {}
+}
+`,
+    output: `
+class Foo {
+  bar () {}
+  baz () {}
+}`,
+  },
+  {
     name: 'class declaration (1) - empty body',
     input: `
 class Foo {}
