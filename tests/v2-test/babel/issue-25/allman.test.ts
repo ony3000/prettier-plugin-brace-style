@@ -16,7 +16,19 @@ const options = {
 
 const fixtures: Fixture[] = [
   {
-    name: 'class declaration - empty method',
+    name: 'object assignment',
+    input: `
+const foo = {
+  bar: {}
+}
+`,
+    output: `const foo = {
+  bar: {},
+};
+`,
+  },
+  {
+    name: 'class declaration (1) - empty method',
     input: `
 class BaseQueue {
   onFlush() {}
@@ -37,6 +49,126 @@ class BaseQueue {
   onFlushSuccess()
   {}
 }
+`,
+  },
+  {
+    name: 'class declaration (2) - static things',
+    input: `
+class ClassWithStatic {
+  static staticMethod() {}
+  static {}
+}
+`,
+    output: `class ClassWithStatic
+{
+  static staticMethod()
+  {}
+  static
+  {}
+}
+`,
+  },
+  {
+    name: 'for',
+    input: `
+for (let i = 0; i < 9; i++) {}
+`,
+    output: `for (let i = 0; i < 9; i++)
+{}
+`,
+  },
+  {
+    name: 'if...elseif...else',
+    input: `
+if (foo) {}
+else if (baz) {}
+else {}
+`,
+    output: `if (foo)
+{
+}
+else if (baz)
+{
+}
+else
+{
+}
+`,
+  },
+  {
+    name: 'labeled block',
+    input: `
+foo: {}
+`,
+    output: `foo:
+{
+}
+`,
+  },
+  {
+    name: 'switch (1)',
+    input: `
+switch (expr) {}
+`,
+    output: `switch (expr)
+{
+}
+`,
+  },
+  {
+    name: 'switch (2) - case with block',
+    input: `
+switch (action) {
+  case 'say_hello': {}
+  case 'say_hi': {}
+  default: {}
+}
+`,
+    output: `switch (action)
+{
+  case "say_hello": {
+  }
+  case "say_hi": {
+  }
+  default: {
+  }
+}
+`,
+  },
+  {
+    name: 'try...catch...finally',
+    input: `
+try {}
+catch (ex) {}
+finally {}
+`,
+    output: `try
+{
+}
+catch (ex)
+{
+}
+finally
+{
+}
+`,
+  },
+  {
+    name: 'while',
+    input: `
+while (n < 3) {}
+`,
+    output: `while (n < 3)
+{}
+`,
+  },
+  {
+    name: 'do...while',
+    input: `
+do {} while (i < 5);
+`,
+    output: `do
+{} while (i < 5);
 `,
   },
 ];
