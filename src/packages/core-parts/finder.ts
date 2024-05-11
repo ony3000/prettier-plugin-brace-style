@@ -189,11 +189,14 @@ export function findTargetBraceNodes(ast: any): BraceNode[] {
       case 'ArrowFunctionExpression':
       case 'ClassDeclaration':
       case 'ClassExpression':
+      case 'ClassMethod':
+      case 'ForStatement':
       case 'FunctionDeclaration':
       case 'FunctionExpression':
       case 'IfStatement':
       case 'ObjectMethod':
       case 'SwitchCase':
+      case 'WhileStatement':
       case 'TSInterfaceDeclaration':
       case 'TSModuleDeclaration': {
         nonCommentNodes.push(currentASTNode);
