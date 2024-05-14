@@ -59,6 +59,50 @@ const foo = {
 `,
   },
   {
+    name: 'destructuring assignment with default value',
+    input: `
+<script setup lang="ts">
+const renderComponent = ({handleSubmit = () => {}, errors}) => {
+  return null;
+};
+</script>
+
+<template>
+  <button
+    type="button"
+    @click="() => {
+const renderComponent = ({handleSubmit = () => {}, errors}) => {
+  return null;
+};
+    }"
+  >
+    Click Me
+  </button>
+</template>
+`,
+    output: `<script setup lang="ts">
+const renderComponent = ({ handleSubmit = () => {}, errors }) => {
+  return null;
+};
+</script>
+
+<template>
+  <button
+    type="button"
+    @click="
+      () => {
+        const renderComponent = ({ handleSubmit = () => {}, errors }) => {
+          return null;
+        };
+      }
+    "
+  >
+    Click Me
+  </button>
+</template>
+`,
+  },
+  {
     name: 'class declaration (1) - empty method',
     input: `
 <script setup lang="ts">
