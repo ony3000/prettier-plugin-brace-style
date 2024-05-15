@@ -80,9 +80,9 @@ function parseLineByLine(
 }
 
 /**
- * If `Text` exists after `ClosingBrace`, add a line break between `ClosingBrace` and `Text`.
+ * Add a line break after `ClosingBrace`.
  */
-function splitLineStartingWithClosingBrace(lineNodes: LineNode[]) {
+function splitLineContainingClosingBrace(lineNodes: LineNode[]) {
   for (let lineIndex = lineNodes.length - 1; lineIndex >= 0; lineIndex -= 1) {
     const { indentLevel, parts } = lineNodes[lineIndex];
     const temporaryLineNodes: LineNode[] = [];
@@ -120,9 +120,9 @@ function splitLineStartingWithClosingBrace(lineNodes: LineNode[]) {
 }
 
 /**
- * If `Text` exists before `OpeningBrace`, add a line break between `OpeningBrace` and `Text`.
+ * Add a line break before `OpeningBrace`.
  */
-function splitLineEndingWithOpeningBrace(lineNodes: LineNode[]) {
+function splitLineContainingOpeningBrace(lineNodes: LineNode[]) {
   for (let lineIndex = lineNodes.length - 1; lineIndex >= 0; lineIndex -= 1) {
     const { indentLevel, parts } = lineNodes[lineIndex];
     const temporaryLineNodes: LineNode[] = [];
@@ -199,10 +199,10 @@ export function parseLineByLineAndAssemble(
 
   const lineNodes = parseLineByLine(formattedText, indentUnit, targetBraceNodes);
 
-  splitLineStartingWithClosingBrace(lineNodes);
+  splitLineContainingClosingBrace(lineNodes);
 
   if (options.braceStyle === 'allman') {
-    splitLineEndingWithOpeningBrace(lineNodes);
+    splitLineContainingOpeningBrace(lineNodes);
   }
 
   return assembleLine(lineNodes, indentUnit);
