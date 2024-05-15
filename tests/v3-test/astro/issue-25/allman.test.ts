@@ -43,6 +43,38 @@ const foo = {
 `,
   },
   {
+    name: 'destructuring assignment with default value',
+    input: `
+---
+const renderComponent = ({handleSubmit = () => {}, errors}) => {
+  return null;
+};
+---
+
+<script>
+const renderComponent = ({handleSubmit = () => {}, errors}) => {
+  return null;
+};
+</script>
+`,
+    output: `---
+const renderComponent = ({ handleSubmit = () =>
+{}, errors }) =>
+{
+  return null;
+};
+---
+
+<script>
+  const renderComponent = ({ handleSubmit = () =>
+  {}, errors }) =>
+  {
+    return null;
+  };
+</script>
+`,
+  },
+  {
     name: 'class declaration (1) - empty method',
     input: `
 ---

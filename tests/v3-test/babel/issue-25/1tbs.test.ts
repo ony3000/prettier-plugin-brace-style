@@ -28,6 +28,30 @@ const foo = {
 `,
   },
   {
+    name: 'destructuring assignment with default value',
+    input: `
+const renderComponent = ({handleSubmit = () => {}, errors}) => {
+  const ref = React.createRef();
+
+  return render(
+    <StyleErrorsContextProvider initialState={errors}>
+      <PublishButton formRef={ref} handleSubmit={handleSubmit} />
+    </StyleErrorsContextProvider>
+  );
+};
+`,
+    output: `const renderComponent = ({ handleSubmit = () => {}, errors }) => {
+  const ref = React.createRef();
+
+  return render(
+    <StyleErrorsContextProvider initialState={errors}>
+      <PublishButton formRef={ref} handleSubmit={handleSubmit} />
+    </StyleErrorsContextProvider>,
+  );
+};
+`,
+  },
+  {
     name: 'class declaration (1) - empty method',
     input: `
 class BaseQueue {
