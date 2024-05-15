@@ -38,54 +38,36 @@ function parseLineByLine(
         rangeStartOfLine <= rangeStartOfBrace && rangeEndOfBrace <= rangeEndOfLine,
     );
     const parts: LinePart[] = [];
-    let maybeLastPart: LinePart | null = null;
 
     const offset = indentUnit.length * indentLevel;
-    const trimmedLine = line.slice(offset); // base of 'mutableLine'
-    let mutableLine = trimmedLine;
 
-    if (braceNodesInCurrentLine.length === 0) {
+    let temporaryRangeEnd = rangeEndOfLine;
+
+    for (let index = braceNodesInCurrentLine.length - 1; index >= 0; index -= 1) {
+      const braceNode = braceNodesInCurrentLine[index];
+      const [rangeStartOfBrace, rangeEndOfBrace] = braceNode.range;
+
       parts.push({
         type: 'Text',
-        body: mutableLine,
+        body: formattedText.slice(rangeEndOfBrace, temporaryRangeEnd),
       });
-    } else {
-      const lastBraceNodeInCurrentLine = braceNodesInCurrentLine.pop()!;
+      parts.push({
+        type: braceNode.type,
+        body: formattedText.slice(rangeStartOfBrace, rangeEndOfBrace),
+      });
+      temporaryRangeEnd = rangeStartOfBrace;
+    }
+    parts.push({
+      type: 'Text',
+      body: formattedText.slice(rangeStartOfLine, temporaryRangeEnd).slice(offset),
+    });
+    parts.reverse();
 
-      if (
-        lastBraceNodeInCurrentLine.type === BraceType.OB ||
-        lastBraceNodeInCurrentLine.type === BraceType.OBTO
-      ) {
-        maybeLastPart = {
-          type: lastBraceNodeInCurrentLine.type,
-          body: formattedText.slice(lastBraceNodeInCurrentLine.range[0], rangeEndOfLine),
-        };
-        mutableLine = formattedText.slice(
-          rangeStartOfLine + offset,
-          lastBraceNodeInCurrentLine.range[0],
-        );
-      } else {
-        braceNodesInCurrentLine.push(lastBraceNodeInCurrentLine);
-      }
-
-      if (braceNodesInCurrentLine.length) {
-        parts.push({
-          type: BraceType.CB,
-          body: '}',
-        });
-        mutableLine = mutableLine.slice(1);
-      }
-
-      if (mutableLine) {
-        parts.push({
-          type: 'Text',
-          body: mutableLine,
-        });
-      }
-
-      if (maybeLastPart) {
-        parts.push(maybeLastPart);
-      }
+    if (parts.length > 1 && parts[0].body === '') {
+      parts.shift();
+    }
+    if (parts.length > 1 && parts[parts.length - 1].body === '') {
+      parts.pop();
     }
 
     rangeStartOfLine = rangeEndOfLine + EOL.length;
@@ -101,28 +83,39 @@ function parseLineByLine(
  * If `Text` exists after `ClosingBrace`, add a line break between `ClosingBrace` and `Text`.
  */
 function splitLineStartingWithClosingBrace(lineNodes: LineNode[]) {
-  for (let index = lineNodes.length - 1; index >= 0; index -= 1) {
-    const { indentLevel, parts } = lineNodes[index];
-    const firstPart = parts.at(0);
+  for (let lineIndex = lineNodes.length - 1; lineIndex >= 0; lineIndex -= 1) {
+    const { indentLevel, parts } = lineNodes[lineIndex];
+    const temporaryLineNodes: LineNode[] = [];
 
-    if (firstPart?.type === BraceType.CB) {
-      const secondPart = parts.at(1);
+    let temporaryPartIndex = 0;
 
-      if (secondPart) {
-        lineNodes.splice(
-          index,
-          1,
-          { indentLevel, parts: [firstPart] },
-          {
-            indentLevel,
-            parts: [
-              { type: secondPart.type, body: secondPart.body.trimStart() },
-              ...parts.slice(2),
-            ],
-          },
-        );
+    for (let partIndex = 0; partIndex < parts.length; partIndex += 1) {
+      const currentPart = parts[partIndex];
+
+      if (currentPart.type === BraceType.CB) {
+        temporaryLineNodes.push({
+          indentLevel,
+          parts: parts.slice(temporaryPartIndex, partIndex + 1),
+        });
+        temporaryPartIndex = partIndex + 1;
+
+        const rightPart = parts.at(partIndex + 1);
+
+        if (rightPart) {
+          rightPart.body = rightPart.body.trimStart();
+        }
       }
     }
+    temporaryLineNodes.push({
+      indentLevel,
+      parts: parts.slice(temporaryPartIndex),
+    });
+
+    lineNodes.splice(
+      lineIndex,
+      1,
+      ...temporaryLineNodes.filter((lineNode) => lineNode.parts.length),
+    );
   }
 }
 
@@ -130,31 +123,40 @@ function splitLineStartingWithClosingBrace(lineNodes: LineNode[]) {
  * If `Text` exists before `OpeningBrace`, add a line break between `OpeningBrace` and `Text`.
  */
 function splitLineEndingWithOpeningBrace(lineNodes: LineNode[]) {
-  for (let index = lineNodes.length - 1; index >= 0; index -= 1) {
-    const { indentLevel, parts } = lineNodes[index];
-    const lastPart = parts.at(-1);
+  for (let lineIndex = lineNodes.length - 1; lineIndex >= 0; lineIndex -= 1) {
+    const { indentLevel, parts } = lineNodes[lineIndex];
+    const temporaryLineNodes: LineNode[] = [];
 
-    if (lastPart?.type === BraceType.OB || lastPart?.type === BraceType.OBTO) {
-      const secondLastPart = parts.at(-2);
+    let temporaryPartIndex = parts.length;
 
-      if (secondLastPart) {
-        lineNodes.splice(
-          index,
-          1,
-          {
-            indentLevel,
-            parts: [
-              ...parts.slice(0, -2),
-              { type: secondLastPart.type, body: secondLastPart.body.trimEnd() },
-            ],
-          },
-          {
-            indentLevel: lastPart?.type === BraceType.OBTO ? indentLevel + 1 : indentLevel,
-            parts: [lastPart],
-          },
-        );
+    for (let partIndex = parts.length - 1; partIndex >= 0; partIndex -= 1) {
+      const currentPart = parts[partIndex];
+
+      if (currentPart.type === BraceType.OB || currentPart.type === BraceType.OBTO) {
+        temporaryLineNodes.push({
+          indentLevel: currentPart.type === BraceType.OBTO ? indentLevel + 1 : indentLevel,
+          parts: parts.slice(partIndex, temporaryPartIndex),
+        });
+        temporaryPartIndex = partIndex;
+
+        const leftPart = parts.at(partIndex - 1);
+
+        if (leftPart) {
+          leftPart.body = leftPart.body.trimEnd();
+        }
       }
     }
+    temporaryLineNodes.push({
+      indentLevel,
+      parts: parts.slice(0, temporaryPartIndex),
+    });
+    temporaryLineNodes.reverse();
+
+    lineNodes.splice(
+      lineIndex,
+      1,
+      ...temporaryLineNodes.filter((lineNode) => lineNode.parts.length),
+    );
   }
 }
 
