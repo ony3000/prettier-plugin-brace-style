@@ -9,6 +9,9 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        prettier-version: [v2, v3]
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v3
@@ -17,9 +20,6 @@ jobs:
       - uses: pnpm/action-setup@v2
         with:
           run_install: true
-      - name: v2 Tests
+      - name: Run Tests
         run: pnpm run test
-        working-directory: tests/v2-test
-      - name: v3 Tests
-        run: pnpm run test
-        working-directory: tests/v3-test
+        working-directory: tests/${{ matrix.prettier-version }}-test
