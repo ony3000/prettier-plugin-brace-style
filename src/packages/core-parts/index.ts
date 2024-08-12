@@ -175,7 +175,7 @@ export function parseLineByLineAndAssemble(
   options: NarrowedParserOptions,
   addon: Dict<(text: string, options: any) => any>,
 ): string {
-  if (formattedText === '' || options.braceStyle === '1tbs') {
+  if (formattedText === '' || options.braceStyle === '1tbs' || options.parser === 'svelte') {
     return formattedText;
   }
 
