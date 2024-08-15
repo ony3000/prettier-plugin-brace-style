@@ -705,3 +705,192 @@ export function findTargetBraceNodesForAstro(
 
   return filterBraceNodes(nonCommentNodes, prettierIgnoreNodes, braceNodes);
 }
+
+export function findTargetBraceNodesForSvelte(ast: any): BraceNode[] {
+  /**
+   * Most nodes
+   */
+  const nonCommentNodes: ASTNode[] = [];
+  /**
+   * Nodes with a valid 'prettier-ignore' syntax
+   */
+  const prettierIgnoreNodes: ASTNode[] = [];
+  /**
+   * Single brace character as node
+   */
+  const braceNodes: BraceNode[] = [];
+
+  function recursion(node: unknown, parentNode?: { type?: unknown }): void {
+    if (!isTypeof(node, z.object({ type: z.string() }))) {
+      return;
+    }
+
+    Object.entries(node).forEach(([key, value]) => {
+      if (key === 'type') {
+        return;
+      }
+
+      if (Array.isArray(value)) {
+        value.forEach((childNode: unknown) => {
+          recursion(childNode, node);
+        });
+        return;
+      }
+
+      recursion(value, node);
+    });
+
+    if (
+      !isTypeof(
+        node,
+        z.object({
+          start: z.number(),
+          end: z.number(),
+        }),
+      )
+    ) {
+      return;
+    }
+
+    const currentNodeRangeStart = node.start;
+    const currentNodeRangeEnd = node.end;
+    const currentASTNode: ASTNode = {
+      type: node.type,
+      range: [currentNodeRangeStart, currentNodeRangeEnd],
+    };
+
+    switch (node.type) {
+      case 'BlockStatement':
+      case 'ClassBody': {
+        nonCommentNodes.push(currentASTNode);
+
+        braceNodes.push({
+          type: parentNode?.type === 'SwitchCase' ? BraceType.OBNT : BraceType.OB,
+          range: [currentNodeRangeStart, currentNodeRangeStart + 1],
+        });
+        braceNodes.push({
+          type: parentNode?.type === 'DoWhileStatement' ? BraceType.CBNT : BraceType.CB,
+          range: [currentNodeRangeEnd - 1, currentNodeRangeEnd],
+        });
+        break;
+      }
+      case 'StaticBlock': {
+        nonCommentNodes.push(currentASTNode);
+
+        const offset = 'static '.length;
+        const braceRangeStart = currentNodeRangeStart + offset;
+
+        braceNodes.push({
+          type: BraceType.OB,
+          range: [braceRangeStart, braceRangeStart + 1],
+        });
+        braceNodes.push({
+          type: BraceType.CBNT,
+          range: [currentNodeRangeEnd - 1, currentNodeRangeEnd],
+        });
+        break;
+      }
+      case 'SwitchStatement': {
+        nonCommentNodes.push(currentASTNode);
+
+        if (
+          isTypeof(
+            node,
+            z.object({
+              discriminant: z.object({
+                name: z.string(),
+              }),
+            }),
+          )
+        ) {
+          const offset = `switch (${node.discriminant.name}) `.length;
+          const braceRangeStart = currentNodeRangeStart + offset;
+
+          braceNodes.push({
+            type: BraceType.OB,
+            range: [braceRangeStart, braceRangeStart + 1],
+          });
+          braceNodes.push({
+            type: BraceType.CBNT,
+            range: [currentNodeRangeEnd - 1, currentNodeRangeEnd],
+          });
+        }
+        break;
+      }
+      case 'ArrowFunctionExpression':
+      case 'ClassExpression':
+      case 'FunctionExpression':
+      case 'IfStatement': {
+        nonCommentNodes.push(currentASTNode);
+
+        braceNodes.forEach((braceNode) => {
+          const [, braceRangeEnd] = braceNode.range;
+
+          if (currentNodeRangeEnd === braceRangeEnd && braceNode.type === BraceType.CB) {
+            // eslint-disable-next-line no-param-reassign
+            braceNode.type = BraceType.CBNT;
+          }
+        });
+        break;
+      }
+      case 'ConditionalExpression': {
+        nonCommentNodes.push(currentASTNode);
+
+        braceNodes.forEach((braceNode) => {
+          const [braceRangeStart, braceRangeEnd] = braceNode.range;
+
+          if (
+            currentNodeRangeStart <= braceRangeStart &&
+            braceRangeEnd <= currentNodeRangeEnd &&
+            braceNode.type === BraceType.OB
+          ) {
+            // eslint-disable-next-line no-param-reassign
+            braceNode.type = BraceType.OBTO;
+          }
+        });
+        break;
+      }
+      case 'Block':
+      case 'Line': {
+        if (
+          isTypeof(
+            node,
+            z.object({
+              value: z.string(),
+            }),
+          ) &&
+          node.value.trim() === 'prettier-ignore'
+        ) {
+          prettierIgnoreNodes.push(currentASTNode);
+        }
+        break;
+      }
+      case 'Comment': {
+        if (
+          isTypeof(
+            node,
+            z.object({
+              data: z.string(),
+            }),
+          ) &&
+          node.data.trim() === 'prettier-ignore'
+        ) {
+          prettierIgnoreNodes.push(currentASTNode);
+        }
+        break;
+      }
+      default: {
+        nonCommentNodes.push(currentASTNode);
+        break;
+      }
+    }
+  }
+
+  if (!ast.type) {
+    // eslint-disable-next-line no-param-reassign
+    ast.type = 'Root';
+  }
+  recursion(ast);
+
+  return filterBraceNodes(nonCommentNodes, prettierIgnoreNodes, braceNodes);
+}

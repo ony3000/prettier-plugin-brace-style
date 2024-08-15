@@ -2,6 +2,7 @@ import {
   findTargetBraceNodes,
   findTargetBraceNodesForVue,
   findTargetBraceNodesForAstro,
+  findTargetBraceNodesForSvelte,
 } from './finder';
 import type { Dict, BraceNode, NarrowedParserOptions } from './shared';
 import { BraceType } from './shared';
@@ -185,6 +186,10 @@ export function parseLineByLineAndAssemble(
   switch (options.parser) {
     case 'astro': {
       targetBraceNodes = findTargetBraceNodesForAstro(ast, options, addon);
+      break;
+    }
+    case 'svelte': {
+      targetBraceNodes = findTargetBraceNodesForSvelte(ast);
       break;
     }
     case 'vue': {

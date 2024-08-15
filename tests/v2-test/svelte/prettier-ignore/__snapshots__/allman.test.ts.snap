@@ -1,0 +1,216 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`comments that contain the phrase \`prettier-ignore\` but do not prevent formatting (1) 1`] = `
+"<script lang="ts">
+  /**
+   * prettier-ignore
+   */
+  if (condition1)
+  {
+    foo;
+  }
+  else if (condition2)
+  {
+    bar;
+  }
+  else
+  {
+    baz;
+  }
+</script>
+
+<!--
+ ! prettier-ignore
+-->
+<template>
+  <button
+    type="button"
+    on:click={() =>
+    {
+      if (condition1)
+      {
+        foo;
+      }
+      else if (condition2)
+      {
+        bar;
+      }
+      else
+      {
+        baz;
+      }
+    }}
+  >
+    Click Me
+  </button>
+</template>
+"
+`;
+
+exports[`comments that contain the phrase \`prettier-ignore\` but do not prevent formatting (2) 1`] = `
+"<script lang="ts">
+  // /* prettier-ignore */
+  if (condition1)
+  {
+    foo;
+  }
+  else if (condition2)
+  {
+    bar;
+  }
+  else
+  {
+    baz;
+  }
+</script>
+
+<!-- /* prettier-ignore */ -->
+<template>
+  <button
+    type="button"
+    on:click={() =>
+    {
+      if (condition1)
+      {
+        foo;
+      }
+      else if (condition2)
+      {
+        bar;
+      }
+      else
+      {
+        baz;
+      }
+    }}
+  >
+    Click Me
+  </button>
+</template>
+"
+`;
+
+exports[`ignore comment (1) 1`] = `
+"<script lang="ts">
+  // prettier-ignore
+  if (condition1) {
+  foo
+} else if (condition2) {
+  bar
+}
+else
+{
+  baz
+}
+</script>
+
+<template>
+  <button
+    type="button"
+    on:click={() =>
+    {
+      // prettier-ignore
+      if (condition1) {
+  foo
+} else if (condition2) {
+  bar
+}
+else
+{
+  baz
+}
+    }}
+  >
+    Click Me
+  </button>
+</template>
+"
+`;
+
+exports[`ignore comment (2) 1`] = `
+"<script lang="ts">
+  /* prettier-ignore */
+  if (condition1) {
+  foo
+} else if (condition2) {
+  bar
+}
+else
+{
+  baz
+}
+</script>
+
+<template>
+  <button
+    type="button"
+    on:click={() =>
+    {
+      /* prettier-ignore */
+      if (condition1) {
+  foo
+} else if (condition2) {
+  bar
+}
+else
+{
+  baz
+}
+    }}
+  >
+    Click Me
+  </button>
+</template>
+"
+`;
+
+exports[`ignore comment (3) 1`] = `
+"<!-- prettier-ignore -->
+<template>
+  <div>
+    <button
+      type="button"
+      on:click={() => {
+        console.log('click')
+      }}
+    >
+      Click Me
+    </button>
+    <button
+      type="button"
+      on:click={() => {
+        console.log('click')
+      }}
+    >
+      Click Me
+    </button>
+  </div>
+</template>
+"
+`;
+
+exports[`ignore comment (4) 1`] = `
+"<template>
+  <div>
+    <!-- prettier-ignore -->
+    <button
+      type="button"
+      on:click={() => {
+        console.log('click')
+      }}
+    >
+      Click Me
+    </button>
+    <button
+      type="button"
+      on:click={() =>
+      {
+        console.log("click");
+      }}
+    >
+      Click Me
+    </button>
+  </div>
+</template>
+"
+`;
