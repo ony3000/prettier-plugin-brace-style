@@ -12,13 +12,17 @@ const addon = {
 };
 
 function transformParser(
-  parserName: 'babel' | 'typescript' | 'vue' | 'astro' | 'svelte',
+  parserName: SupportedParserNames,
   defaultParser: Parser,
   languageName?: string,
 ): Parser {
   return {
     ...defaultParser,
-    parse: async (text: string, options: ParserOptions) => {
+    // @ts-expect-error
+    parse: async (
+      text: string,
+      options: ParserOptions & ThisPluginOptions,
+    ): Promise<FormattedTextAST> => {
       const plugins = options.plugins.filter((plugin) => typeof plugin !== 'string') as Plugin[];
 
       let languageImplementedPlugin: Plugin | undefined;
@@ -53,7 +57,7 @@ function transformParser(
       const result = parseLineByLineAndAssemble(
         formattedText,
         ast,
-        // @ts-ignore
+        // @ts-expect-error
         options,
         addon,
       );

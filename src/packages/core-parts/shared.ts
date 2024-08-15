@@ -14,10 +14,3 @@ export type BraceNode = {
   type: BraceType;
   range: NodeRange;
 };
-
-export type NarrowedParserOptions = {
-  tabWidth: number;
-  useTabs: boolean;
-  parser: string;
-  braceStyle: '1tbs' | 'stroustrup' | 'allman';
-};

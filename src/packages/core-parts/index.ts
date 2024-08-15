@@ -4,7 +4,7 @@ import {
   findTargetBraceNodesForAstro,
   findTargetBraceNodesForSvelte,
 } from './finder';
-import type { Dict, BraceNode, NarrowedParserOptions } from './shared';
+import type { Dict, BraceNode } from './shared';
 import { BraceType } from './shared';
 
 const EOL = '\n';
@@ -173,7 +173,7 @@ function assembleLine(lineNodes: LineNode[], indentUnit: string): string {
 export function parseLineByLineAndAssemble(
   formattedText: string,
   ast: any,
-  options: NarrowedParserOptions,
+  options: ResolvedOptions,
   addon: Dict<(text: string, options: any) => any>,
 ): string {
   if (formattedText === '' || options.braceStyle === '1tbs') {

@@ -13,13 +13,18 @@ const addon = {
 };
 
 function transformParser(
-  parserName: 'babel' | 'typescript' | 'vue' | 'astro' | 'svelte',
+  parserName: SupportedParserNames,
   defaultParser: Parser,
   languageName?: string,
 ): Parser {
   return {
     ...defaultParser,
-    parse: (text: string, parsers: { [parserName: string]: Parser }, options: ParserOptions) => {
+    // @ts-expect-error
+    parse: (
+      text: string,
+      parsers: { [parserName: string]: Parser },
+      options: ParserOptions & ThisPluginOptions,
+    ): FormattedTextAST => {
       const plugins = options.plugins.filter((plugin) => typeof plugin !== 'string') as Plugin[];
 
       let languageImplementedPlugin: Plugin | undefined;
@@ -51,13 +56,7 @@ function transformParser(
       });
 
       const ast = defaultParser.parse(formattedText, { [parserName]: defaultParser }, options);
-      const result = parseLineByLineAndAssemble(
-        formattedText,
-        ast,
-        // @ts-ignore
-        options,
-        addon,
-      );
+      const result = parseLineByLineAndAssemble(formattedText, ast, options, addon);
 
       return {
         type: 'FormattedText',

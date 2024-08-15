@@ -1,7 +1,7 @@
 import type { ZodTypeAny, infer as ZodInfer } from 'zod';
 import { z } from 'zod';
 
-import type { Dict, NodeRange, BraceNode, NarrowedParserOptions } from './shared';
+import type { Dict, NodeRange, BraceNode } from './shared';
 import { BraceType } from './shared';
 
 type ASTNode = {
@@ -288,7 +288,7 @@ export function findTargetBraceNodes(ast: any): BraceNode[] {
 
 export function findTargetBraceNodesForVue(
   ast: any,
-  options: NarrowedParserOptions,
+  options: ResolvedOptions,
   addon: Dict<(text: string, options: any) => any>,
 ): BraceNode[] {
   /**
@@ -498,7 +498,7 @@ export function findTargetBraceNodesForVue(
 
 export function findTargetBraceNodesForAstro(
   ast: any,
-  options: NarrowedParserOptions,
+  options: ResolvedOptions,
   addon: Dict<(text: string, options: any) => any>,
 ): BraceNode[] {
   /**
