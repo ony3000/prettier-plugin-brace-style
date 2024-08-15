@@ -1,0 +1,121 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`nested try 1`] = `
+"<script lang="ts">
+  try {
+    try {
+      throw new Error("oops");
+    } finally {
+      console.log("finally");
+    }
+  } catch (ex) {
+    console.error("outer", ex.message);
+  }
+</script>
+
+<template>
+  <button
+    type="button"
+    on:click={() => {
+      try {
+        try {
+          throw new Error("oops");
+        } finally {
+          console.log("finally");
+        }
+      } catch (ex) {
+        console.error("outer", ex.message);
+      }
+    }}
+  >
+    Click Me
+  </button>
+</template>
+"
+`;
+
+exports[`try...catch 1`] = `
+"<script lang="ts">
+  try {
+    throw new TypeError("oops");
+  } catch (ex) {
+    console.log(ex.name);
+    console.log(ex.message);
+  }
+</script>
+
+<template>
+  <button
+    type="button"
+    on:click={() => {
+      try {
+        throw new TypeError("oops");
+      } catch (ex) {
+        console.log(ex.name);
+        console.log(ex.message);
+      }
+    }}
+  >
+    Click Me
+  </button>
+</template>
+"
+`;
+
+exports[`try...catch...finally 1`] = `
+"<script lang="ts">
+  try {
+    throw new Error("oops");
+  } catch (ex) {
+    console.error(ex.message);
+  } finally {
+    console.log("finally");
+  }
+</script>
+
+<template>
+  <button
+    type="button"
+    on:click={() => {
+      try {
+        throw new Error("oops");
+      } catch (ex) {
+        console.error(ex.message);
+      } finally {
+        console.log("finally");
+      }
+    }}
+  >
+    Click Me
+  </button>
+</template>
+"
+`;
+
+exports[`try...finally 1`] = `
+"<script lang="ts">
+  openMyFile();
+  try {
+    writeMyFile(theData);
+  } finally {
+    closeMyFile();
+  }
+</script>
+
+<template>
+  <button
+    type="button"
+    on:click={() => {
+      openMyFile();
+      try {
+        writeMyFile(theData);
+      } finally {
+        closeMyFile();
+      }
+    }}
+  >
+    Click Me
+  </button>
+</template>
+"
+`;
