@@ -1,0 +1,43 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`endOfLine: crlf 1`] = `
+"<script lang="ts">
+  if (foo)
+  {
+    bar();
+  }
+  else
+  {
+    baz();
+  }
+</script>
+"
+`;
+
+exports[`tabWidth: 4 1`] = `
+"<script lang="ts">
+    if (foo)
+    {
+        bar();
+    }
+    else
+    {
+        baz();
+    }
+</script>
+"
+`;
+
+exports[`useTabs: true 1`] = `
+"<script lang="ts">
+	if (foo)
+	{
+		bar();
+	}
+	else
+	{
+		baz();
+	}
+</script>
+"
+`;
