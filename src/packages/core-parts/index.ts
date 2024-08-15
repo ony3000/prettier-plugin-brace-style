@@ -1,6 +1,7 @@
 import {
   findTargetBraceNodes,
   findTargetBraceNodesForVue,
+  findTargetBraceNodesForAngular,
   findTargetBraceNodesForAstro,
   findTargetBraceNodesForSvelte,
 } from './finder';
@@ -176,12 +177,7 @@ export function parseLineByLineAndAssemble(
   options: ResolvedOptions,
   addon: Dict<(text: string, options: any) => any>,
 ): string {
-  if (
-    formattedText === '' ||
-    options.braceStyle === '1tbs' ||
-    options.parser === 'angular' ||
-    options.parser === 'html'
-  ) {
+  if (formattedText === '' || options.braceStyle === '1tbs' || options.parser === 'html') {
     return formattedText;
   }
 
@@ -195,6 +191,10 @@ export function parseLineByLineAndAssemble(
     }
     case 'svelte': {
       targetBraceNodes = findTargetBraceNodesForSvelte(ast);
+      break;
+    }
+    case 'angular': {
+      targetBraceNodes = findTargetBraceNodesForAngular(ast, options, addon);
       break;
     }
     case 'vue': {
