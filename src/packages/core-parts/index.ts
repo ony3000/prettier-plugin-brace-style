@@ -176,7 +176,12 @@ export function parseLineByLineAndAssemble(
   options: ResolvedOptions,
   addon: Dict<(text: string, options: any) => any>,
 ): string {
-  if (formattedText === '' || options.braceStyle === '1tbs' || options.parser === 'angular') {
+  if (
+    formattedText === '' ||
+    options.braceStyle === '1tbs' ||
+    options.parser === 'angular' ||
+    options.parser === 'html'
+  ) {
     return formattedText;
   }
 
