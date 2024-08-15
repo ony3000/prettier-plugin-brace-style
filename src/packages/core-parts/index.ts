@@ -2,6 +2,7 @@ import {
   findTargetBraceNodes,
   findTargetBraceNodesForVue,
   findTargetBraceNodesForAstro,
+  findTargetBraceNodesForSvelte,
 } from './finder';
 import type { Dict, BraceNode, NarrowedParserOptions } from './shared';
 import { BraceType } from './shared';
@@ -175,7 +176,7 @@ export function parseLineByLineAndAssemble(
   options: NarrowedParserOptions,
   addon: Dict<(text: string, options: any) => any>,
 ): string {
-  if (formattedText === '' || options.braceStyle === '1tbs' || options.parser === 'svelte') {
+  if (formattedText === '' || options.braceStyle === '1tbs') {
     return formattedText;
   }
 
@@ -185,6 +186,10 @@ export function parseLineByLineAndAssemble(
   switch (options.parser) {
     case 'astro': {
       targetBraceNodes = findTargetBraceNodesForAstro(ast, options, addon);
+      break;
+    }
+    case 'svelte': {
+      targetBraceNodes = findTargetBraceNodesForSvelte(ast);
       break;
     }
     case 'vue': {
