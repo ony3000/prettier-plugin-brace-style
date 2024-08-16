@@ -1,5 +1,6 @@
 import {
   findTargetBraceNodes,
+  findTargetBraceNodesForHtml,
   findTargetBraceNodesForVue,
   findTargetBraceNodesForAstro,
   findTargetBraceNodesForSvelte,
@@ -190,6 +191,11 @@ export function parseLineByLineAndAssemble(
     }
     case 'svelte': {
       targetBraceNodes = findTargetBraceNodesForSvelte(ast);
+      break;
+    }
+    case 'angular':
+    case 'html': {
+      targetBraceNodes = findTargetBraceNodesForHtml(ast, options, addon);
       break;
     }
     case 'vue': {

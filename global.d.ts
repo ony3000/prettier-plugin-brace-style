@@ -30,7 +30,14 @@ declare global {
 
   type ResolvedOptions = PrettierBaseOptions & { parser: unknown } & ThisPluginOptions;
 
-  type SupportedParserNames = 'babel' | 'typescript' | 'vue' | 'astro' | 'svelte';
+  type SupportedParserNames =
+    | 'babel'
+    | 'typescript'
+    | 'angular'
+    | 'html'
+    | 'vue'
+    | 'astro'
+    | 'svelte';
 
   type FormattedTextAST = {
     type: 'FormattedText';
