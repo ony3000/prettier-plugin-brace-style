@@ -103,7 +103,7 @@ export function findTargetBraceNodes(ast: any): BraceNode[] {
         nonCommentNodes.push(currentASTNode);
 
         braceNodes.push({
-          type: parentNode?.type === 'SwitchCase' ? BraceType.OBNT : BraceType.OB,
+          type: BraceType.OB,
           range: [currentNodeRangeStart, currentNodeRangeStart + 1],
         });
         braceNodes.push({
@@ -907,7 +907,7 @@ export function findTargetBraceNodesForSvelte(ast: any): BraceNode[] {
         nonCommentNodes.push(currentASTNode);
 
         braceNodes.push({
-          type: parentNode?.type === 'SwitchCase' ? BraceType.OBNT : BraceType.OB,
+          type: BraceType.OB,
           range: [currentNodeRangeStart, currentNodeRangeStart + 1],
         });
         braceNodes.push({

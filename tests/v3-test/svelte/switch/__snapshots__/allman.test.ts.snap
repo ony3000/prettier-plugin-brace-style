@@ -45,17 +45,20 @@ exports[`switch (2) - case with block 1`] = `
 "<script lang="ts">
   switch (action)
   {
-    case "say_hello": {
+    case "say_hello":
+    {
       const message = "hello";
       console.log(message);
       break;
     }
-    case "say_hi": {
+    case "say_hi":
+    {
       const message = "hi";
       console.log(message);
       break;
     }
-    default: {
+    default:
+    {
       console.log("Empty action received.");
     }
   }
@@ -68,17 +71,20 @@ exports[`switch (2) - case with block 1`] = `
     {
       switch (action)
       {
-        case "say_hello": {
+        case "say_hello":
+        {
           const message = "hello";
           console.log(message);
           break;
         }
-        case "say_hi": {
+        case "say_hi":
+        {
           const message = "hi";
           console.log(message);
           break;
         }
-        default: {
+        default:
+        {
           console.log("Empty action received.");
         }
       }
