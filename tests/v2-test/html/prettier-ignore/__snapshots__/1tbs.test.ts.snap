@@ -1,0 +1,93 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`comments that contain the phrase \`prettier-ignore\` but do not prevent formatting (1) 1`] = `
+"<script lang="ts">
+  /**
+   * prettier-ignore
+   */
+  if (condition1) {
+    foo;
+  } else if (condition2) {
+    bar;
+  } else {
+    baz;
+  }
+</script>
+"
+`;
+
+exports[`comments that contain the phrase \`prettier-ignore\` but do not prevent formatting (2) 1`] = `
+"<script lang="ts">
+  // /* prettier-ignore */
+  if (condition1) {
+    foo;
+  } else if (condition2) {
+    bar;
+  } else {
+    baz;
+  }
+</script>
+"
+`;
+
+exports[`comments that contain the phrase \`prettier-ignore\` but do not prevent formatting (3) 1`] = `
+"<!-- /* prettier-ignore */ -->
+<script lang="ts">
+  if (condition1) {
+    foo;
+  } else if (condition2) {
+    bar;
+  } else {
+    baz;
+  }
+</script>
+"
+`;
+
+exports[`ignore comment (1) 1`] = `
+"<script lang="ts">
+  // prettier-ignore
+  if (condition1) {
+  foo
+} else if (condition2) {
+  bar
+}
+else
+{
+  baz
+}
+</script>
+"
+`;
+
+exports[`ignore comment (2) 1`] = `
+"<script lang="ts">
+  /* prettier-ignore */
+  if (condition1) {
+  foo
+} else if (condition2) {
+  bar
+}
+else
+{
+  baz
+}
+</script>
+"
+`;
+
+exports[`ignore comment (3) 1`] = `
+"<!-- prettier-ignore -->
+<script lang="ts">
+if (condition1) {
+  foo
+} else if (condition2) {
+  bar
+}
+else
+{
+  baz
+}
+</script>
+"
+`;

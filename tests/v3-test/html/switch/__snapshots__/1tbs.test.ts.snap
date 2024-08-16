@@ -1,0 +1,39 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`switch (1) 1`] = `
+"<script lang="ts">
+  switch (expr) {
+    case "Oranges":
+      console.log("Oranges");
+      break;
+    case "Mangoes":
+    case "Papayas":
+      console.log("Mangoes and papayas");
+      break;
+    default:
+      console.log(expr);
+  }
+</script>
+"
+`;
+
+exports[`switch (2) - case with block 1`] = `
+"<script lang="ts">
+  switch (action) {
+    case "say_hello": {
+      const message = "hello";
+      console.log(message);
+      break;
+    }
+    case "say_hi": {
+      const message = "hi";
+      console.log(message);
+      break;
+    }
+    default: {
+      console.log("Empty action received.");
+    }
+  }
+</script>
+"
+`;
