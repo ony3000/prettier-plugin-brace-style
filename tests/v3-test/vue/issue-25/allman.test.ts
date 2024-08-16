@@ -439,11 +439,14 @@ switch (action) {
     output: `<script setup lang="ts">
 switch (action)
 {
-  case "say_hello": {
+  case "say_hello":
+  {
   }
-  case "say_hi": {
+  case "say_hi":
+  {
   }
-  default: {
+  default:
+  {
   }
 }
 </script>
@@ -456,11 +459,14 @@ switch (action)
       {
         switch (action)
         {
-          case 'say_hello': {
+          case 'say_hello':
+          {
           }
-          case 'say_hi': {
+          case 'say_hi':
+          {
           }
-          default: {
+          default:
+          {
           }
         }
       }

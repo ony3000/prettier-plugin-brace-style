@@ -65,17 +65,20 @@ switch (action) {
 `,
     output: `switch (action)
 {
-  case "say_hello": {
+  case "say_hello":
+  {
     const message = "hello";
     console.log(message);
     break;
   }
-  case "say_hi": {
+  case "say_hi":
+  {
     const message = "hi";
     console.log(message);
     break;
   }
-  default: {
+  default:
+  {
     console.log("Empty action received.");
   }
 }

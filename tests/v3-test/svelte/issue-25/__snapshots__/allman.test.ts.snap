@@ -247,11 +247,14 @@ exports[`switch (2) - case with block 1`] = `
 "<script lang="ts">
   switch (action)
   {
-    case "say_hello": {
+    case "say_hello":
+    {
     }
-    case "say_hi": {
+    case "say_hi":
+    {
     }
-    default: {
+    default:
+    {
     }
   }
 </script>
@@ -263,11 +266,14 @@ exports[`switch (2) - case with block 1`] = `
     {
       switch (action)
       {
-        case "say_hello": {
+        case "say_hello":
+        {
         }
-        case "say_hi": {
+        case "say_hi":
+        {
         }
-        default: {
+        default:
+        {
         }
       }
     }}

@@ -187,11 +187,14 @@ switch (action) {
 `,
     output: `switch (action)
 {
-  case "say_hello": {
+  case "say_hello":
+  {
   }
-  case "say_hi": {
+  case "say_hi":
+  {
   }
-  default: {
+  default:
+  {
   }
 }
 `,
