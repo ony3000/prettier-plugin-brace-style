@@ -2,7 +2,6 @@ import {
   findTargetBraceNodes,
   findTargetBraceNodesForHtml,
   findTargetBraceNodesForVue,
-  findTargetBraceNodesForAngular,
   findTargetBraceNodesForAstro,
   findTargetBraceNodesForSvelte,
 } from './finder';
@@ -194,10 +193,7 @@ export function parseLineByLineAndAssemble(
       targetBraceNodes = findTargetBraceNodesForSvelte(ast);
       break;
     }
-    case 'angular': {
-      targetBraceNodes = findTargetBraceNodesForAngular(ast, options, addon);
-      break;
-    }
+    case 'angular':
     case 'html': {
       targetBraceNodes = findTargetBraceNodesForHtml(ast, options, addon);
       break;
