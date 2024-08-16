@@ -365,7 +365,6 @@ export function findTargetBraceNodesForHtml(
             z.object({
               startSourceSpan: z.object({
                 end: z.object({
-                  line: z.number(),
                   offset: z.number(),
                 }),
               }),
