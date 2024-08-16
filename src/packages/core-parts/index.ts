@@ -1,5 +1,6 @@
 import {
   findTargetBraceNodes,
+  findTargetBraceNodesForHtml,
   findTargetBraceNodesForVue,
   findTargetBraceNodesForAngular,
   findTargetBraceNodesForAstro,
@@ -177,7 +178,7 @@ export function parseLineByLineAndAssemble(
   options: ResolvedOptions,
   addon: Dict<(text: string, options: any) => any>,
 ): string {
-  if (formattedText === '' || options.braceStyle === '1tbs' || options.parser === 'html') {
+  if (formattedText === '' || options.braceStyle === '1tbs') {
     return formattedText;
   }
 
@@ -195,6 +196,10 @@ export function parseLineByLineAndAssemble(
     }
     case 'angular': {
       targetBraceNodes = findTargetBraceNodesForAngular(ast, options, addon);
+      break;
+    }
+    case 'html': {
+      targetBraceNodes = findTargetBraceNodesForHtml(ast, options, addon);
       break;
     }
     case 'vue': {

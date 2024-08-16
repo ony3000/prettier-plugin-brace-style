@@ -286,6 +286,145 @@ export function findTargetBraceNodes(ast: any): BraceNode[] {
   return filterBraceNodes(nonCommentNodes, prettierIgnoreNodes, braceNodes);
 }
 
+export function findTargetBraceNodesForHtml(
+  ast: any,
+  options: ResolvedOptions,
+  addon: Dict<(text: string, options: any) => any>,
+): BraceNode[] {
+  /**
+   * Most nodes
+   */
+  const nonCommentNodes: ASTNode[] = [];
+  /**
+   * Nodes with a valid 'prettier-ignore' syntax
+   */
+  const prettierIgnoreNodes: ASTNode[] = [];
+  /**
+   * Single brace character as node
+   */
+  const braceNodes: BraceNode[] = [];
+
+  function recursion(node: unknown, parentNode?: { type?: unknown }): void {
+    if (!isTypeof(node, z.object({ type: z.string() }))) {
+      return;
+    }
+
+    Object.entries(node).forEach(([key, value]) => {
+      if (key === 'type') {
+        return;
+      }
+
+      if (Array.isArray(value)) {
+        value.forEach((childNode: unknown) => {
+          recursion(childNode, node);
+        });
+        return;
+      }
+
+      recursion(value, node);
+    });
+
+    if (
+      !isTypeof(
+        node,
+        z.object({
+          sourceSpan: z.object({
+            start: z.object({
+              offset: z.number(),
+            }),
+            end: z.object({
+              offset: z.number(),
+            }),
+          }),
+        }),
+      )
+    ) {
+      return;
+    }
+
+    const [currentNodeRangeStart, currentNodeRangeEnd] = [
+      node.sourceSpan.start.offset,
+      node.sourceSpan.end.offset,
+    ];
+    const currentASTNode: ASTNode = {
+      type: node.type,
+      range: [currentNodeRangeStart, currentNodeRangeEnd],
+    };
+
+    switch (node.type) {
+      case 'element': {
+        nonCommentNodes.push(currentASTNode);
+
+        if (
+          isTypeof(
+            node,
+            z.object({
+              startSourceSpan: z.object({
+                end: z.object({
+                  line: z.number(),
+                  offset: z.number(),
+                }),
+              }),
+              name: z.string(),
+              children: z.array(
+                z.object({
+                  value: z.string(),
+                }),
+              ),
+            }),
+          ) &&
+          node.name === 'script'
+        ) {
+          const textNodeInScript = node.children.at(0);
+
+          if (addon.parseTypescript && textNodeInScript) {
+            const openingTagEndingOffset = node.startSourceSpan.end.offset;
+
+            const typescriptAst = addon.parseTypescript(textNodeInScript.value, {
+              ...options,
+              parser: 'typescript',
+            });
+            const targetBraceNodesInScript = findTargetBraceNodes(typescriptAst).map<BraceNode>(
+              ({ type, range: [braceNodeRangeStart, braceNodeRangeEnd] }) => ({
+                type,
+                range: [
+                  braceNodeRangeStart + openingTagEndingOffset,
+                  braceNodeRangeEnd + openingTagEndingOffset,
+                ],
+              }),
+            );
+
+            braceNodes.push(...targetBraceNodesInScript);
+          }
+        }
+        break;
+      }
+      case 'comment': {
+        if (
+          isTypeof(
+            node,
+            z.object({
+              value: z.string(),
+            }),
+          ) &&
+          node.value.trim() === 'prettier-ignore'
+        ) {
+          prettierIgnoreNodes.push(currentASTNode);
+        }
+        break;
+      }
+      default: {
+        nonCommentNodes.push(currentASTNode);
+        break;
+      }
+    }
+  }
+
+  recursion(ast);
+
+  return filterBraceNodes(nonCommentNodes, prettierIgnoreNodes, braceNodes);
+}
+
 export function findTargetBraceNodesForVue(
   ast: any,
   options: ResolvedOptions,
