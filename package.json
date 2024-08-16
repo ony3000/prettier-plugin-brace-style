@@ -1,6 +1,6 @@
 {
   "name": "prettier-plugin-brace-style",
-  "version": "0.6.2",
+  "version": "0.7.0",
   "description": "A Prettier plugin that can apply ESLint's brace-style rules.",
   "keywords": [
     "prettier",
