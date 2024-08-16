@@ -304,7 +304,11 @@ export function findTargetBraceNodesForHtml(
    */
   const braceNodes: BraceNode[] = [];
 
-  function recursion(node: unknown, parentNode?: { type?: unknown }): void {
+  function recursion(
+    node: unknown,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    parentNode?: { type?: unknown },
+  ): void {
     if (!isTypeof(node, z.object({ type: z.string() }))) {
       return;
     }
@@ -653,7 +657,11 @@ export function findTargetBraceNodesForAngular(
    */
   const braceNodes: BraceNode[] = [];
 
-  function recursion(node: unknown, parentNode?: { type?: unknown }): void {
+  function recursion(
+    node: unknown,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    parentNode?: { type?: unknown },
+  ): void {
     if (!isTypeof(node, z.object({ type: z.string() }))) {
       return;
     }
@@ -734,15 +742,13 @@ export function findTargetBraceNodesForAngular(
               parser: 'typescript',
             });
             const targetBraceNodesInScript = findTargetBraceNodes(typescriptAst).map<BraceNode>(
-              ({ type, range: [braceNodeRangeStart, braceNodeRangeEnd] }) => {
-                return {
-                  type,
-                  range: [
-                    braceNodeRangeStart + openingTagEndingOffset,
-                    braceNodeRangeEnd + openingTagEndingOffset,
-                  ],
-                };
-              },
+              ({ type, range: [braceNodeRangeStart, braceNodeRangeEnd] }) => ({
+                type,
+                range: [
+                  braceNodeRangeStart + openingTagEndingOffset,
+                  braceNodeRangeEnd + openingTagEndingOffset,
+                ],
+              }),
             );
 
             braceNodes.push(...targetBraceNodesInScript);
