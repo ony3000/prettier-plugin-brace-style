@@ -8,6 +8,7 @@
     "test": "vitest run --passWithNoTests"
   },
   "devDependencies": {
+    "ppbs-070": "file:prettier-plugin-brace-style-0.7.0-debug.tgz",
     "prettier": "3.4.0",
     "prettier-plugin-astro": "0.11.0",
     "prettier-plugin-svelte": "3.0.0",

@@ -146,6 +146,9 @@ importers:
 
   tests/v3.4-test:
     devDependencies:
+      ppbs-070:
+        specifier: file:prettier-plugin-brace-style-0.7.0-debug.tgz
+        version: file:tests/v3.4-test/prettier-plugin-brace-style-0.7.0-debug.tgz(prettier-plugin-astro@0.11.0)(prettier-plugin-svelte@3.0.0)(prettier@3.4.0)
       prettier:
         specifier: 3.4.0
         version: 3.4.0
@@ -3615,3 +3618,24 @@ packages:
 
   /zod@3.22.4:
     resolution: {integrity: sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==}
+
+  file:tests/v3.4-test/prettier-plugin-brace-style-0.7.0-debug.tgz(prettier-plugin-astro@0.11.0)(prettier-plugin-svelte@3.0.0)(prettier@3.4.0):
+    resolution: {integrity: sha512-D39MrUpxvCE/LSihy1C1Qk+j4Qa4kIzVUVuVlQl1HEcQyuHL7Rds1jLRhvyjk4Ucp08mC0I1KL/Dl2mfvssnOg==, tarball: file:tests/v3.4-test/prettier-plugin-brace-style-0.7.0-debug.tgz}
+    id: file:tests/v3.4-test/prettier-plugin-brace-style-0.7.0-debug.tgz
+    name: prettier-plugin-brace-style
+    version: 0.7.0
+    engines: {node: '>=14'}
+    peerDependencies:
+      prettier: ^2 || ^3
+      prettier-plugin-astro: '*'
+      prettier-plugin-svelte: '*'
+    peerDependenciesMeta:
+      prettier-plugin-astro:
+        optional: true
+      prettier-plugin-svelte:
+        optional: true
+    dependencies:
+      prettier: 3.4.0
+      prettier-plugin-astro: 0.11.0
+      prettier-plugin-svelte: 3.0.0(prettier@3.4.0)(svelte@4.2.18)
+    dev: true
