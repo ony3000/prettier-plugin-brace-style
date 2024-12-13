@@ -1,0 +1,32 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`nested template literal 1`] = `
+"<script lang="ts">
+  const x = \`foo: \${
+    1 +
+    (function ()
+    {
+      return 2;
+    })() +
+    3
+  }\`;
+</script>
+"
+`;
+
+exports[`template literal 1`] = `
+"<script lang="ts">
+  const x = \`
+if (condition1) {
+  foo
+} else if (condition2) {
+  bar
+}
+else
+{
+  baz
+}
+\`;
+</script>
+"
+`;
