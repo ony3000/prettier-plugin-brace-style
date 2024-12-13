@@ -68,12 +68,12 @@ const x = condition1
         return 0;
       }
   : condition3
-  ? function baz()
-    {}
-  : function qux()
-    {
-      return 0;
-    };
+    ? function baz()
+      {}
+    : function qux()
+      {
+        return 0;
+      };
 ---
 
 <script>
@@ -86,12 +86,12 @@ const x = condition1
           return 0;
         }
     : condition3
-    ? function baz()
-      {}
-    : function qux()
-      {
-        return 0;
-      };
+      ? function baz()
+        {}
+      : function qux()
+        {
+          return 0;
+        };
 </script>
 `,
   },
