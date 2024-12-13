@@ -2,14 +2,11 @@ import { format } from 'prettier';
 import { baseOptions } from 'test-settings';
 import { expect, test } from 'vitest';
 
-// eslint-disable-next-line import/no-extraneous-dependencies
-import * as thisPlugin from '@/packages/v3-plugin';
-
 import { fixtures } from './fixtures';
 
 const options = {
   ...baseOptions,
-  plugins: ['prettier-plugin-svelte', thisPlugin],
+  plugins: ['prettier-plugin-svelte', 'ppbs-070'],
   parser: 'svelte',
   braceStyle: 'allman',
 };
