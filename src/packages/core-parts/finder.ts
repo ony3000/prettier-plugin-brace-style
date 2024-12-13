@@ -13,7 +13,7 @@ function isTypeof<T extends ZodTypeAny>(arg: unknown, expectedSchema: T): arg is
   return expectedSchema.safeParse(arg).success;
 }
 
-function filterBraceNodes(
+function filterAndSortBraceNodes(
   nonCommentNodes: ASTNode[],
   prettierIgnoreNodes: ASTNode[],
   braceNodes: BraceNode[],
@@ -34,14 +34,19 @@ function filterBraceNodes(
     return ignoringNodeOrNot?.range ?? range;
   });
 
-  return braceNodes.filter(
-    ({ type: braceType, range: [braceRangeStart, braceRangeEnd] }) =>
-      [BraceType.OB, BraceType.OBTO, BraceType.CB].includes(braceType) &&
-      ignoreRanges.every(
-        ([ignoreRangeStart, ignoreRangeEnd]) =>
-          !(ignoreRangeStart <= braceRangeStart && braceRangeEnd <= ignoreRangeEnd),
-      ),
-  );
+  return braceNodes
+    .filter(
+      ({ type: braceType, range: [braceRangeStart, braceRangeEnd] }) =>
+        [BraceType.OB, BraceType.OBTO, BraceType.CB].includes(braceType) &&
+        ignoreRanges.every(
+          ([ignoreRangeStart, ignoreRangeEnd]) =>
+            !(ignoreRangeStart <= braceRangeStart && braceRangeEnd <= ignoreRangeEnd),
+        ),
+    )
+    .sort(
+      ({ range: [formerNodeRangeStart] }, { range: [latterNodeRangeStart] }) =>
+        formerNodeRangeStart - latterNodeRangeStart,
+    );
 }
 
 export function findTargetBraceNodes(ast: any): BraceNode[] {
@@ -283,7 +288,7 @@ export function findTargetBraceNodes(ast: any): BraceNode[] {
 
   recursion(ast);
 
-  return filterBraceNodes(nonCommentNodes, prettierIgnoreNodes, braceNodes);
+  return filterAndSortBraceNodes(nonCommentNodes, prettierIgnoreNodes, braceNodes);
 }
 
 export function findTargetBraceNodesForHtml(
@@ -425,7 +430,7 @@ export function findTargetBraceNodesForHtml(
 
   recursion(ast);
 
-  return filterBraceNodes(nonCommentNodes, prettierIgnoreNodes, braceNodes);
+  return filterAndSortBraceNodes(nonCommentNodes, prettierIgnoreNodes, braceNodes);
 }
 
 export function findTargetBraceNodesForVue(
@@ -635,7 +640,7 @@ export function findTargetBraceNodesForVue(
 
   recursion(ast);
 
-  return filterBraceNodes(nonCommentNodes, prettierIgnoreNodes, braceNodes);
+  return filterAndSortBraceNodes(nonCommentNodes, prettierIgnoreNodes, braceNodes);
 }
 
 export function findTargetBraceNodesForAstro(
@@ -845,7 +850,7 @@ export function findTargetBraceNodesForAstro(
 
   recursion(ast);
 
-  return filterBraceNodes(nonCommentNodes, prettierIgnoreNodes, braceNodes);
+  return filterAndSortBraceNodes(nonCommentNodes, prettierIgnoreNodes, braceNodes);
 }
 
 export function findTargetBraceNodesForSvelte(ast: any): BraceNode[] {
@@ -1034,5 +1039,5 @@ export function findTargetBraceNodesForSvelte(ast: any): BraceNode[] {
   }
   recursion(ast);
 
-  return filterBraceNodes(nonCommentNodes, prettierIgnoreNodes, braceNodes);
+  return filterAndSortBraceNodes(nonCommentNodes, prettierIgnoreNodes, braceNodes);
 }
