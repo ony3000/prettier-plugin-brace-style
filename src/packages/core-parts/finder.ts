@@ -379,30 +379,64 @@ export function findTargetBraceNodesForHtml(
                   value: z.string(),
                 }),
               ),
+              attrs: z.array(
+                z.object({
+                  name: z.string(),
+                  value: z.unknown(),
+                }),
+              ),
             }),
           ) &&
           node.name === 'script'
         ) {
           const textNodeInScript = node.children.at(0);
 
-          if (addon.parseTypescript && textNodeInScript) {
-            const openingTagEndingOffset = node.startSourceSpan.end.offset;
+          if (node.attrs.find((attr) => attr.name === 'lang' && attr.value === 'ts')) {
+            if (addon.parseTypescript && textNodeInScript) {
+              const openingTagEndingOffset = node.startSourceSpan.end.offset;
 
-            const typescriptAst = addon.parseTypescript(textNodeInScript.value, {
-              ...options,
-              parser: 'typescript',
-            });
-            const targetBraceNodesInScript = findTargetBraceNodes(typescriptAst).map<BraceNode>(
-              ({ type, range: [braceNodeRangeStart, braceNodeRangeEnd] }) => ({
-                type,
-                range: [
-                  braceNodeRangeStart + openingTagEndingOffset,
-                  braceNodeRangeEnd + openingTagEndingOffset,
-                ],
-              }),
-            );
+              const typescriptAst = addon.parseTypescript(textNodeInScript.value, {
+                ...options,
+                parser: 'typescript',
+              });
+              const targetBraceNodesInScript = findTargetBraceNodes(typescriptAst).map<BraceNode>(
+                ({ type, range: [braceNodeRangeStart, braceNodeRangeEnd] }) => ({
+                  type,
+                  range: [
+                    braceNodeRangeStart + openingTagEndingOffset,
+                    braceNodeRangeEnd + openingTagEndingOffset,
+                  ],
+                }),
+              );
 
-            braceNodes.push(...targetBraceNodesInScript);
+              braceNodes.push(...targetBraceNodesInScript);
+            }
+          } else if (
+            node.attrs.find(
+              (attr) =>
+                attr.name === 'type' && (attr.value === '' || attr.value === 'text/javascript'),
+            ) ||
+            !node.attrs.find((attr) => attr.name === 'type')
+          ) {
+            if (addon.parseBabel && textNodeInScript) {
+              const openingTagEndingOffset = node.startSourceSpan.end.offset;
+
+              const babelAst = addon.parseBabel(textNodeInScript.value, {
+                ...options,
+                parser: 'babel',
+              });
+              const targetBraceNodesInScript = findTargetBraceNodes(babelAst).map<BraceNode>(
+                ({ type, range: [braceNodeRangeStart, braceNodeRangeEnd] }) => ({
+                  type,
+                  range: [
+                    braceNodeRangeStart + openingTagEndingOffset,
+                    braceNodeRangeEnd + openingTagEndingOffset,
+                  ],
+                }),
+              );
+
+              braceNodes.push(...targetBraceNodesInScript);
+            }
           }
         }
         break;
