@@ -21,7 +21,7 @@ const x = condition ? function foo() {} : function bar() {return 0;}
 `,
   },
   {
-    name: 'nested ternary operator',
+    name: '🟠 nested ternary operator',
     input: `
 <script lang="ts">
 const x = condition1

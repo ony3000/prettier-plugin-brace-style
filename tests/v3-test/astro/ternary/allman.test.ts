@@ -47,7 +47,7 @@ const x = condition
 `,
   },
   {
-    name: 'nested ternary operator',
+    name: '🟠 nested ternary operator',
     input: `
 ---
 const x = condition1
@@ -71,12 +71,12 @@ const x = condition1
         return 0;
       }
   : condition3
-  ? function baz()
-    {}
-  : function qux()
-    {
-      return 0;
-    };
+    ? function baz()
+      {}
+    : function qux()
+      {
+        return 0;
+      };
 ---
 
 <script>
@@ -89,12 +89,12 @@ const x = condition1
           return 0;
         }
     : condition3
-    ? function baz()
-      {}
-    : function qux()
-      {
-        return 0;
-      };
+      ? function baz()
+        {}
+      : function qux()
+        {
+          return 0;
+        };
 </script>
 `,
   },

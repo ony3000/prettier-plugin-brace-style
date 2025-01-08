@@ -1,6 +1,17 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`nested ternary operator 1`] = `
+exports[`ternary operator 1`] = `
+"<script lang="ts">
+  const x = condition
+    ? function foo() {}
+    : function bar() {
+        return 0;
+      };
+</script>
+"
+`;
+
+exports[`🟠 nested ternary operator 1`] = `
 "<script lang="ts">
   const x = condition1
     ? condition2
@@ -9,21 +20,10 @@ exports[`nested ternary operator 1`] = `
           return 0;
         }
     : condition3
-    ? function baz() {}
-    : function qux() {
-        return 0;
-      };
-</script>
-"
-`;
-
-exports[`ternary operator 1`] = `
-"<script lang="ts">
-  const x = condition
-    ? function foo() {}
-    : function bar() {
-        return 0;
-      };
+      ? function baz() {}
+      : function qux() {
+          return 0;
+        };
 </script>
 "
 `;

@@ -59,7 +59,7 @@ const x = condition
 `,
   },
   {
-    name: 'nested ternary operator',
+    name: '🟠 nested ternary operator',
     input: `
 <script setup lang="ts">
 const x = condition1
@@ -88,10 +88,10 @@ const x = condition1
         return 0;
       }
   : condition3
-  ? function baz() {}
-  : function qux() {
-      return 0;
-    };
+    ? function baz() {}
+    : function qux() {
+        return 0;
+      };
 </script>
 
 <template>
@@ -106,10 +106,10 @@ const x = condition1
                 return 0;
               }
           : condition3
-          ? function baz() {}
-          : function qux() {
-              return 0;
-            };
+            ? function baz() {}
+            : function qux() {
+                return 0;
+              };
       }
     "
   >

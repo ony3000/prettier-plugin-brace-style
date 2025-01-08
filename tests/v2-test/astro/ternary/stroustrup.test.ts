@@ -43,7 +43,7 @@ const x = condition
 `,
   },
   {
-    name: 'nested ternary operator',
+    name: '🟠 nested ternary operator',
     input: `
 ---
 const x = condition1
