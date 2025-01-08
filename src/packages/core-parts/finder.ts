@@ -361,6 +361,67 @@ export function findTargetBraceNodesForHtml(
     };
 
     switch (node.type) {
+      case 'angularControlFlowBlock': {
+        nonCommentNodes.push(currentASTNode);
+
+        if (
+          isTypeof(
+            node,
+            z.object({
+              name: z.string(),
+              startSourceSpan: z.object({
+                end: z.object({
+                  offset: z.number(),
+                }),
+              }),
+              endSourceSpan: z.object({
+                start: z.object({
+                  offset: z.number(),
+                }),
+              }),
+            }),
+          )
+        ) {
+          switch (node.name) {
+            case 'defer':
+            case 'placeholder':
+            case 'loading':
+            case 'for':
+            case 'if':
+            case 'else if': {
+              braceNodes.push({
+                type: BraceType.OB,
+                range: [node.startSourceSpan.end.offset - 1, node.startSourceSpan.end.offset],
+              });
+              braceNodes.push({
+                type: BraceType.CB,
+                range: [node.endSourceSpan.start.offset, node.endSourceSpan.start.offset + 1],
+              });
+              break;
+            }
+            case 'error':
+            case 'empty':
+            case 'else':
+            case 'switch':
+            case 'case':
+            case 'default': {
+              braceNodes.push({
+                type: BraceType.OB,
+                range: [node.startSourceSpan.end.offset - 1, node.startSourceSpan.end.offset],
+              });
+              braceNodes.push({
+                type: BraceType.CBNT,
+                range: [node.endSourceSpan.start.offset, node.endSourceSpan.start.offset + 1],
+              });
+              break;
+            }
+            default: {
+              break;
+            }
+          }
+        }
+        break;
+      }
       case 'element': {
         nonCommentNodes.push(currentASTNode);
 
