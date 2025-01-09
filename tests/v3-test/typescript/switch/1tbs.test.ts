@@ -78,6 +78,69 @@ switch (action) {
 }
 `,
   },
+  {
+    name: 'switch (3) - complex expression',
+    input: `
+switch (expr.toLowerCase()) {
+  case 'oranges':
+    console.log('oranges');
+    break;
+  case 'mangoes':
+  case 'papayas':
+    console.log('mangoes and papayas');
+    break;
+  default:
+    console.log(expr);
+}
+`,
+    output: `switch (expr.toLowerCase()) {
+  case "oranges":
+    console.log("oranges");
+    break;
+  case "mangoes":
+  case "papayas":
+    console.log("mangoes and papayas");
+    break;
+  default:
+    console.log(expr);
+}
+`,
+  },
+  {
+    name: 'switch (4) - more complex expression',
+    input: `
+switch (String(expr).split('').map(x => x).join('').toUpperCase().toLowerCase()) {
+  case 'oranges':
+    console.log('oranges');
+    break;
+  case 'mangoes':
+  case 'papayas':
+    console.log('mangoes and papayas');
+    break;
+  default:
+    console.log(expr);
+}
+`,
+    output: `switch (
+  String(expr)
+    .split("")
+    .map((x) => x)
+    .join("")
+    .toUpperCase()
+    .toLowerCase()
+) {
+  case "oranges":
+    console.log("oranges");
+    break;
+  case "mangoes":
+  case "papayas":
+    console.log("mangoes and papayas");
+    break;
+  default:
+    console.log(expr);
+}
+`,
+  },
 ];
 
 describe('typescript/switch/1tbs', () => {
