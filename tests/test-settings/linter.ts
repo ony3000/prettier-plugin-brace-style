@@ -3,6 +3,9 @@ import { ESLint } from 'eslint';
 export const oneTBSLinter = new ESLint({
   useEslintrc: false,
   overrideConfig: {
+    parserOptions: {
+      ecmaVersion: 'latest',
+    },
     rules: {
       'brace-style': ['error', '1tbs'],
     },
@@ -12,6 +15,9 @@ export const oneTBSLinter = new ESLint({
 export const allmanLinter = new ESLint({
   useEslintrc: false,
   overrideConfig: {
+    parserOptions: {
+      ecmaVersion: 'latest',
+    },
     rules: {
       'brace-style': ['error', 'allman'],
     },
@@ -21,6 +27,9 @@ export const allmanLinter = new ESLint({
 export const stroustrupLinter = new ESLint({
   useEslintrc: false,
   overrideConfig: {
+    parserOptions: {
+      ecmaVersion: 'latest',
+    },
     rules: {
       'brace-style': ['error', 'stroustrup'],
     },
