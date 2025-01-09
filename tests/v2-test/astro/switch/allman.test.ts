@@ -160,6 +160,144 @@ switch (action)
 </script>
 `,
   },
+  {
+    name: 'switch (3) - complex expression',
+    input: `
+---
+switch (expr.toLowerCase()) {
+  case 'oranges':
+    console.log('oranges');
+    break;
+  case 'mangoes':
+  case 'papayas':
+    console.log('mangoes and papayas');
+    break;
+  default:
+    console.log(expr);
+}
+---
+
+<script>
+switch (expr.toLowerCase()) {
+  case 'oranges':
+    console.log('oranges');
+    break;
+  case 'mangoes':
+  case 'papayas':
+    console.log('mangoes and papayas');
+    break;
+  default:
+    console.log(expr);
+}
+</script>
+`,
+    output: `---
+switch (expr.toLowerCase())
+{
+  case "oranges":
+    console.log("oranges");
+    break;
+  case "mangoes":
+  case "papayas":
+    console.log("mangoes and papayas");
+    break;
+  default:
+    console.log(expr);
+}
+---
+
+<script>
+  switch (expr.toLowerCase())
+  {
+    case "oranges":
+      console.log("oranges");
+      break;
+    case "mangoes":
+    case "papayas":
+      console.log("mangoes and papayas");
+      break;
+    default:
+      console.log(expr);
+  }
+</script>
+`,
+  },
+  {
+    name: 'switch (4) - more complex expression',
+    input: `
+---
+switch (String(expr).split('').map(x => x).join('').toUpperCase().toLowerCase()) {
+  case 'oranges':
+    console.log('oranges');
+    break;
+  case 'mangoes':
+  case 'papayas':
+    console.log('mangoes and papayas');
+    break;
+  default:
+    console.log(expr);
+}
+---
+
+<script>
+switch (String(expr).split('').map(x => x).join('').toUpperCase().toLowerCase()) {
+  case 'oranges':
+    console.log('oranges');
+    break;
+  case 'mangoes':
+  case 'papayas':
+    console.log('mangoes and papayas');
+    break;
+  default:
+    console.log(expr);
+}
+</script>
+`,
+    output: `---
+switch (
+  String(expr)
+    .split("")
+    .map((x) => x)
+    .join("")
+    .toUpperCase()
+    .toLowerCase()
+)
+{
+  case "oranges":
+    console.log("oranges");
+    break;
+  case "mangoes":
+  case "papayas":
+    console.log("mangoes and papayas");
+    break;
+  default:
+    console.log(expr);
+}
+---
+
+<script>
+  switch (
+    String(expr)
+      .split("")
+      .map((x) => x)
+      .join("")
+      .toUpperCase()
+      .toLowerCase()
+  )
+  {
+    case "oranges":
+      console.log("oranges");
+      break;
+    case "mangoes":
+    case "papayas":
+      console.log("mangoes and papayas");
+      break;
+    default:
+      console.log(expr);
+  }
+</script>
+`,
+  },
 ];
 
 describe('astro/switch/allman', () => {

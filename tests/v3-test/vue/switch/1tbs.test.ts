@@ -182,6 +182,172 @@ switch (action) {
 </template>
 `,
   },
+  {
+    name: 'switch (3) - complex expression',
+    input: `
+<script setup lang="ts">
+switch (expr.toLowerCase()) {
+  case 'oranges':
+    console.log('oranges');
+    break;
+  case 'mangoes':
+  case 'papayas':
+    console.log('mangoes and papayas');
+    break;
+  default:
+    console.log(expr);
+}
+</script>
+
+<template>
+  <button
+    type="button"
+    @click="() => {
+switch (expr.toLowerCase()) {
+  case 'oranges':
+    console.log('oranges');
+    break;
+  case 'mangoes':
+  case 'papayas':
+    console.log('mangoes and papayas');
+    break;
+  default:
+    console.log(expr);
+}
+    }"
+  >
+    Click Me
+  </button>
+</template>
+`,
+    output: `<script setup lang="ts">
+switch (expr.toLowerCase()) {
+  case "oranges":
+    console.log("oranges");
+    break;
+  case "mangoes":
+  case "papayas":
+    console.log("mangoes and papayas");
+    break;
+  default:
+    console.log(expr);
+}
+</script>
+
+<template>
+  <button
+    type="button"
+    @click="
+      () => {
+        switch (expr.toLowerCase()) {
+          case 'oranges':
+            console.log('oranges');
+            break;
+          case 'mangoes':
+          case 'papayas':
+            console.log('mangoes and papayas');
+            break;
+          default:
+            console.log(expr);
+        }
+      }
+    "
+  >
+    Click Me
+  </button>
+</template>
+`,
+  },
+  {
+    name: 'switch (4) - more complex expression',
+    input: `
+<script setup lang="ts">
+switch (String(expr).split('').map(x => x).join('').toUpperCase().toLowerCase()) {
+  case 'oranges':
+    console.log('oranges');
+    break;
+  case 'mangoes':
+  case 'papayas':
+    console.log('mangoes and papayas');
+    break;
+  default:
+    console.log(expr);
+}
+</script>
+
+<template>
+  <button
+    type="button"
+    @click="() => {
+switch (String(expr).split('').map(x => x).join('').toUpperCase().toLowerCase()) {
+  case 'oranges':
+    console.log('oranges');
+    break;
+  case 'mangoes':
+  case 'papayas':
+    console.log('mangoes and papayas');
+    break;
+  default:
+    console.log(expr);
+}
+    }"
+  >
+    Click Me
+  </button>
+</template>
+`,
+    output: `<script setup lang="ts">
+switch (
+  String(expr)
+    .split("")
+    .map((x) => x)
+    .join("")
+    .toUpperCase()
+    .toLowerCase()
+) {
+  case "oranges":
+    console.log("oranges");
+    break;
+  case "mangoes":
+  case "papayas":
+    console.log("mangoes and papayas");
+    break;
+  default:
+    console.log(expr);
+}
+</script>
+
+<template>
+  <button
+    type="button"
+    @click="
+      () => {
+        switch (
+          String(expr)
+            .split('')
+            .map((x) => x)
+            .join('')
+            .toUpperCase()
+            .toLowerCase()
+        ) {
+          case 'oranges':
+            console.log('oranges');
+            break;
+          case 'mangoes':
+          case 'papayas':
+            console.log('mangoes and papayas');
+            break;
+          default:
+            console.log(expr);
+        }
+      }
+    "
+  >
+    Click Me
+  </button>
+</template>
+`,
+  },
 ];
 
 describe('vue/switch/1tbs', () => {

@@ -4,6 +4,12 @@ import { z } from 'zod';
 import type { Dict, NodeRange, BraceNode } from './shared';
 import { BraceType } from './shared';
 
+const EOL = '\n';
+
+const SPACE = ' ';
+
+const TAB = '\t';
+
 type ASTNode = {
   type: string;
   range: NodeRange;
@@ -49,7 +55,7 @@ function filterAndSortBraceNodes(
     );
 }
 
-export function findTargetBraceNodes(ast: any): BraceNode[] {
+export function findTargetBraceNodes(ast: any, options: ResolvedOptions): BraceNode[] {
   /**
    * Most nodes
    */
@@ -141,12 +147,37 @@ export function findTargetBraceNodes(ast: any): BraceNode[] {
             node,
             z.object({
               discriminant: z.object({
-                name: z.string(),
+                range: z.custom<NodeRange>((value) =>
+                  isTypeof(value, z.tuple([z.number(), z.number()])),
+                ),
+                loc: z.object({
+                  start: z.object({
+                    column: z.number(),
+                  }),
+                }),
               }),
             }),
           )
         ) {
-          const offset = `switch (${node.discriminant.name}) `.length;
+          const [discriminantRangeStart, discriminantRangeEnd] = node.discriminant.range;
+          const isMultiLineExpression =
+            discriminantRangeStart - currentNodeRangeStart > 'switch ('.length;
+
+          const indentUnit = options.useTabs ? TAB : SPACE.repeat(options.tabWidth);
+          const indentLevelOfDiscriminant = node.discriminant.loc.start.column / indentUnit.length;
+
+          const offset =
+            'switch ('.length +
+            // Length between '(' and `discriminantRangeStart`
+            (discriminantRangeStart - currentNodeRangeStart - 'switch ('.length) +
+            // Length of the discriminant
+            (discriminantRangeEnd - discriminantRangeStart) +
+            // Length between `discriminantRangeEnd` and ')'
+            (isMultiLineExpression
+              ? `${EOL}`.length + (indentLevelOfDiscriminant - 1) * indentUnit.length
+              : 0) +
+            ') '.length;
+
           const braceRangeStart = currentNodeRangeStart + offset;
 
           braceNodes.push({
@@ -460,15 +491,16 @@ export function findTargetBraceNodesForHtml(
                 ...options,
                 parser: 'typescript',
               });
-              const targetBraceNodesInScript = findTargetBraceNodes(typescriptAst).map<BraceNode>(
-                ({ type, range: [braceNodeRangeStart, braceNodeRangeEnd] }) => ({
-                  type,
-                  range: [
-                    braceNodeRangeStart + openingTagEndingOffset,
-                    braceNodeRangeEnd + openingTagEndingOffset,
-                  ],
-                }),
-              );
+              const targetBraceNodesInScript = findTargetBraceNodes(
+                typescriptAst,
+                options,
+              ).map<BraceNode>(({ type, range: [braceNodeRangeStart, braceNodeRangeEnd] }) => ({
+                type,
+                range: [
+                  braceNodeRangeStart + openingTagEndingOffset,
+                  braceNodeRangeEnd + openingTagEndingOffset,
+                ],
+              }));
 
               braceNodes.push(...targetBraceNodesInScript);
             }
@@ -486,15 +518,16 @@ export function findTargetBraceNodesForHtml(
                 ...options,
                 parser: 'babel',
               });
-              const targetBraceNodesInScript = findTargetBraceNodes(babelAst).map<BraceNode>(
-                ({ type, range: [braceNodeRangeStart, braceNodeRangeEnd] }) => ({
-                  type,
-                  range: [
-                    braceNodeRangeStart + openingTagEndingOffset,
-                    braceNodeRangeEnd + openingTagEndingOffset,
-                  ],
-                }),
-              );
+              const targetBraceNodesInScript = findTargetBraceNodes(
+                babelAst,
+                options,
+              ).map<BraceNode>(({ type, range: [braceNodeRangeStart, braceNodeRangeEnd] }) => ({
+                type,
+                range: [
+                  braceNodeRangeStart + openingTagEndingOffset,
+                  braceNodeRangeEnd + openingTagEndingOffset,
+                ],
+              }));
 
               braceNodes.push(...targetBraceNodesInScript);
             }
@@ -647,15 +680,16 @@ export function findTargetBraceNodesForVue(
                   ...options,
                   parser: 'babel',
                 });
-                const targetBraceNodesInAttribute = findTargetBraceNodes(babelAst).map<BraceNode>(
-                  ({ type, range: [braceNodeRangeStart, braceNodeRangeEnd] }) => ({
-                    type,
-                    range: [
-                      braceNodeRangeStart + attributeOffset,
-                      braceNodeRangeEnd + attributeOffset,
-                    ],
-                  }),
-                );
+                const targetBraceNodesInAttribute = findTargetBraceNodes(
+                  babelAst,
+                  options,
+                ).map<BraceNode>(({ type, range: [braceNodeRangeStart, braceNodeRangeEnd] }) => ({
+                  type,
+                  range: [
+                    braceNodeRangeStart + attributeOffset,
+                    braceNodeRangeEnd + attributeOffset,
+                  ],
+                }));
 
                 braceNodes.push(...targetBraceNodesInAttribute);
               } catch (error) {
@@ -700,12 +734,13 @@ export function findTargetBraceNodesForVue(
               ...options,
               parser: 'typescript',
             });
-            const targetBraceNodesInScript = findTargetBraceNodes(typescriptAst).map<BraceNode>(
-              ({ type, range: [braceNodeRangeStart, braceNodeRangeEnd] }) => ({
-                type,
-                range: [braceNodeRangeStart + scriptOffset, braceNodeRangeEnd + scriptOffset],
-              }),
-            );
+            const targetBraceNodesInScript = findTargetBraceNodes(
+              typescriptAst,
+              options,
+            ).map<BraceNode>(({ type, range: [braceNodeRangeStart, braceNodeRangeEnd] }) => ({
+              type,
+              range: [braceNodeRangeStart + scriptOffset, braceNodeRangeEnd + scriptOffset],
+            }));
 
             braceNodes.push(...targetBraceNodesInScript);
           }
@@ -833,6 +868,7 @@ export function findTargetBraceNodesForAstro(
             });
             const targetBraceNodesInFrontMatter = findTargetBraceNodes(
               typescriptAst,
+              options,
             ).map<BraceNode>(({ type, range: [braceNodeRangeStart, braceNodeRangeEnd] }) => {
               const frontMatterOffset = '---'.length;
 
@@ -897,6 +933,7 @@ export function findTargetBraceNodesForAstro(
                 });
                 const targetBraceNodesInFrontMatter = findTargetBraceNodes(
                   typescriptAst,
+                  options,
                 ).map<BraceNode>(
                   ({ type: braceType, range: [braceNodeRangeStart, braceNodeRangeEnd] }) => ({
                     type: braceType,
@@ -948,7 +985,7 @@ export function findTargetBraceNodesForAstro(
   return filterAndSortBraceNodes(nonCommentNodes, prettierIgnoreNodes, braceNodes);
 }
 
-export function findTargetBraceNodesForSvelte(ast: any): BraceNode[] {
+export function findTargetBraceNodesForSvelte(ast: any, options: ResolvedOptions): BraceNode[] {
   /**
    * Most nodes
    */
@@ -1040,12 +1077,37 @@ export function findTargetBraceNodesForSvelte(ast: any): BraceNode[] {
             node,
             z.object({
               discriminant: z.object({
-                name: z.string(),
+                start: z.number(),
+                end: z.number(),
+                loc: z.object({
+                  start: z.object({
+                    column: z.number(),
+                  }),
+                }),
               }),
             }),
           )
         ) {
-          const offset = `switch (${node.discriminant.name}) `.length;
+          const discriminantRangeStart = node.discriminant.start;
+          const discriminantRangeEnd = node.discriminant.end;
+          const isMultiLineExpression =
+            discriminantRangeStart - currentNodeRangeStart > 'switch ('.length;
+
+          const indentUnit = options.useTabs ? TAB : SPACE.repeat(options.tabWidth);
+          const indentLevelOfDiscriminant = node.discriminant.loc.start.column / indentUnit.length;
+
+          const offset =
+            'switch ('.length +
+            // Length between '(' and `discriminantRangeStart`
+            (discriminantRangeStart - currentNodeRangeStart - 'switch ('.length) +
+            // Length of the discriminant
+            (discriminantRangeEnd - discriminantRangeStart) +
+            // Length between `discriminantRangeEnd` and ')'
+            (isMultiLineExpression
+              ? `${EOL}`.length + (indentLevelOfDiscriminant - 1) * indentUnit.length
+              : 0) +
+            ') '.length;
+
           const braceRangeStart = currentNodeRangeStart + offset;
 
           braceNodes.push({

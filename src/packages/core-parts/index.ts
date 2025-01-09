@@ -190,7 +190,7 @@ export function parseLineByLineAndAssemble(
       break;
     }
     case 'svelte': {
-      targetBraceNodes = findTargetBraceNodesForSvelte(ast);
+      targetBraceNodes = findTargetBraceNodesForSvelte(ast, options);
       break;
     }
     case 'angular':
@@ -203,7 +203,7 @@ export function parseLineByLineAndAssemble(
       break;
     }
     default: {
-      targetBraceNodes = findTargetBraceNodes(ast);
+      targetBraceNodes = findTargetBraceNodes(ast, options);
       break;
     }
   }
