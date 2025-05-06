@@ -1,8 +1,7 @@
-import type { ZodTypeAny, infer as ZodInfer } from 'zod';
 import { z } from 'zod';
 
 import type { Dict, NodeRange, BraceNode } from './shared';
-import { BraceType } from './shared';
+import { BraceType, isTypeof } from './shared';
 
 const EOL = '\n';
 
@@ -14,10 +13,6 @@ type ASTNode = {
   type: string;
   range: NodeRange;
 };
-
-function isTypeof<T extends ZodTypeAny>(arg: unknown, expectedSchema: T): arg is ZodInfer<T> {
-  return expectedSchema.safeParse(arg).success;
-}
 
 function filterAndSortBraceNodes(
   nonCommentNodes: ASTNode[],

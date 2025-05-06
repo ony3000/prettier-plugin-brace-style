@@ -1,4 +1,4 @@
-import { parseLineByLineAndAssemble } from 'core-parts';
+import { parseLineByLineAndAssemble, refineSvelteAst } from 'core-parts';
 import type { Parser, ParserOptions, Plugin } from 'prettier';
 import { format } from 'prettier';
 import { parsers as babelParsers } from 'prettier/parser-babel';
@@ -23,7 +23,11 @@ function advancedParse(
   const preprocessedText = defaultParser.preprocess
     ? defaultParser.preprocess(text, options)
     : text;
-  const ast = defaultParser.parse(preprocessedText, { [parserName]: defaultParser }, options);
+  let ast = defaultParser.parse(preprocessedText, { [parserName]: defaultParser }, options);
+
+  if (parserName === 'svelte') {
+    ast = refineSvelteAst(preprocessedText, ast);
+  }
 
   return ast;
 }
