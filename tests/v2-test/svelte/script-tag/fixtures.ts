@@ -5,7 +5,7 @@ export const fixtures: Omit<Fixture, 'output'>[] = [
     name: 'including TypeScript syntax inside script tag (1) - class',
     input: `
 <script lang="ts">
-const any: any;
+let any: any;
 
 class Foo {}
 </script>
@@ -26,7 +26,7 @@ class Foo {}
     name: 'including TypeScript syntax inside script tag (2) - for',
     input: `
 <script lang="ts">
-const any: any;
+let any: any;
 
 for (let i = 0; i < 9; i++) {
   console.log(i);
@@ -53,7 +53,7 @@ for (let i = 0; i < 9; i++) {
     name: 'including TypeScript syntax inside script tag (3) - function',
     input: `
 <script lang="ts">
-const any: any;
+let any: any;
 
 function sum(a, b) {
   return a + b;
@@ -78,7 +78,7 @@ function sum(a, b) {
     name: 'including TypeScript syntax inside script tag (4) - if',
     input: `
 <script lang="ts">
-const any: any;
+let any: any;
 
 if (foo)
 {
@@ -105,7 +105,7 @@ if (foo)
     name: 'including TypeScript syntax inside script tag (5) - label',
     input: `
 <script lang="ts">
-const any: any;
+let any: any;
 
 foo: {
   console.log('face');
@@ -136,7 +136,7 @@ console.log('swap');
     name: 'including TypeScript syntax inside script tag (6) - switch',
     input: `
 <script lang="ts">
-const any: any;
+let any: any;
 
 switch (expr) {
   case 'Oranges':
@@ -177,7 +177,7 @@ switch (expr) {
     name: 'including TypeScript syntax inside script tag (7) - try',
     input: `
 <script lang="ts">
-const any: any;
+let any: any;
 
 try {
   throw new TypeError('oops');
@@ -208,7 +208,7 @@ try {
     name: 'including TypeScript syntax inside script tag (8) - while',
     input: `
 <script lang="ts">
-const any: any;
+let any: any;
 let n = 0;
 
 while (n < 3) {

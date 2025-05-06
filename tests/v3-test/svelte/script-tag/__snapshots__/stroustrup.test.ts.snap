@@ -2,7 +2,7 @@
 
 exports[`including TypeScript syntax inside script tag (1) - class 1`] = `
 "<script lang="ts">
-  const any: any;
+  let any: any;
 
   class Foo {}
 </script>
@@ -22,7 +22,7 @@ exports[`including TypeScript syntax inside script tag (1) - class 1`] = `
 
 exports[`including TypeScript syntax inside script tag (2) - for 1`] = `
 "<script lang="ts">
-  const any: any;
+  let any: any;
 
   for (let i = 0; i < 9; i++) {
     console.log(i);
@@ -48,7 +48,7 @@ exports[`including TypeScript syntax inside script tag (2) - for 1`] = `
 
 exports[`including TypeScript syntax inside script tag (3) - function 1`] = `
 "<script lang="ts">
-  const any: any;
+  let any: any;
 
   function sum(a, b) {
     return a + b;
@@ -72,7 +72,7 @@ exports[`including TypeScript syntax inside script tag (3) - function 1`] = `
 
 exports[`including TypeScript syntax inside script tag (4) - if 1`] = `
 "<script lang="ts">
-  const any: any;
+  let any: any;
 
   if (foo) {
     bar();
@@ -96,7 +96,7 @@ exports[`including TypeScript syntax inside script tag (4) - if 1`] = `
 
 exports[`including TypeScript syntax inside script tag (5) - label 1`] = `
 "<script lang="ts">
-  const any: any;
+  let any: any;
 
   foo: {
     console.log("face");
@@ -126,7 +126,7 @@ exports[`including TypeScript syntax inside script tag (5) - label 1`] = `
 
 exports[`including TypeScript syntax inside script tag (6) - switch 1`] = `
 "<script lang="ts">
-  const any: any;
+  let any: any;
 
   switch (expr) {
     case "Oranges":
@@ -166,7 +166,7 @@ exports[`including TypeScript syntax inside script tag (6) - switch 1`] = `
 
 exports[`including TypeScript syntax inside script tag (7) - try 1`] = `
 "<script lang="ts">
-  const any: any;
+  let any: any;
 
   try {
     throw new TypeError("oops");
@@ -198,7 +198,7 @@ exports[`including TypeScript syntax inside script tag (7) - try 1`] = `
 
 exports[`including TypeScript syntax inside script tag (8) - while 1`] = `
 "<script lang="ts">
-  const any: any;
+  let any: any;
   let n = 0;
 
   while (n < 3) {
