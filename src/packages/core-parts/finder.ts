@@ -1,8 +1,7 @@
-import type { ZodTypeAny, infer as ZodInfer } from 'zod';
 import { z } from 'zod';
 
 import type { Dict, NodeRange, BraceNode } from './shared';
-import { BraceType } from './shared';
+import { BraceType, isTypeof } from './shared';
 
 const EOL = '\n';
 
@@ -14,10 +13,6 @@ type ASTNode = {
   type: string;
   range: NodeRange;
 };
-
-function isTypeof<T extends ZodTypeAny>(arg: unknown, expectedSchema: T): arg is ZodInfer<T> {
-  return expectedSchema.safeParse(arg).success;
-}
 
 function filterAndSortBraceNodes(
   nonCommentNodes: ASTNode[],
@@ -985,7 +980,11 @@ export function findTargetBraceNodesForAstro(
   return filterAndSortBraceNodes(nonCommentNodes, prettierIgnoreNodes, braceNodes);
 }
 
-export function findTargetBraceNodesForSvelte(ast: any, options: ResolvedOptions): BraceNode[] {
+export function findTargetBraceNodesForSvelte(
+  ast: any,
+  options: ResolvedOptions,
+  addon: Dict<(text: string, options: any) => any>,
+): BraceNode[] {
   /**
    * Most nodes
    */
@@ -1039,6 +1038,45 @@ export function findTargetBraceNodesForSvelte(ast: any, options: ResolvedOptions
     };
 
     switch (node.type) {
+      case 'RefinedScript': {
+        nonCommentNodes.push(currentASTNode);
+
+        if (
+          isTypeof(
+            node,
+            z.object({
+              content: z.object({
+                start: z.number(),
+                value: z.string(),
+              }),
+            }),
+          )
+        ) {
+          const textNodeInScript = node.content;
+
+          if (addon.parseTypescript && textNodeInScript) {
+            const openingTagEndingOffset = textNodeInScript.start;
+
+            const typescriptAst = addon.parseTypescript(textNodeInScript.value, {
+              ...options,
+              parser: 'typescript',
+            });
+            const targetBraceNodesInScript = findTargetBraceNodes(
+              typescriptAst,
+              options,
+            ).map<BraceNode>(({ type, range: [braceNodeRangeStart, braceNodeRangeEnd] }) => ({
+              type,
+              range: [
+                braceNodeRangeStart + openingTagEndingOffset,
+                braceNodeRangeEnd + openingTagEndingOffset,
+              ],
+            }));
+
+            braceNodes.push(...targetBraceNodesInScript);
+          }
+        }
+        break;
+      }
       case 'BlockStatement':
       case 'ClassBody': {
         nonCommentNodes.push(currentASTNode);
