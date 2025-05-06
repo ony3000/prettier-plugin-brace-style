@@ -13,6 +13,20 @@ const addon = {
     typescriptParsers.typescript.parse(text, options),
 };
 
+async function advancedParse(
+  text: string,
+  parserName: SupportedParserNames,
+  defaultParser: Parser,
+  options: ParserOptions & ThisPluginOptions,
+): Promise<any> {
+  const preprocessedText = defaultParser.preprocess
+    ? defaultParser.preprocess(text, options)
+    : text;
+  const ast = await defaultParser.parse(preprocessedText, options);
+
+  return ast;
+}
+
 function transformParser(
   parserName: SupportedParserNames,
   defaultParser: Parser,
@@ -86,7 +100,7 @@ function transformParser(
         endOfLine: 'lf',
       });
 
-      const ast = defaultParser.parse(formattedText, options);
+      const ast = await advancedParse(formattedText, parserName, defaultParser, options);
       const result = parseLineByLineAndAssemble(
         formattedText,
         ast,
