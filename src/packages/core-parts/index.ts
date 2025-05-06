@@ -196,7 +196,7 @@ export function parseLineByLineAndAssemble(
       break;
     }
     case 'svelte': {
-      targetBraceNodes = findTargetBraceNodesForSvelte(ast, options);
+      targetBraceNodes = findTargetBraceNodesForSvelte(ast, options, addon);
       break;
     }
     case 'angular':
