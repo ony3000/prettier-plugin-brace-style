@@ -4,15 +4,7 @@ A Prettier plugin that can apply ESLint's [brace-style](https://eslint.org/docs/
 
 ![A use case for this plugin.](.github/banner.png)
 
-## Installation
-
-For Prettier v2:
-
-```sh
-npm install -D prettier@^2 prettier-plugin-brace-style
-```
-
-For Prettier v3:[^1]
+## Installation[^1]
 
 ```sh
 npm install -D prettier prettier-plugin-brace-style
