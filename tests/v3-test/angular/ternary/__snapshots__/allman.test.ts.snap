@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`ternary operator 1`] = `
+exports[`(1) ternary operator 1`] = `
 "<script lang="ts">
   const x = condition
     ? function foo()
@@ -13,7 +13,7 @@ exports[`ternary operator 1`] = `
 "
 `;
 
-exports[`🟠 nested ternary operator 1`] = `
+exports[`(2) nested ternary operator 1`] = `
 "<script lang="ts">
   const x = condition1
     ? condition2

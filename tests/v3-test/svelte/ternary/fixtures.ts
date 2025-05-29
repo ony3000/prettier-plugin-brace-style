@@ -2,7 +2,7 @@ import type { Fixture } from 'test-settings';
 
 export const fixtures: Omit<Fixture, 'output'>[] = [
   {
-    name: 'ternary operator',
+    name: '(1) ternary operator',
     input: `
 <script lang="ts">
 const x = condition ? function foo() {} : function bar() {return 0;}
@@ -21,7 +21,7 @@ const x = condition ? function foo() {} : function bar() {return 0;}
 `,
   },
   {
-    name: '🟠 nested ternary operator',
+    name: '(2) nested ternary operator',
     input: `
 <script lang="ts">
 const x = condition1
