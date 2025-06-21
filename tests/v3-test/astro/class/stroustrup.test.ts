@@ -1,10 +1,11 @@
 import { format } from 'prettier';
-import type { Fixture } from 'test-settings';
-import { baseOptions } from 'test-settings';
 import { describe, expect, test } from 'vitest';
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 import * as thisPlugin from '@/packages/v3-plugin';
+
+import type { Fixture } from '../../../test-settings';
+import { baseOptions } from '../../../test-settings';
 
 const options = {
   ...baseOptions,
