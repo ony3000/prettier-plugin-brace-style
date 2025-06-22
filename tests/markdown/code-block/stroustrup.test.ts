@@ -1,7 +1,6 @@
 import { format } from 'prettier';
 import { expect, test } from 'vitest';
 
-// eslint-disable-next-line import/no-extraneous-dependencies
 import * as thisPlugin from '@/index';
 
 import { baseOptions } from '../../settings';

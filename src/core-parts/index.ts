@@ -1,3 +1,4 @@
+import type { AST } from 'prettier';
 import { z } from 'zod';
 
 import {
@@ -33,6 +34,7 @@ function parseLineByLine(
 
   return formattedLines.map((line) => {
     const indentMatchResult = line.match(new RegExp(`^(${indentUnit})*`));
+    // biome-ignore lint/style/noNonNullAssertion: The '0 or more' match quantifier returns a result array even if no matches are found.
     const indentLevel = indentMatchResult![0].length / indentUnit.length;
 
     rangeEndOfLine = rangeStartOfLine + line.length;
@@ -179,9 +181,10 @@ function assembleLine(lineNodes: LineNode[], indentUnit: string): string {
 
 export function parseLineByLineAndAssemble(
   formattedText: string,
-  ast: any,
+  ast: AST,
   options: ResolvedOptions,
-  addon: Dict<(text: string, options: any) => any>,
+  // biome-ignore lint/suspicious/noExplicitAny: The addon will be removed.
+  addon: Dict<(text: string, options: any) => AST>,
 ): string {
   if (formattedText === '' || options.braceStyle === '1tbs') {
     return formattedText;
@@ -225,7 +228,7 @@ export function parseLineByLineAndAssemble(
   return assembleLine(lineNodes, indentUnit);
 }
 
-export function refineSvelteAst(preprocessedText: string, ast: any) {
+export function refineSvelteAst(preprocessedText: string, ast: AST) {
   if (!ast.instance) {
     return ast;
   }
