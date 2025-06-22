@@ -236,7 +236,6 @@ export function findTargetBraceNodes(ast: any, options: ResolvedOptions): BraceN
           const [, braceRangeEnd] = braceNode.range;
 
           if (currentNodeRangeEnd === braceRangeEnd && braceNode.type === BraceType.CB) {
-            // eslint-disable-next-line no-param-reassign
             braceNode.type = BraceType.CBNT;
           }
         });
@@ -253,7 +252,6 @@ export function findTargetBraceNodes(ast: any, options: ResolvedOptions): BraceN
             braceRangeEnd <= currentNodeRangeEnd &&
             braceNode.type === BraceType.OB
           ) {
-            // eslint-disable-next-line no-param-reassign
             braceNode.type = BraceType.OBTO;
           }
         });
@@ -335,11 +333,7 @@ export function findTargetBraceNodesForHtml(
    */
   const braceNodes: BraceNode[] = [];
 
-  function recursion(
-    node: unknown,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    parentNode?: { type?: unknown },
-  ): void {
+  function recursion(node: unknown, parentNode?: { type?: unknown }): void {
     if (!isTypeof(node, z.object({ type: z.string() }))) {
       return;
     }
@@ -786,11 +780,7 @@ export function findTargetBraceNodesForAstro(
    */
   const braceNodes: BraceNode[] = [];
 
-  function recursion(
-    node: unknown,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    parentNode?: { type?: unknown },
-  ): void {
+  function recursion(node: unknown, parentNode?: { type?: unknown }): void {
     if (!isTypeof(node, z.object({ type: z.string() }))) {
       return;
     }
@@ -1169,7 +1159,6 @@ export function findTargetBraceNodesForSvelte(
           const [, braceRangeEnd] = braceNode.range;
 
           if (currentNodeRangeEnd === braceRangeEnd && braceNode.type === BraceType.CB) {
-            // eslint-disable-next-line no-param-reassign
             braceNode.type = BraceType.CBNT;
           }
         });
@@ -1186,7 +1175,6 @@ export function findTargetBraceNodesForSvelte(
             braceRangeEnd <= currentNodeRangeEnd &&
             braceNode.type === BraceType.OB
           ) {
-            // eslint-disable-next-line no-param-reassign
             braceNode.type = BraceType.OBTO;
           }
         });
@@ -1229,7 +1217,6 @@ export function findTargetBraceNodesForSvelte(
   }
 
   if (!ast.type) {
-    // eslint-disable-next-line no-param-reassign
     ast.type = 'Root';
   }
   recursion(ast);
