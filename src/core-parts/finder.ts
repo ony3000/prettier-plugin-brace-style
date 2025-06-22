@@ -1,3 +1,4 @@
+import type { AST } from 'prettier';
 import { z } from 'zod';
 
 import type { Dict, NodeRange, BraceNode } from './shared';
@@ -50,7 +51,7 @@ function filterAndSortBraceNodes(
     );
 }
 
-export function findTargetBraceNodes(ast: any, options: ResolvedOptions): BraceNode[] {
+export function findTargetBraceNodes(ast: AST, options: ResolvedOptions): BraceNode[] {
   /**
    * Most nodes
    */
@@ -316,9 +317,10 @@ export function findTargetBraceNodes(ast: any, options: ResolvedOptions): BraceN
 }
 
 export function findTargetBraceNodesForHtml(
-  ast: any,
+  ast: AST,
   options: ResolvedOptions,
-  addon: Dict<(text: string, options: any) => any>,
+  // biome-ignore lint/suspicious/noExplicitAny: The addon will be removed.
+  addon: Dict<(text: string, options: any) => AST>,
 ): BraceNode[] {
   /**
    * Most nodes
@@ -333,7 +335,11 @@ export function findTargetBraceNodesForHtml(
    */
   const braceNodes: BraceNode[] = [];
 
-  function recursion(node: unknown, parentNode?: { type?: unknown }): void {
+  function recursion(
+    node: unknown,
+    // biome-ignore lint/correctness/noUnusedFunctionParameters: Required for recursive calls.
+    parentNode?: { type?: unknown },
+  ): void {
     if (!isTypeof(node, z.object({ type: z.string() }))) {
       return;
     }
@@ -551,9 +557,10 @@ export function findTargetBraceNodesForHtml(
 }
 
 export function findTargetBraceNodesForVue(
-  ast: any,
+  ast: AST,
   options: ResolvedOptions,
-  addon: Dict<(text: string, options: any) => any>,
+  // biome-ignore lint/suspicious/noExplicitAny: The addon will be removed.
+  addon: Dict<(text: string, options: any) => AST>,
 ): BraceNode[] {
   /**
    * Most nodes
@@ -681,7 +688,7 @@ export function findTargetBraceNodesForVue(
                 }));
 
                 braceNodes.push(...targetBraceNodesInAttribute);
-              } catch (error) {
+              } catch (_) {
                 // no action
               }
             }
@@ -763,9 +770,10 @@ export function findTargetBraceNodesForVue(
 }
 
 export function findTargetBraceNodesForAstro(
-  ast: any,
+  ast: AST,
   options: ResolvedOptions,
-  addon: Dict<(text: string, options: any) => any>,
+  // biome-ignore lint/suspicious/noExplicitAny: The addon will be removed.
+  addon: Dict<(text: string, options: any) => AST>,
 ): BraceNode[] {
   /**
    * Most nodes
@@ -780,7 +788,11 @@ export function findTargetBraceNodesForAstro(
    */
   const braceNodes: BraceNode[] = [];
 
-  function recursion(node: unknown, parentNode?: { type?: unknown }): void {
+  function recursion(
+    node: unknown,
+    // biome-ignore lint/correctness/noUnusedFunctionParameters: Required for recursive calls.
+    parentNode?: { type?: unknown },
+  ): void {
     if (!isTypeof(node, z.object({ type: z.string() }))) {
       return;
     }
@@ -912,6 +924,7 @@ export function findTargetBraceNodesForAstro(
 
             node.children.forEach(({ type, value }) => {
               if (type === 'text') {
+                // biome-ignore lint/style/noNonNullAssertion: Type guarded in upper scope.
                 const typescriptAst = addon.parseTypescript!(value, {
                   ...options,
                   parser: 'typescript',
@@ -971,9 +984,10 @@ export function findTargetBraceNodesForAstro(
 }
 
 export function findTargetBraceNodesForSvelte(
-  ast: any,
+  ast: AST,
   options: ResolvedOptions,
-  addon: Dict<(text: string, options: any) => any>,
+  // biome-ignore lint/suspicious/noExplicitAny: The addon will be removed.
+  addon: Dict<(text: string, options: any) => AST>,
 ): BraceNode[] {
   /**
    * Most nodes
