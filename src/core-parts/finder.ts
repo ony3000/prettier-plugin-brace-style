@@ -1,7 +1,9 @@
-import type { AST } from 'prettier';
+import type { AST, ParserOptions } from 'prettier';
+import { parsers as babelParsers } from 'prettier/plugins/babel';
+import { parsers as typescriptParsers } from 'prettier/plugins/typescript';
 import { z } from 'zod';
 
-import type { Dict, NodeRange, BraceNode } from './shared';
+import type { NodeRange, BraceNode } from './shared';
 import { BraceType, isTypeof } from './shared';
 
 const EOL = '\n';
@@ -49,6 +51,14 @@ function filterAndSortBraceNodes(
       ({ range: [formerNodeRangeStart] }, { range: [latterNodeRangeStart] }) =>
         formerNodeRangeStart - latterNodeRangeStart,
     );
+}
+
+function parseBabel(text: string, options: ParserOptions) {
+  return babelParsers.babel.parse(text, options);
+}
+
+function parseTypescript(text: string, options: ParserOptions) {
+  return typescriptParsers.typescript.parse(text, options);
 }
 
 export function findTargetBraceNodes(ast: AST, options: ResolvedOptions): BraceNode[] {
@@ -316,12 +326,7 @@ export function findTargetBraceNodes(ast: AST, options: ResolvedOptions): BraceN
   return filterAndSortBraceNodes(nonCommentNodes, prettierIgnoreNodes, braceNodes);
 }
 
-export function findTargetBraceNodesForHtml(
-  ast: AST,
-  options: ResolvedOptions,
-  // biome-ignore lint/suspicious/noExplicitAny: The addon will be removed.
-  addon: Dict<(text: string, options: any) => AST>,
-): BraceNode[] {
+export function findTargetBraceNodesForHtml(ast: AST, options: ResolvedOptions): BraceNode[] {
   /**
    * Most nodes
    */
@@ -479,10 +484,10 @@ export function findTargetBraceNodesForHtml(
           const textNodeInScript = node.children.at(0);
 
           if (node.attrs.find((attr) => attr.name === 'lang' && attr.value === 'ts')) {
-            if (addon.parseTypescript && textNodeInScript) {
+            if (textNodeInScript) {
               const openingTagEndingOffset = node.startSourceSpan.end.offset;
 
-              const typescriptAst = addon.parseTypescript(textNodeInScript.value, {
+              const typescriptAst = parseTypescript(textNodeInScript.value, {
                 ...options,
                 parser: 'typescript',
               });
@@ -506,10 +511,10 @@ export function findTargetBraceNodesForHtml(
             ) ||
             !node.attrs.find((attr) => attr.name === 'type')
           ) {
-            if (addon.parseBabel && textNodeInScript) {
+            if (textNodeInScript) {
               const openingTagEndingOffset = node.startSourceSpan.end.offset;
 
-              const babelAst = addon.parseBabel(textNodeInScript.value, {
+              const babelAst = parseBabel(textNodeInScript.value, {
                 ...options,
                 parser: 'babel',
               });
@@ -556,12 +561,7 @@ export function findTargetBraceNodesForHtml(
   return filterAndSortBraceNodes(nonCommentNodes, prettierIgnoreNodes, braceNodes);
 }
 
-export function findTargetBraceNodesForVue(
-  ast: AST,
-  options: ResolvedOptions,
-  // biome-ignore lint/suspicious/noExplicitAny: The addon will be removed.
-  addon: Dict<(text: string, options: any) => AST>,
-): BraceNode[] {
+export function findTargetBraceNodesForVue(ast: AST, options: ResolvedOptions): BraceNode[] {
   /**
    * Most nodes
    */
@@ -666,31 +666,26 @@ export function findTargetBraceNodesForVue(
           const hasOnDirective = node.name.match(onDirectiveRegExp) !== null;
 
           if (hasBindDirective || hasOnDirective) {
-            if (addon.parseBabel) {
-              try {
-                const jsxStart = '<div className={';
-                const jsxEnd = '}></div>';
-                const attributeOffset = -jsxStart.length + node.valueSpan.start.offset + 1;
+            try {
+              const jsxStart = '<div className={';
+              const jsxEnd = '}></div>';
+              const attributeOffset = -jsxStart.length + node.valueSpan.start.offset + 1;
 
-                const babelAst = addon.parseBabel(`${jsxStart}${node.value}${jsxEnd}`, {
-                  ...options,
-                  parser: 'babel',
-                });
-                const targetBraceNodesInAttribute = findTargetBraceNodes(
-                  babelAst,
-                  options,
-                ).map<BraceNode>(({ type, range: [braceNodeRangeStart, braceNodeRangeEnd] }) => ({
-                  type,
-                  range: [
-                    braceNodeRangeStart + attributeOffset,
-                    braceNodeRangeEnd + attributeOffset,
-                  ],
-                }));
+              const babelAst = parseBabel(`${jsxStart}${node.value}${jsxEnd}`, {
+                ...options,
+                parser: 'babel',
+              });
+              const targetBraceNodesInAttribute = findTargetBraceNodes(
+                babelAst,
+                options,
+              ).map<BraceNode>(({ type, range: [braceNodeRangeStart, braceNodeRangeEnd] }) => ({
+                type,
+                range: [braceNodeRangeStart + attributeOffset, braceNodeRangeEnd + attributeOffset],
+              }));
 
-                braceNodes.push(...targetBraceNodesInAttribute);
-              } catch (_) {
-                // no action
-              }
+              braceNodes.push(...targetBraceNodesInAttribute);
+            } catch (_) {
+              // no action
             }
           }
         }
@@ -725,21 +720,19 @@ export function findTargetBraceNodesForVue(
         ) {
           const scriptOffset = node.startSourceSpan.end.offset;
 
-          if (addon.parseTypescript) {
-            const typescriptAst = addon.parseTypescript(node.children.at(0)?.value ?? '', {
-              ...options,
-              parser: 'typescript',
-            });
-            const targetBraceNodesInScript = findTargetBraceNodes(
-              typescriptAst,
-              options,
-            ).map<BraceNode>(({ type, range: [braceNodeRangeStart, braceNodeRangeEnd] }) => ({
-              type,
-              range: [braceNodeRangeStart + scriptOffset, braceNodeRangeEnd + scriptOffset],
-            }));
+          const typescriptAst = parseTypescript(node.children.at(0)?.value ?? '', {
+            ...options,
+            parser: 'typescript',
+          });
+          const targetBraceNodesInScript = findTargetBraceNodes(
+            typescriptAst,
+            options,
+          ).map<BraceNode>(({ type, range: [braceNodeRangeStart, braceNodeRangeEnd] }) => ({
+            type,
+            range: [braceNodeRangeStart + scriptOffset, braceNodeRangeEnd + scriptOffset],
+          }));
 
-            braceNodes.push(...targetBraceNodesInScript);
-          }
+          braceNodes.push(...targetBraceNodesInScript);
         }
         break;
       }
@@ -769,12 +762,7 @@ export function findTargetBraceNodesForVue(
   return filterAndSortBraceNodes(nonCommentNodes, prettierIgnoreNodes, braceNodes);
 }
 
-export function findTargetBraceNodesForAstro(
-  ast: AST,
-  options: ResolvedOptions,
-  // biome-ignore lint/suspicious/noExplicitAny: The addon will be removed.
-  addon: Dict<(text: string, options: any) => AST>,
-): BraceNode[] {
+export function findTargetBraceNodesForAstro(ast: AST, options: ResolvedOptions): BraceNode[] {
   /**
    * Most nodes
    */
@@ -858,28 +846,26 @@ export function findTargetBraceNodesForAstro(
             }),
           )
         ) {
-          if (addon.parseTypescript) {
-            const typescriptAst = addon.parseTypescript(node.value, {
-              ...options,
-              parser: 'typescript',
-            });
-            const targetBraceNodesInFrontMatter = findTargetBraceNodes(
-              typescriptAst,
-              options,
-            ).map<BraceNode>(({ type, range: [braceNodeRangeStart, braceNodeRangeEnd] }) => {
-              const frontMatterOffset = '---'.length;
+          const typescriptAst = parseTypescript(node.value, {
+            ...options,
+            parser: 'typescript',
+          });
+          const targetBraceNodesInFrontMatter = findTargetBraceNodes(
+            typescriptAst,
+            options,
+          ).map<BraceNode>(({ type, range: [braceNodeRangeStart, braceNodeRangeEnd] }) => {
+            const frontMatterOffset = '---'.length;
 
-              return {
-                type,
-                range: [
-                  braceNodeRangeStart + frontMatterOffset,
-                  braceNodeRangeEnd + frontMatterOffset,
-                ],
-              };
-            });
+            return {
+              type,
+              range: [
+                braceNodeRangeStart + frontMatterOffset,
+                braceNodeRangeEnd + frontMatterOffset,
+              ],
+            };
+          });
 
-            braceNodes.push(...targetBraceNodesInFrontMatter);
-          }
+          braceNodes.push(...targetBraceNodesInFrontMatter);
         }
         break;
       }
@@ -908,44 +894,41 @@ export function findTargetBraceNodesForAstro(
             }),
           )
         ) {
-          if (addon.parseTypescript) {
-            const openingTagStart = '<script';
-            const openingTagEnd = '>';
-            const openingTagAttributes = node.attributes.reduce(
-              (prevAttributes, { kind, name, raw }) => {
-                const currentAttribute = `${name}${kind === 'empty' ? '' : `=${raw}`}`;
+          const openingTagStart = '<script';
+          const openingTagEnd = '>';
+          const openingTagAttributes = node.attributes.reduce(
+            (prevAttributes, { kind, name, raw }) => {
+              const currentAttribute = `${name}${kind === 'empty' ? '' : `=${raw}`}`;
 
-                return `${prevAttributes} ${currentAttribute}`;
-              },
-              '',
-            );
-            const openingTagOffset = `${openingTagStart}${openingTagAttributes}${openingTagEnd}`
-              .length;
+              return `${prevAttributes} ${currentAttribute}`;
+            },
+            '',
+          );
+          const openingTagOffset = `${openingTagStart}${openingTagAttributes}${openingTagEnd}`
+            .length;
 
-            node.children.forEach(({ type, value }) => {
-              if (type === 'text') {
-                // biome-ignore lint/style/noNonNullAssertion: Type guarded in upper scope.
-                const typescriptAst = addon.parseTypescript!(value, {
-                  ...options,
-                  parser: 'typescript',
-                });
-                const targetBraceNodesInFrontMatter = findTargetBraceNodes(
-                  typescriptAst,
-                  options,
-                ).map<BraceNode>(
-                  ({ type: braceType, range: [braceNodeRangeStart, braceNodeRangeEnd] }) => ({
-                    type: braceType,
-                    range: [
-                      braceNodeRangeStart + currentNodeRangeStart + openingTagOffset,
-                      braceNodeRangeEnd + currentNodeRangeStart + openingTagOffset,
-                    ],
-                  }),
-                );
+          node.children.forEach(({ type, value }) => {
+            if (type === 'text') {
+              const typescriptAst = parseTypescript(value, {
+                ...options,
+                parser: 'typescript',
+              });
+              const targetBraceNodesInFrontMatter = findTargetBraceNodes(
+                typescriptAst,
+                options,
+              ).map<BraceNode>(
+                ({ type: braceType, range: [braceNodeRangeStart, braceNodeRangeEnd] }) => ({
+                  type: braceType,
+                  range: [
+                    braceNodeRangeStart + currentNodeRangeStart + openingTagOffset,
+                    braceNodeRangeEnd + currentNodeRangeStart + openingTagOffset,
+                  ],
+                }),
+              );
 
-                braceNodes.push(...targetBraceNodesInFrontMatter);
-              }
-            });
-          }
+              braceNodes.push(...targetBraceNodesInFrontMatter);
+            }
+          });
         }
         break;
       }
@@ -983,12 +966,7 @@ export function findTargetBraceNodesForAstro(
   return filterAndSortBraceNodes(nonCommentNodes, prettierIgnoreNodes, braceNodes);
 }
 
-export function findTargetBraceNodesForSvelte(
-  ast: AST,
-  options: ResolvedOptions,
-  // biome-ignore lint/suspicious/noExplicitAny: The addon will be removed.
-  addon: Dict<(text: string, options: any) => AST>,
-): BraceNode[] {
+export function findTargetBraceNodesForSvelte(ast: AST, options: ResolvedOptions): BraceNode[] {
   /**
    * Most nodes
    */
@@ -1058,10 +1036,10 @@ export function findTargetBraceNodesForSvelte(
         ) {
           const textNodeInScript = node.content;
 
-          if (addon.parseTypescript && textNodeInScript) {
+          if (textNodeInScript) {
             const openingTagEndingOffset = textNodeInScript.start;
 
-            const typescriptAst = addon.parseTypescript(textNodeInScript.value, {
+            const typescriptAst = parseTypescript(textNodeInScript.value, {
               ...options,
               parser: 'typescript',
             });

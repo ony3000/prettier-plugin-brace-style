@@ -8,8 +8,6 @@ export enum BraceType {
   CBNT = 'ClosingBraceButNotTheTarget',
 }
 
-export type Dict<T = unknown> = Record<string, T | undefined>;
-
 export type NodeRange = [number, number];
 
 export type BraceNode = {

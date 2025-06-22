@@ -1,4 +1,4 @@
-import type { AST, Parser, ParserOptions, Plugin } from 'prettier';
+import type { AST, Parser, Plugin } from 'prettier';
 import { format } from 'prettier';
 import { parsers as babelParsers } from 'prettier/plugins/babel';
 import { parsers as htmlParsers } from 'prettier/plugins/html';
@@ -8,17 +8,11 @@ import { parseLineByLineAndAssemble, refineSvelteAst } from './core-parts';
 
 const EOL = '\n';
 
-const addon = {
-  parseBabel: (text: string, options: ParserOptions) => babelParsers.babel.parse(text, options),
-  parseTypescript: (text: string, options: ParserOptions) =>
-    typescriptParsers.typescript.parse(text, options),
-};
-
 async function advancedParse(
   text: string,
   parserName: SupportedParserNames,
   defaultParser: Parser,
-  options: ParserOptions & ThisPluginOptions,
+  options: ResolvedOptions,
 ): Promise<AST> {
   const preprocessedText = defaultParser.preprocess
     ? defaultParser.preprocess(text, options)
@@ -40,10 +34,7 @@ function transformParser(
   return {
     ...defaultParser,
     // @ts-expect-error
-    parse: async (
-      text: string,
-      options: ParserOptions & ThisPluginOptions,
-    ): Promise<FormattedTextAST> => {
+    parse: async (text: string, options: ResolvedOptions): Promise<FormattedTextAST> => {
       if (options.parentParser === 'markdown' || options.parentParser === 'mdx') {
         let codeblockStart = '```';
         const codeblockEnd = '```';
@@ -105,13 +96,7 @@ function transformParser(
       });
 
       const ast = await advancedParse(formattedText, parserName, defaultParser, options);
-      const result = parseLineByLineAndAssemble(
-        formattedText,
-        ast,
-        // @ts-expect-error
-        options,
-        addon,
-      );
+      const result = parseLineByLineAndAssemble(formattedText, ast, options);
 
       return {
         type: 'FormattedText',

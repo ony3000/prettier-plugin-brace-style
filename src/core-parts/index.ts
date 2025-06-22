@@ -8,7 +8,7 @@ import {
   findTargetBraceNodesForAstro,
   findTargetBraceNodesForSvelte,
 } from './finder';
-import type { Dict, BraceNode } from './shared';
+import type { BraceNode } from './shared';
 import { BraceType, isTypeof } from './shared';
 
 const EOL = '\n';
@@ -183,8 +183,6 @@ export function parseLineByLineAndAssemble(
   formattedText: string,
   ast: AST,
   options: ResolvedOptions,
-  // biome-ignore lint/suspicious/noExplicitAny: The addon will be removed.
-  addon: Dict<(text: string, options: any) => AST>,
 ): string {
   if (formattedText === '' || options.braceStyle === '1tbs') {
     return formattedText;
@@ -195,20 +193,20 @@ export function parseLineByLineAndAssemble(
   let targetBraceNodes: BraceNode[];
   switch (options.parser) {
     case 'astro': {
-      targetBraceNodes = findTargetBraceNodesForAstro(ast, options, addon);
+      targetBraceNodes = findTargetBraceNodesForAstro(ast, options);
       break;
     }
     case 'svelte': {
-      targetBraceNodes = findTargetBraceNodesForSvelte(ast, options, addon);
+      targetBraceNodes = findTargetBraceNodesForSvelte(ast, options);
       break;
     }
     case 'angular':
     case 'html': {
-      targetBraceNodes = findTargetBraceNodesForHtml(ast, options, addon);
+      targetBraceNodes = findTargetBraceNodesForHtml(ast, options);
       break;
     }
     case 'vue': {
-      targetBraceNodes = findTargetBraceNodesForVue(ast, options, addon);
+      targetBraceNodes = findTargetBraceNodesForVue(ast, options);
       break;
     }
     default: {
