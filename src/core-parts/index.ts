@@ -2,7 +2,8 @@ import type { AST } from 'prettier';
 import { z } from 'zod';
 
 import {
-  findTargetBraceNodes,
+  findTargetBraceNodesForBabel,
+  findTargetBraceNodesForTypescript,
   findTargetBraceNodesForHtml,
   findTargetBraceNodesForVue,
   findTargetBraceNodesForAstro,
@@ -190,7 +191,7 @@ export function parseLineByLineAndAssemble(
 
   const indentUnit = options.useTabs ? '\t' : ' '.repeat(options.tabWidth);
 
-  let targetBraceNodes: BraceNode[];
+  let targetBraceNodes: BraceNode[] = [];
   switch (options.parser) {
     case 'astro': {
       targetBraceNodes = findTargetBraceNodesForAstro(ast, options);
@@ -198,6 +199,14 @@ export function parseLineByLineAndAssemble(
     }
     case 'svelte': {
       targetBraceNodes = findTargetBraceNodesForSvelte(ast, options);
+      break;
+    }
+    case 'babel': {
+      targetBraceNodes = findTargetBraceNodesForBabel(ast, options);
+      break;
+    }
+    case 'typescript': {
+      targetBraceNodes = findTargetBraceNodesForTypescript(ast, options);
       break;
     }
     case 'angular':
@@ -210,7 +219,6 @@ export function parseLineByLineAndAssemble(
       break;
     }
     default: {
-      targetBraceNodes = findTargetBraceNodes(ast, options);
       break;
     }
   }
