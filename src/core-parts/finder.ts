@@ -514,14 +514,17 @@ export function findTargetBraceNodesForHtml(ast: AST, options: ResolvedOptions):
   function recursion(
     node: unknown,
     // biome-ignore lint/correctness/noUnusedFunctionParameters: Required for recursive calls.
-    parentNode?: { type?: unknown },
+    parentNode?: { kind: string; type?: undefined } | { kind?: undefined; type: string },
   ): void {
-    if (!isTypeof(node, z.object({ type: z.string() }))) {
+    if (
+      !isTypeof(node, z.object({ kind: z.string() })) &&
+      !isTypeof(node, z.object({ type: z.string() }))
+    ) {
       return;
     }
 
     Object.entries(node).forEach(([key, value]) => {
-      if (key === 'type') {
+      if (key === 'kind' || key === 'type') {
         return;
       }
 
@@ -553,16 +556,18 @@ export function findTargetBraceNodesForHtml(ast: AST, options: ResolvedOptions):
       return;
     }
 
+    const nodeType = isTypeof(node, z.object({ kind: z.string() })) ? node.kind : node.type;
+
     const [currentNodeRangeStart, currentNodeRangeEnd] = [
       node.sourceSpan.start.offset,
       node.sourceSpan.end.offset,
     ];
     const currentASTNode: ASTNode = {
-      type: node.type,
+      type: nodeType,
       range: [currentNodeRangeStart, currentNodeRangeEnd],
     };
 
-    switch (node.type) {
+    switch (nodeType) {
       case 'angularControlFlowBlock': {
         nonCommentNodes.push(currentASTNode);
 
@@ -746,13 +751,19 @@ export function findTargetBraceNodesForVue(ast: AST, options: ResolvedOptions): 
    */
   const braceNodes: BraceNode[] = [];
 
-  function recursion(node: unknown, parentNode?: { type?: unknown }): void {
-    if (!isTypeof(node, z.object({ type: z.string() }))) {
+  function recursion(
+    node: unknown,
+    parentNode?: { kind: string; type?: undefined } | { kind?: undefined; type: string },
+  ): void {
+    if (
+      !isTypeof(node, z.object({ kind: z.string() })) &&
+      !isTypeof(node, z.object({ type: z.string() }))
+    ) {
       return;
     }
 
     Object.entries(node).forEach(([key, value]) => {
-      if (key === 'type') {
+      if (key === 'kind' || key === 'type') {
         return;
       }
 
@@ -784,16 +795,19 @@ export function findTargetBraceNodesForVue(ast: AST, options: ResolvedOptions): 
       return;
     }
 
+    const nodeType = isTypeof(node, z.object({ kind: z.string() })) ? node.kind : node.type;
+    const parentNodeType = parentNode?.kind ?? parentNode?.type;
+
     const [currentNodeRangeStart, currentNodeRangeEnd] = [
       node.sourceSpan.start.offset,
       node.sourceSpan.end.offset,
     ];
     const currentASTNode: ASTNode = {
-      type: node.type,
+      type: nodeType,
       range: [currentNodeRangeStart, currentNodeRangeEnd],
     };
 
-    switch (node.type) {
+    switch (nodeType) {
       case 'attribute': {
         nonCommentNodes.push(currentASTNode);
 
@@ -811,7 +825,7 @@ export function findTargetBraceNodesForVue(ast: AST, options: ResolvedOptions): 
               }),
             }),
           ) &&
-          parentNode.type === 'element' &&
+          parentNodeType === 'element' &&
           isTypeof(
             node,
             z.object({
