@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`vue/if/stroustrup > if 1`] = `
+exports[`if 1`] = `
 "<script setup lang="ts">
 if (foo) {
   bar();
@@ -24,7 +24,7 @@ if (foo) {
 "
 `;
 
-exports[`vue/if/stroustrup > if...else (1) 1`] = `
+exports[`if...else (1) 1`] = `
 "<script setup lang="ts">
 if (foo) {
   bar();
@@ -54,7 +54,7 @@ else {
 "
 `;
 
-exports[`vue/if/stroustrup > if...else (2) - with comment 1`] = `
+exports[`if...else (2) - with comment 1`] = `
 "<script setup lang="ts">
 // foo is truthy
 if (foo) {
@@ -88,7 +88,7 @@ else {
 "
 `;
 
-exports[`vue/if/stroustrup > if...elseif...else 1`] = `
+exports[`if...elseif...else 1`] = `
 "<script setup lang="ts">
 if (foo) {
   bar();

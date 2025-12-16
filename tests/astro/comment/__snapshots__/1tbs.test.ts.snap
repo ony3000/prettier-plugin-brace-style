@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`astro/comment/1tbs > multi line comment 1`] = `
+exports[`multi line comment 1`] = `
 "---
 /*
 if (foo) {
@@ -23,7 +23,7 @@ if (foo) {
 "
 `;
 
-exports[`astro/comment/1tbs > single line comment (1) 1`] = `
+exports[`single line comment (1) 1`] = `
 "---
 //class Foo {}
 ---
@@ -34,7 +34,7 @@ exports[`astro/comment/1tbs > single line comment (1) 1`] = `
 "
 `;
 
-exports[`astro/comment/1tbs > single line comment (2) - applied to multi line 1`] = `
+exports[`single line comment (2) - applied to multi line 1`] = `
 "---
 // function foo() {
 //   bar;

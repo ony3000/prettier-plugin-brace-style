@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`typescript/label/stroustrup > labeled block 1`] = `
+exports[`labeled block 1`] = `
 "foo: {
   console.log("face");
   break foo;

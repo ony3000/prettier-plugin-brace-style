@@ -1,5 +1,5 @@
 import { format } from 'prettier';
-import { describe, expect, test } from 'vitest';
+import { expect, test } from 'vitest';
 
 import * as thisPlugin from '@/index';
 
@@ -13,15 +13,13 @@ const options = {
   braceStyle: 'allman',
 };
 
-describe('typescript/comment/allman', () => {
-  for (const fixture of fixtures) {
-    test(fixture.name, async () => {
-      expect(
-        await format(fixture.input, {
-          ...options,
-          ...(fixture.options ?? {}),
-        }),
-      ).toMatchSnapshot();
-    });
-  }
-});
+for (const fixture of fixtures) {
+  test(fixture.name, async () => {
+    expect(
+      await format(fixture.input, {
+        ...options,
+        ...(fixture.options ?? {}),
+      }),
+    ).toMatchSnapshot();
+  });
+}

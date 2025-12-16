@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`vue/for/stroustrup > for 1`] = `
+exports[`for 1`] = `
 "<script setup lang="ts">
 for (let i = 0; i < 9; i++) {
   console.log(i);
@@ -26,7 +26,7 @@ for (let i = 0; i < 9; i++) {
 "
 `;
 
-exports[`vue/for/stroustrup > for await...of 1`] = `
+exports[`for await...of 1`] = `
 "<script setup lang="ts">
 async function* asyncGenerator() {
   let i = 0;
@@ -68,7 +68,7 @@ async function* asyncGenerator() {
 "
 `;
 
-exports[`vue/for/stroustrup > for...in 1`] = `
+exports[`for...in 1`] = `
 "<script setup lang="ts">
 const obj = { a: 1, b: 2, c: 3 };
 
@@ -96,7 +96,7 @@ for (const prop in obj) {
 "
 `;
 
-exports[`vue/for/stroustrup > for...of 1`] = `
+exports[`for...of 1`] = `
 "<script setup lang="ts">
 const array1 = ["a", "b", "c"];
 

@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`astro/function/1tbs > IIFE (1) 1`] = `
+exports[`IIFE (1) 1`] = `
 "---
 (function () {})();
 ---
@@ -11,7 +11,7 @@ exports[`astro/function/1tbs > IIFE (1) 1`] = `
 "
 `;
 
-exports[`astro/function/1tbs > IIFE (2) 1`] = `
+exports[`IIFE (2) 1`] = `
 "---
 (() => {})();
 ---
@@ -22,7 +22,7 @@ exports[`astro/function/1tbs > IIFE (2) 1`] = `
 "
 `;
 
-exports[`astro/function/1tbs > anonymous function expression 1`] = `
+exports[`anonymous function expression 1`] = `
 "---
 (function () {});
 ---
@@ -33,7 +33,7 @@ exports[`astro/function/1tbs > anonymous function expression 1`] = `
 "
 `;
 
-exports[`astro/function/1tbs > arrow function expression (1) 1`] = `
+exports[`arrow function expression (1) 1`] = `
 "---
 const sum = (a, b) => {
   return a + b;
@@ -48,7 +48,7 @@ const sum = (a, b) => {
 "
 `;
 
-exports[`astro/function/1tbs > arrow function expression (2) 1`] = `
+exports[`arrow function expression (2) 1`] = `
 "---
 const foo = () => {};
 ---
@@ -59,7 +59,7 @@ const foo = () => {};
 "
 `;
 
-exports[`astro/function/1tbs > arrow function that returns object literal (1) 1`] = `
+exports[`arrow function that returns object literal (1) 1`] = `
 "---
 const foo = () => ({});
 ---
@@ -70,7 +70,7 @@ const foo = () => ({});
 "
 `;
 
-exports[`astro/function/1tbs > arrow function that returns object literal (2) 1`] = `
+exports[`arrow function that returns object literal (2) 1`] = `
 "---
 const foo = () => ({ foo: "bar" });
 ---
@@ -81,7 +81,7 @@ const foo = () => ({ foo: "bar" });
 "
 `;
 
-exports[`astro/function/1tbs > arrow function that returns object literal (3) 1`] = `
+exports[`arrow function that returns object literal (3) 1`] = `
 "---
 const foo = () => ({
   foo: "bar",
@@ -98,7 +98,7 @@ const foo = () => ({
 "
 `;
 
-exports[`astro/function/1tbs > function declaration (1) 1`] = `
+exports[`function declaration (1) 1`] = `
 "---
 function sum(a, b) {
   return a + b;
@@ -113,7 +113,7 @@ function sum(a, b) {
 "
 `;
 
-exports[`astro/function/1tbs > function declaration (2) 1`] = `
+exports[`function declaration (2) 1`] = `
 "---
 function foo() {}
 ---
@@ -124,7 +124,7 @@ function foo() {}
 "
 `;
 
-exports[`astro/function/1tbs > function expression (1) 1`] = `
+exports[`function expression (1) 1`] = `
 "---
 const sum = function (a, b) {
   return a + b;
@@ -139,7 +139,7 @@ const sum = function (a, b) {
 "
 `;
 
-exports[`astro/function/1tbs > function expression (2) 1`] = `
+exports[`function expression (2) 1`] = `
 "---
 const foo = function () {};
 ---
@@ -150,7 +150,7 @@ const foo = function () {};
 "
 `;
 
-exports[`astro/function/1tbs > function that returns object literal (1) 1`] = `
+exports[`function that returns object literal (1) 1`] = `
 "---
 function foo() {
   return {};
@@ -165,7 +165,7 @@ function foo() {
 "
 `;
 
-exports[`astro/function/1tbs > function that returns object literal (2) 1`] = `
+exports[`function that returns object literal (2) 1`] = `
 "---
 function foo() {
   return { foo: "bar" };
@@ -180,7 +180,7 @@ function foo() {
 "
 `;
 
-exports[`astro/function/1tbs > function that returns object literal (3) 1`] = `
+exports[`function that returns object literal (3) 1`] = `
 "---
 function foo() {
   return {
@@ -201,7 +201,7 @@ function foo() {
 "
 `;
 
-exports[`astro/function/1tbs > object literal parameter (1) 1`] = `
+exports[`object literal parameter (1) 1`] = `
 "---
 foo({
   bar,
@@ -218,7 +218,7 @@ foo({
 "
 `;
 
-exports[`astro/function/1tbs > object literal parameter (2) 1`] = `
+exports[`object literal parameter (2) 1`] = `
 "---
 foo(bar, {
   baz: "baz",
@@ -233,7 +233,7 @@ foo(bar, {
 "
 `;
 
-exports[`astro/function/1tbs > object literal parameter (3) 1`] = `
+exports[`object literal parameter (3) 1`] = `
 "---
 foo(
   { bar: "bar" },
@@ -254,7 +254,7 @@ foo(
 "
 `;
 
-exports[`astro/function/1tbs > promise chain 1`] = `
+exports[`promise chain 1`] = `
 "---
 myPromise
   .then((value) => {

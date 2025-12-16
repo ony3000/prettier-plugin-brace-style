@@ -1,13 +1,13 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`typescript/if/1tbs > if 1`] = `
+exports[`if 1`] = `
 "if (foo) {
   bar();
 }
 "
 `;
 
-exports[`typescript/if/1tbs > if...else (1) 1`] = `
+exports[`if...else (1) 1`] = `
 "if (foo) {
   bar();
 } else {
@@ -16,7 +16,7 @@ exports[`typescript/if/1tbs > if...else (1) 1`] = `
 "
 `;
 
-exports[`typescript/if/1tbs > if...else (2) - with comment 1`] = `
+exports[`if...else (2) - with comment 1`] = `
 "// foo is truthy
 if (foo) {
   bar();
@@ -28,7 +28,7 @@ else {
 "
 `;
 
-exports[`typescript/if/1tbs > if...elseif...else 1`] = `
+exports[`if...elseif...else 1`] = `
 "if (foo) {
   bar();
 } else if (baz) {

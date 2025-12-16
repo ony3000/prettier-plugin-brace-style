@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`typescript/interface/1tbs > extending an interface 1`] = `
+exports[`extending an interface 1`] = `
 "interface Animal {
   name: string;
 }
@@ -11,7 +11,7 @@ interface Bear extends Animal {
 "
 `;
 
-exports[`typescript/interface/1tbs > interface declaration 1`] = `
+exports[`interface declaration 1`] = `
 "interface Point {
   x: number;
   y: number;

@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`vue/assignment/stroustrup > conditional assignment (1) 1`] = `
+exports[`conditional assignment (1) 1`] = `
 "<script setup lang="ts">
 const foo = true && {
   bar: "baz",
@@ -24,7 +24,7 @@ const foo = true && {
 "
 `;
 
-exports[`vue/assignment/stroustrup > conditional assignment (2) 1`] = `
+exports[`conditional assignment (2) 1`] = `
 "<script setup lang="ts">
 const foo = false || {
   bar: "baz",
@@ -48,7 +48,7 @@ const foo = false || {
 "
 `;
 
-exports[`vue/assignment/stroustrup > conditional assignment (3) 1`] = `
+exports[`conditional assignment (3) 1`] = `
 "<script setup lang="ts">
 const foo = null ?? {
   bar: "baz",
@@ -72,7 +72,7 @@ const foo = null ?? {
 "
 `;
 
-exports[`vue/assignment/stroustrup > destructuring assignment (1) 1`] = `
+exports[`destructuring assignment (1) 1`] = `
 "<script setup lang="ts">
 const {
   foo,
@@ -98,7 +98,7 @@ const {
 "
 `;
 
-exports[`vue/assignment/stroustrup > destructuring assignment (2) 1`] = `
+exports[`destructuring assignment (2) 1`] = `
 "<script setup lang="ts">
 arr.forEach(
   ({
@@ -134,7 +134,7 @@ arr.forEach(
 "
 `;
 
-exports[`vue/assignment/stroustrup > object assignment (1) 1`] = `
+exports[`object assignment (1) 1`] = `
 "<script setup lang="ts">
 const foo = {};
 </script>
@@ -154,7 +154,7 @@ const foo = {};
 "
 `;
 
-exports[`vue/assignment/stroustrup > object assignment (2) 1`] = `
+exports[`object assignment (2) 1`] = `
 "<script setup lang="ts">
 const foo = {
   bar: {
@@ -182,7 +182,7 @@ const foo = {
 "
 `;
 
-exports[`vue/assignment/stroustrup > object assignment (3) 1`] = `
+exports[`object assignment (3) 1`] = `
 "<script setup lang="ts">
 const foo = {
   bar() {},

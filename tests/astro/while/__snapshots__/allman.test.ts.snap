@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`astro/while/allman > do...while 1`] = `
+exports[`do...while 1`] = `
 "---
 let result = "";
 let i = 0;
@@ -25,7 +25,7 @@ do
 "
 `;
 
-exports[`astro/while/allman > while 1`] = `
+exports[`while 1`] = `
 "---
 let n = 0;
 

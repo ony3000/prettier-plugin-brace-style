@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`typescript/ternary/allman > nested ternary operator 1`] = `
+exports[`nested ternary operator 1`] = `
 "const x = condition1
   ? condition2
     ? function foo()
@@ -19,7 +19,7 @@ exports[`typescript/ternary/allman > nested ternary operator 1`] = `
 "
 `;
 
-exports[`typescript/ternary/allman > ternary operator 1`] = `
+exports[`ternary operator 1`] = `
 "const x = condition
   ? function foo()
     {}

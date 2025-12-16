@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`vue/class/allman > class declaration (1) - empty body 1`] = `
+exports[`class declaration (1) - empty body 1`] = `
 "<script setup lang="ts">
 class Foo
 {}
@@ -23,7 +23,7 @@ class Foo
 "
 `;
 
-exports[`vue/class/allman > class declaration (2) 1`] = `
+exports[`class declaration (2) 1`] = `
 "<script setup lang="ts">
 class Rectangle
 {
@@ -66,7 +66,7 @@ class Rectangle
 "
 `;
 
-exports[`vue/class/allman > class declaration (3) - with getter/setter 1`] = `
+exports[`class declaration (3) - with getter/setter 1`] = `
 "<script setup lang="ts">
 class User
 {
@@ -131,7 +131,7 @@ class User
 "
 `;
 
-exports[`vue/class/allman > class declaration (4) - with static things 1`] = `
+exports[`class declaration (4) - with static things 1`] = `
 "<script setup lang="ts">
 class ClassWithStaticMethod
 {
@@ -174,7 +174,7 @@ class ClassWithStaticMethod
 "
 `;
 
-exports[`vue/class/allman > class expression 1`] = `
+exports[`class expression 1`] = `
 "<script setup lang="ts">
 const Rectangle = class
 {

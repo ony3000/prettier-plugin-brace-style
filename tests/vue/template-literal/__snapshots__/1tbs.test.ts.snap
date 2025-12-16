@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`vue/template-literal/1tbs > nested template literal 1`] = `
+exports[`nested template literal 1`] = `
 "<script setup lang="ts">
 const x = \`foo: \${
   1 +
@@ -32,7 +32,7 @@ const x = \`foo: \${
 "
 `;
 
-exports[`vue/template-literal/1tbs > template literal 1`] = `
+exports[`template literal 1`] = `
 "<script setup lang="ts">
 const x = \`
 if (condition1) {

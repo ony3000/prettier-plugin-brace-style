@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`typescript/prettier-ignore/stroustrup > comments that contain the phrase \`prettier-ignore\` but do not prevent formatting (1) 1`] = `
+exports[`comments that contain the phrase \`prettier-ignore\` but do not prevent formatting (1) 1`] = `
 "/**
  * prettier-ignore
  */
@@ -16,7 +16,7 @@ else {
 "
 `;
 
-exports[`typescript/prettier-ignore/stroustrup > comments that contain the phrase \`prettier-ignore\` but do not prevent formatting (2) 1`] = `
+exports[`comments that contain the phrase \`prettier-ignore\` but do not prevent formatting (2) 1`] = `
 "// /* prettier-ignore */
 if (condition1) {
   foo;
@@ -30,7 +30,7 @@ else {
 "
 `;
 
-exports[`typescript/prettier-ignore/stroustrup > ignore comment (1) 1`] = `
+exports[`ignore comment (1) 1`] = `
 "// prettier-ignore
 if (condition1) {
   foo
@@ -44,7 +44,7 @@ else
 "
 `;
 
-exports[`typescript/prettier-ignore/stroustrup > ignore comment (2) 1`] = `
+exports[`ignore comment (2) 1`] = `
 "/* prettier-ignore */
 if (condition1) {
   foo
@@ -58,7 +58,7 @@ else
 "
 `;
 
-exports[`typescript/prettier-ignore/stroustrup > ignore comment (3) 1`] = `
+exports[`ignore comment (3) 1`] = `
 "// prettier-ignore
 export function MyComponent() {
   return (
@@ -81,7 +81,7 @@ export function MyComponent() {
 "
 `;
 
-exports[`typescript/prettier-ignore/stroustrup > ignore comment (4) 1`] = `
+exports[`ignore comment (4) 1`] = `
 "export function MyComponent() {
   return (
     <div>
@@ -101,7 +101,7 @@ exports[`typescript/prettier-ignore/stroustrup > ignore comment (4) 1`] = `
 "
 `;
 
-exports[`typescript/prettier-ignore/stroustrup > ignore comment (5) 1`] = `
+exports[`ignore comment (5) 1`] = `
 "export function MyComponent() {
   return (
     <div>

@@ -1,43 +1,43 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`typescript/function/1tbs > IIFE (1) 1`] = `
+exports[`IIFE (1) 1`] = `
 "(function () {})();
 "
 `;
 
-exports[`typescript/function/1tbs > IIFE (2) 1`] = `
+exports[`IIFE (2) 1`] = `
 "(() => {})();
 "
 `;
 
-exports[`typescript/function/1tbs > anonymous function expression 1`] = `
+exports[`anonymous function expression 1`] = `
 "(function () {});
 "
 `;
 
-exports[`typescript/function/1tbs > arrow function expression (1) 1`] = `
+exports[`arrow function expression (1) 1`] = `
 "const sum = (a, b) => {
   return a + b;
 };
 "
 `;
 
-exports[`typescript/function/1tbs > arrow function expression (2) 1`] = `
+exports[`arrow function expression (2) 1`] = `
 "const foo = () => {};
 "
 `;
 
-exports[`typescript/function/1tbs > arrow function that returns object literal (1) 1`] = `
+exports[`arrow function that returns object literal (1) 1`] = `
 "const foo = () => ({});
 "
 `;
 
-exports[`typescript/function/1tbs > arrow function that returns object literal (2) 1`] = `
+exports[`arrow function that returns object literal (2) 1`] = `
 "const foo = () => ({ foo: "bar" });
 "
 `;
 
-exports[`typescript/function/1tbs > arrow function that returns object literal (3) 1`] = `
+exports[`arrow function that returns object literal (3) 1`] = `
 "const foo = () => ({
   foo: "bar",
   baz,
@@ -45,45 +45,45 @@ exports[`typescript/function/1tbs > arrow function that returns object literal (
 "
 `;
 
-exports[`typescript/function/1tbs > function declaration (1) 1`] = `
+exports[`function declaration (1) 1`] = `
 "function sum(a, b) {
   return a + b;
 }
 "
 `;
 
-exports[`typescript/function/1tbs > function declaration (2) 1`] = `
+exports[`function declaration (2) 1`] = `
 "function foo() {}
 "
 `;
 
-exports[`typescript/function/1tbs > function expression (1) 1`] = `
+exports[`function expression (1) 1`] = `
 "const sum = function (a, b) {
   return a + b;
 };
 "
 `;
 
-exports[`typescript/function/1tbs > function expression (2) 1`] = `
+exports[`function expression (2) 1`] = `
 "const foo = function () {};
 "
 `;
 
-exports[`typescript/function/1tbs > function that returns object literal (1) 1`] = `
+exports[`function that returns object literal (1) 1`] = `
 "function foo() {
   return {};
 }
 "
 `;
 
-exports[`typescript/function/1tbs > function that returns object literal (2) 1`] = `
+exports[`function that returns object literal (2) 1`] = `
 "function foo() {
   return { foo: "bar" };
 }
 "
 `;
 
-exports[`typescript/function/1tbs > function that returns object literal (3) 1`] = `
+exports[`function that returns object literal (3) 1`] = `
 "function foo() {
   return {
     foo: "bar",
@@ -93,7 +93,7 @@ exports[`typescript/function/1tbs > function that returns object literal (3) 1`]
 "
 `;
 
-exports[`typescript/function/1tbs > object literal parameter (1) 1`] = `
+exports[`object literal parameter (1) 1`] = `
 "foo({
   bar,
   baz: "baz",
@@ -101,14 +101,14 @@ exports[`typescript/function/1tbs > object literal parameter (1) 1`] = `
 "
 `;
 
-exports[`typescript/function/1tbs > object literal parameter (2) 1`] = `
+exports[`object literal parameter (2) 1`] = `
 "foo(bar, {
   baz: "baz",
 });
 "
 `;
 
-exports[`typescript/function/1tbs > object literal parameter (3) 1`] = `
+exports[`object literal parameter (3) 1`] = `
 "foo(
   { bar: "bar" },
   {
@@ -118,7 +118,7 @@ exports[`typescript/function/1tbs > object literal parameter (3) 1`] = `
 "
 `;
 
-exports[`typescript/function/1tbs > promise chain 1`] = `
+exports[`promise chain 1`] = `
 "myPromise
   .then((value) => {
     console.log(value);

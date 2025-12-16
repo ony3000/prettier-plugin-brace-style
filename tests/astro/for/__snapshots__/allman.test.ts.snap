@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`astro/for/allman > for 1`] = `
+exports[`for 1`] = `
 "---
 for (let i = 0; i < 9; i++)
 {
@@ -19,7 +19,7 @@ for (let i = 0; i < 9; i++)
 "
 `;
 
-exports[`astro/for/allman > for await...of 1`] = `
+exports[`for await...of 1`] = `
 "---
 async function* asyncGenerator()
 {
@@ -60,7 +60,7 @@ async function* asyncGenerator()
 "
 `;
 
-exports[`astro/for/allman > for...in 1`] = `
+exports[`for...in 1`] = `
 "---
 const obj = { a: 1, b: 2, c: 3 };
 
@@ -81,7 +81,7 @@ for (const prop in obj)
 "
 `;
 
-exports[`astro/for/allman > for...of 1`] = `
+exports[`for...of 1`] = `
 "---
 const array1 = ["a", "b", "c"];
 

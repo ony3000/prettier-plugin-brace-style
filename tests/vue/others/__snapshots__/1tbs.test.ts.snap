@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`vue/others/1tbs > endOfLine: crlf 1`] = `
+exports[`endOfLine: crlf 1`] = `
 "<script setup lang="ts">
 if (foo) {
   bar();
@@ -28,7 +28,7 @@ if (foo) {
 "
 `;
 
-exports[`vue/others/1tbs > tabWidth: 4 1`] = `
+exports[`tabWidth: 4 1`] = `
 "<script setup lang="ts">
 if (foo) {
     bar();
@@ -56,7 +56,7 @@ if (foo) {
 "
 `;
 
-exports[`vue/others/1tbs > useTabs: true 1`] = `
+exports[`useTabs: true 1`] = `
 "<script setup lang="ts">
 if (foo) {
 	bar();

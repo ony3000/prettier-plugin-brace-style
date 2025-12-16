@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`astro/switch/stroustrup > switch (1) 1`] = `
+exports[`switch (1) 1`] = `
 "---
 switch (expr) {
   case "Oranges":
@@ -31,7 +31,7 @@ switch (expr) {
 "
 `;
 
-exports[`astro/switch/stroustrup > switch (2) - case with block 1`] = `
+exports[`switch (2) - case with block 1`] = `
 "---
 switch (action) {
   case "say_hello": {
@@ -70,7 +70,7 @@ switch (action) {
 "
 `;
 
-exports[`astro/switch/stroustrup > switch (3) - complex expression 1`] = `
+exports[`switch (3) - complex expression 1`] = `
 "---
 switch (expr.toLowerCase()) {
   case "oranges":
@@ -101,7 +101,7 @@ switch (expr.toLowerCase()) {
 "
 `;
 
-exports[`astro/switch/stroustrup > switch (4) - more complex expression 1`] = `
+exports[`switch (4) - more complex expression 1`] = `
 "---
 switch (
   String(expr)

@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`typescript/enum/1tbs > ambient enum 1`] = `
+exports[`ambient enum 1`] = `
 "declare enum Direction {
   Up = "UP",
   Down = "DOWN",
@@ -10,7 +10,7 @@ exports[`typescript/enum/1tbs > ambient enum 1`] = `
 "
 `;
 
-exports[`typescript/enum/1tbs > computed and constant members 1`] = `
+exports[`computed and constant members 1`] = `
 "enum FileAccess {
   // constant members
   None,
@@ -23,7 +23,7 @@ exports[`typescript/enum/1tbs > computed and constant members 1`] = `
 "
 `;
 
-exports[`typescript/enum/1tbs > const enum 1`] = `
+exports[`const enum 1`] = `
 "const enum Enum {
   A = 1,
   B = A * 2,
@@ -31,12 +31,12 @@ exports[`typescript/enum/1tbs > const enum 1`] = `
 "
 `;
 
-exports[`typescript/enum/1tbs > empty enum 1`] = `
+exports[`empty enum 1`] = `
 "enum Foo {}
 "
 `;
 
-exports[`typescript/enum/1tbs > heterogeneous enum 1`] = `
+exports[`heterogeneous enum 1`] = `
 "enum BooleanLikeHeterogeneousEnum {
   No = 0,
   Yes = "YES",
@@ -44,7 +44,7 @@ exports[`typescript/enum/1tbs > heterogeneous enum 1`] = `
 "
 `;
 
-exports[`typescript/enum/1tbs > numeric enum 1`] = `
+exports[`numeric enum 1`] = `
 "enum Direction {
   Up = 1,
   Down,
@@ -54,7 +54,7 @@ exports[`typescript/enum/1tbs > numeric enum 1`] = `
 "
 `;
 
-exports[`typescript/enum/1tbs > string enum 1`] = `
+exports[`string enum 1`] = `
 "enum Direction {
   Up = "UP",
   Down = "DOWN",

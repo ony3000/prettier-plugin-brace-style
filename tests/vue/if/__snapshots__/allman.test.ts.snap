@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`vue/if/allman > if 1`] = `
+exports[`if 1`] = `
 "<script setup lang="ts">
 if (foo)
 {
@@ -27,7 +27,7 @@ if (foo)
 "
 `;
 
-exports[`vue/if/allman > if...else (1) 1`] = `
+exports[`if...else (1) 1`] = `
 "<script setup lang="ts">
 if (foo)
 {
@@ -62,7 +62,7 @@ else
 "
 `;
 
-exports[`vue/if/allman > if...else (2) - with comment 1`] = `
+exports[`if...else (2) - with comment 1`] = `
 "<script setup lang="ts">
 // foo is truthy
 if (foo)
@@ -101,7 +101,7 @@ else
 "
 `;
 
-exports[`vue/if/allman > if...elseif...else 1`] = `
+exports[`if...elseif...else 1`] = `
 "<script setup lang="ts">
 if (foo)
 {

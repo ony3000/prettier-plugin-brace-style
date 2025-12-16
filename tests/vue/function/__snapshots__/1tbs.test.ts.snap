@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`vue/function/1tbs > IIFE (1) 1`] = `
+exports[`IIFE (1) 1`] = `
 "<script setup lang="ts">
 (function () {})();
 </script>
@@ -20,7 +20,7 @@ exports[`vue/function/1tbs > IIFE (1) 1`] = `
 "
 `;
 
-exports[`vue/function/1tbs > IIFE (2) 1`] = `
+exports[`IIFE (2) 1`] = `
 "<script setup lang="ts">
 (() => {})();
 </script>
@@ -40,7 +40,7 @@ exports[`vue/function/1tbs > IIFE (2) 1`] = `
 "
 `;
 
-exports[`vue/function/1tbs > anonymous function expression 1`] = `
+exports[`anonymous function expression 1`] = `
 "<script setup lang="ts">
 (function () {});
 </script>
@@ -60,7 +60,7 @@ exports[`vue/function/1tbs > anonymous function expression 1`] = `
 "
 `;
 
-exports[`vue/function/1tbs > arrow function expression (1) 1`] = `
+exports[`arrow function expression (1) 1`] = `
 "<script setup lang="ts">
 const sum = (a, b) => {
   return a + b;
@@ -84,7 +84,7 @@ const sum = (a, b) => {
 "
 `;
 
-exports[`vue/function/1tbs > arrow function expression (2) 1`] = `
+exports[`arrow function expression (2) 1`] = `
 "<script setup lang="ts">
 const foo = () => {};
 </script>
@@ -104,7 +104,7 @@ const foo = () => {};
 "
 `;
 
-exports[`vue/function/1tbs > arrow function that returns object literal (1) 1`] = `
+exports[`arrow function that returns object literal (1) 1`] = `
 "<script setup lang="ts">
 const foo = () => ({});
 </script>
@@ -124,7 +124,7 @@ const foo = () => ({});
 "
 `;
 
-exports[`vue/function/1tbs > arrow function that returns object literal (2) 1`] = `
+exports[`arrow function that returns object literal (2) 1`] = `
 "<script setup lang="ts">
 const foo = () => ({ foo: "bar" });
 </script>
@@ -144,7 +144,7 @@ const foo = () => ({ foo: "bar" });
 "
 `;
 
-exports[`vue/function/1tbs > arrow function that returns object literal (3) 1`] = `
+exports[`arrow function that returns object literal (3) 1`] = `
 "<script setup lang="ts">
 const foo = () => ({
   foo: "bar",
@@ -170,7 +170,7 @@ const foo = () => ({
 "
 `;
 
-exports[`vue/function/1tbs > function declaration (1) 1`] = `
+exports[`function declaration (1) 1`] = `
 "<script setup lang="ts">
 function sum(a, b) {
   return a + b;
@@ -194,7 +194,7 @@ function sum(a, b) {
 "
 `;
 
-exports[`vue/function/1tbs > function declaration (2) 1`] = `
+exports[`function declaration (2) 1`] = `
 "<script setup lang="ts">
 function foo() {}
 </script>
@@ -214,7 +214,7 @@ function foo() {}
 "
 `;
 
-exports[`vue/function/1tbs > function expression (1) 1`] = `
+exports[`function expression (1) 1`] = `
 "<script setup lang="ts">
 const sum = function (a, b) {
   return a + b;
@@ -238,7 +238,7 @@ const sum = function (a, b) {
 "
 `;
 
-exports[`vue/function/1tbs > function expression (2) 1`] = `
+exports[`function expression (2) 1`] = `
 "<script setup lang="ts">
 const foo = function () {};
 </script>
@@ -258,7 +258,7 @@ const foo = function () {};
 "
 `;
 
-exports[`vue/function/1tbs > function that returns object literal (1) 1`] = `
+exports[`function that returns object literal (1) 1`] = `
 "<script setup lang="ts">
 function foo() {
   return {};
@@ -282,7 +282,7 @@ function foo() {
 "
 `;
 
-exports[`vue/function/1tbs > function that returns object literal (2) 1`] = `
+exports[`function that returns object literal (2) 1`] = `
 "<script setup lang="ts">
 function foo() {
   return { foo: "bar" };
@@ -306,7 +306,7 @@ function foo() {
 "
 `;
 
-exports[`vue/function/1tbs > function that returns object literal (3) 1`] = `
+exports[`function that returns object literal (3) 1`] = `
 "<script setup lang="ts">
 function foo() {
   return {
@@ -336,7 +336,7 @@ function foo() {
 "
 `;
 
-exports[`vue/function/1tbs > object literal parameter (1) 1`] = `
+exports[`object literal parameter (1) 1`] = `
 "<script setup lang="ts">
 foo({
   bar,
@@ -362,7 +362,7 @@ foo({
 "
 `;
 
-exports[`vue/function/1tbs > object literal parameter (2) 1`] = `
+exports[`object literal parameter (2) 1`] = `
 "<script setup lang="ts">
 foo(bar, {
   baz: "baz",
@@ -386,7 +386,7 @@ foo(bar, {
 "
 `;
 
-exports[`vue/function/1tbs > object literal parameter (3) 1`] = `
+exports[`object literal parameter (3) 1`] = `
 "<script setup lang="ts">
 foo(
   { bar: "bar" },
@@ -416,7 +416,7 @@ foo(
 "
 `;
 
-exports[`vue/function/1tbs > promise chain 1`] = `
+exports[`promise chain 1`] = `
 "<script setup lang="ts">
 myPromise
   .then((value) => {

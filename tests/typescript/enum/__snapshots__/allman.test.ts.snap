@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`typescript/enum/allman > ambient enum 1`] = `
+exports[`ambient enum 1`] = `
 "declare enum Direction
 {
   Up = "UP",
@@ -11,7 +11,7 @@ exports[`typescript/enum/allman > ambient enum 1`] = `
 "
 `;
 
-exports[`typescript/enum/allman > computed and constant members 1`] = `
+exports[`computed and constant members 1`] = `
 "enum FileAccess
 {
   // constant members
@@ -25,7 +25,7 @@ exports[`typescript/enum/allman > computed and constant members 1`] = `
 "
 `;
 
-exports[`typescript/enum/allman > const enum 1`] = `
+exports[`const enum 1`] = `
 "const enum Enum
 {
   A = 1,
@@ -34,13 +34,13 @@ exports[`typescript/enum/allman > const enum 1`] = `
 "
 `;
 
-exports[`typescript/enum/allman > empty enum 1`] = `
+exports[`empty enum 1`] = `
 "enum Foo
 {}
 "
 `;
 
-exports[`typescript/enum/allman > heterogeneous enum 1`] = `
+exports[`heterogeneous enum 1`] = `
 "enum BooleanLikeHeterogeneousEnum
 {
   No = 0,
@@ -49,7 +49,7 @@ exports[`typescript/enum/allman > heterogeneous enum 1`] = `
 "
 `;
 
-exports[`typescript/enum/allman > numeric enum 1`] = `
+exports[`numeric enum 1`] = `
 "enum Direction
 {
   Up = 1,
@@ -60,7 +60,7 @@ exports[`typescript/enum/allman > numeric enum 1`] = `
 "
 `;
 
-exports[`typescript/enum/allman > string enum 1`] = `
+exports[`string enum 1`] = `
 "enum Direction
 {
   Up = "UP",

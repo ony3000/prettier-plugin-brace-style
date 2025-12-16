@@ -1,16 +1,16 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`typescript/import/allman > named import (1) 1`] = `
+exports[`named import (1) 1`] = `
 "import { foo } from "foo";
 "
 `;
 
-exports[`typescript/import/allman > named import (2) 1`] = `
+exports[`named import (2) 1`] = `
 "import { foo, bar, baz } from "foo";
 "
 `;
 
-exports[`typescript/import/allman > named import (3) 1`] = `
+exports[`named import (3) 1`] = `
 "import {
   foo,
   bar,

@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`astro/issue-25/stroustrup > class declaration (1) - empty method 1`] = `
+exports[`class declaration (1) - empty method 1`] = `
 "---
 class BaseQueue {
   onFlush() {}
@@ -23,7 +23,7 @@ class BaseQueue {
 "
 `;
 
-exports[`astro/issue-25/stroustrup > class declaration (2) - static things 1`] = `
+exports[`class declaration (2) - static things 1`] = `
 "---
 class ClassWithStatic {
   static staticMethod() {}
@@ -40,7 +40,7 @@ class ClassWithStatic {
 "
 `;
 
-exports[`astro/issue-25/stroustrup > destructuring assignment with default value 1`] = `
+exports[`destructuring assignment with default value 1`] = `
 "---
 const renderComponent = ({ handleSubmit = () => {}, errors }) => {
   return null;
@@ -55,7 +55,7 @@ const renderComponent = ({ handleSubmit = () => {}, errors }) => {
 "
 `;
 
-exports[`astro/issue-25/stroustrup > do...while 1`] = `
+exports[`do...while 1`] = `
 "---
 do {} while (i < 5);
 ---
@@ -66,7 +66,7 @@ do {} while (i < 5);
 "
 `;
 
-exports[`astro/issue-25/stroustrup > for 1`] = `
+exports[`for 1`] = `
 "---
 for (let i = 0; i < 9; i++) {}
 ---
@@ -77,7 +77,7 @@ for (let i = 0; i < 9; i++) {}
 "
 `;
 
-exports[`astro/issue-25/stroustrup > if...elseif...else 1`] = `
+exports[`if...elseif...else 1`] = `
 "---
 if (foo) {
 }
@@ -98,7 +98,7 @@ else {
 "
 `;
 
-exports[`astro/issue-25/stroustrup > labeled block 1`] = `
+exports[`labeled block 1`] = `
 "---
 foo: {
 }
@@ -111,7 +111,7 @@ foo: {
 "
 `;
 
-exports[`astro/issue-25/stroustrup > object assignment 1`] = `
+exports[`object assignment 1`] = `
 "---
 const foo = {
   bar: {},
@@ -126,7 +126,7 @@ const foo = {
 "
 `;
 
-exports[`astro/issue-25/stroustrup > switch (1) 1`] = `
+exports[`switch (1) 1`] = `
 "---
 switch (expr) {
 }
@@ -139,7 +139,7 @@ switch (expr) {
 "
 `;
 
-exports[`astro/issue-25/stroustrup > switch (2) - case with block 1`] = `
+exports[`switch (2) - case with block 1`] = `
 "---
 switch (action) {
   case "say_hello": {
@@ -164,7 +164,7 @@ switch (action) {
 "
 `;
 
-exports[`astro/issue-25/stroustrup > try...catch...finally 1`] = `
+exports[`try...catch...finally 1`] = `
 "---
 try {
 }
@@ -185,7 +185,7 @@ finally {
 "
 `;
 
-exports[`astro/issue-25/stroustrup > while 1`] = `
+exports[`while 1`] = `
 "---
 while (n < 3) {}
 ---

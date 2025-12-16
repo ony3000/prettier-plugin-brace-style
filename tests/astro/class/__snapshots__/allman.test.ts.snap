@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`astro/class/allman > class declaration (1) - empty body 1`] = `
+exports[`class declaration (1) - empty body 1`] = `
 "---
 class Foo
 {}
@@ -13,7 +13,7 @@ class Foo
 "
 `;
 
-exports[`astro/class/allman > class declaration (2) 1`] = `
+exports[`class declaration (2) 1`] = `
 "---
 class Rectangle
 {
@@ -46,7 +46,7 @@ class Rectangle
 "
 `;
 
-exports[`astro/class/allman > class declaration (3) - with getter/setter 1`] = `
+exports[`class declaration (3) - with getter/setter 1`] = `
 "---
 class User
 {
@@ -101,7 +101,7 @@ class User
 "
 `;
 
-exports[`astro/class/allman > class declaration (4) - with static things 1`] = `
+exports[`class declaration (4) - with static things 1`] = `
 "---
 class ClassWithStaticMethod
 {
@@ -134,7 +134,7 @@ class ClassWithStaticMethod
 "
 `;
 
-exports[`astro/class/allman > class expression 1`] = `
+exports[`class expression 1`] = `
 "---
 const Rectangle = class
 {

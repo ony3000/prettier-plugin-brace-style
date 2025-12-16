@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`vue/try/allman > nested try 1`] = `
+exports[`nested try 1`] = `
 "<script setup lang="ts">
 try
 {
@@ -49,7 +49,7 @@ catch (ex)
 "
 `;
 
-exports[`vue/try/allman > try...catch 1`] = `
+exports[`try...catch 1`] = `
 "<script setup lang="ts">
 try
 {
@@ -86,7 +86,7 @@ catch (ex)
 "
 `;
 
-exports[`vue/try/allman > try...catch...finally 1`] = `
+exports[`try...catch...finally 1`] = `
 "<script setup lang="ts">
 try
 {
@@ -129,7 +129,7 @@ finally
 "
 `;
 
-exports[`vue/try/allman > try...finally 1`] = `
+exports[`try...finally 1`] = `
 "<script setup lang="ts">
 openMyFile();
 try

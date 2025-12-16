@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`typescript/type-alias/stroustrup > extending a type via intersections 1`] = `
+exports[`extending a type via intersections 1`] = `
 "type Animal = {
   name: string;
 };
@@ -11,7 +11,7 @@ type Bear = Animal & {
 "
 `;
 
-exports[`typescript/type-alias/stroustrup > type alias 1`] = `
+exports[`type alias 1`] = `
 "type Point = {
   x: number;
   y: number;

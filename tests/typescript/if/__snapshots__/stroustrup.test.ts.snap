@@ -1,13 +1,13 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`typescript/if/stroustrup > if 1`] = `
+exports[`if 1`] = `
 "if (foo) {
   bar();
 }
 "
 `;
 
-exports[`typescript/if/stroustrup > if...else (1) 1`] = `
+exports[`if...else (1) 1`] = `
 "if (foo) {
   bar();
 }
@@ -17,7 +17,7 @@ else {
 "
 `;
 
-exports[`typescript/if/stroustrup > if...else (2) - with comment 1`] = `
+exports[`if...else (2) - with comment 1`] = `
 "// foo is truthy
 if (foo) {
   bar();
@@ -29,7 +29,7 @@ else {
 "
 `;
 
-exports[`typescript/if/stroustrup > if...elseif...else 1`] = `
+exports[`if...elseif...else 1`] = `
 "if (foo) {
   bar();
 }

@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`vue/while/1tbs > do...while 1`] = `
+exports[`do...while 1`] = `
 "<script setup lang="ts">
 let result = "";
 let i = 0;
@@ -32,7 +32,7 @@ do {
 "
 `;
 
-exports[`vue/while/1tbs > while 1`] = `
+exports[`while 1`] = `
 "<script setup lang="ts">
 let n = 0;
 

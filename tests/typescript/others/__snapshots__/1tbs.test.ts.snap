@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`typescript/others/1tbs > endOfLine: crlf 1`] = `
+exports[`endOfLine: crlf 1`] = `
 "if (foo) {
   bar();
 } else {
@@ -9,7 +9,7 @@ exports[`typescript/others/1tbs > endOfLine: crlf 1`] = `
 "
 `;
 
-exports[`typescript/others/1tbs > tabWidth: 4 1`] = `
+exports[`tabWidth: 4 1`] = `
 "if (foo) {
     bar();
 } else {
@@ -18,7 +18,7 @@ exports[`typescript/others/1tbs > tabWidth: 4 1`] = `
 "
 `;
 
-exports[`typescript/others/1tbs > useTabs: true 1`] = `
+exports[`useTabs: true 1`] = `
 "if (foo) {
 	bar();
 } else {

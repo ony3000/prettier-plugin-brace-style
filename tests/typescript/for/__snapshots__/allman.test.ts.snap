@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`typescript/for/allman > for 1`] = `
+exports[`for 1`] = `
 "for (let i = 0; i < 9; i++)
 {
   console.log(i);
@@ -9,7 +9,7 @@ exports[`typescript/for/allman > for 1`] = `
 "
 `;
 
-exports[`typescript/for/allman > for await...of 1`] = `
+exports[`for await...of 1`] = `
 "async function* asyncGenerator()
 {
   let i = 0;
@@ -29,7 +29,7 @@ exports[`typescript/for/allman > for await...of 1`] = `
 "
 `;
 
-exports[`typescript/for/allman > for...in 1`] = `
+exports[`for...in 1`] = `
 "const obj = { a: 1, b: 2, c: 3 };
 
 for (const prop in obj)
@@ -39,7 +39,7 @@ for (const prop in obj)
 "
 `;
 
-exports[`typescript/for/allman > for...of 1`] = `
+exports[`for...of 1`] = `
 "const array1 = ["a", "b", "c"];
 
 for (const element of array1)

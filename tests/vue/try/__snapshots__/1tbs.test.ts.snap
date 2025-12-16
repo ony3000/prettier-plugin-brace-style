@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`vue/try/1tbs > nested try 1`] = `
+exports[`nested try 1`] = `
 "<script setup lang="ts">
 try {
   try {
@@ -36,7 +36,7 @@ try {
 "
 `;
 
-exports[`vue/try/1tbs > try...catch 1`] = `
+exports[`try...catch 1`] = `
 "<script setup lang="ts">
 try {
   throw new TypeError("oops");
@@ -66,7 +66,7 @@ try {
 "
 `;
 
-exports[`vue/try/1tbs > try...catch...finally 1`] = `
+exports[`try...catch...finally 1`] = `
 "<script setup lang="ts">
 try {
   throw new Error("oops");
@@ -98,7 +98,7 @@ try {
 "
 `;
 
-exports[`vue/try/1tbs > try...finally 1`] = `
+exports[`try...finally 1`] = `
 "<script setup lang="ts">
 openMyFile();
 try {

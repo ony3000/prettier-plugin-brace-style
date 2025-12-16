@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`vue/class/1tbs > class declaration (1) - empty body 1`] = `
+exports[`class declaration (1) - empty body 1`] = `
 "<script setup lang="ts">
 class Foo {}
 </script>
@@ -20,7 +20,7 @@ class Foo {}
 "
 `;
 
-exports[`vue/class/1tbs > class declaration (2) 1`] = `
+exports[`class declaration (2) 1`] = `
 "<script setup lang="ts">
 class Rectangle {
   constructor(height, width) {
@@ -56,7 +56,7 @@ class Rectangle {
 "
 `;
 
-exports[`vue/class/1tbs > class declaration (3) - with getter/setter 1`] = `
+exports[`class declaration (3) - with getter/setter 1`] = `
 "<script setup lang="ts">
 class User {
   constructor(name) {
@@ -110,7 +110,7 @@ class User {
 "
 `;
 
-exports[`vue/class/1tbs > class declaration (4) - with static things 1`] = `
+exports[`class declaration (4) - with static things 1`] = `
 "<script setup lang="ts">
 class ClassWithStaticMethod {
   static staticProperty = "someValue";
@@ -146,7 +146,7 @@ class ClassWithStaticMethod {
 "
 `;
 
-exports[`vue/class/1tbs > class expression 1`] = `
+exports[`class expression 1`] = `
 "<script setup lang="ts">
 const Rectangle = class {
   constructor(height, width) {

@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`astro/for/1tbs > for 1`] = `
+exports[`for 1`] = `
 "---
 for (let i = 0; i < 9; i++) {
   console.log(i);
@@ -17,7 +17,7 @@ for (let i = 0; i < 9; i++) {
 "
 `;
 
-exports[`astro/for/1tbs > for await...of 1`] = `
+exports[`for await...of 1`] = `
 "---
 async function* asyncGenerator() {
   let i = 0;
@@ -50,7 +50,7 @@ async function* asyncGenerator() {
 "
 `;
 
-exports[`astro/for/1tbs > for...in 1`] = `
+exports[`for...in 1`] = `
 "---
 const obj = { a: 1, b: 2, c: 3 };
 
@@ -69,7 +69,7 @@ for (const prop in obj) {
 "
 `;
 
-exports[`astro/for/1tbs > for...of 1`] = `
+exports[`for...of 1`] = `
 "---
 const array1 = ["a", "b", "c"];
 

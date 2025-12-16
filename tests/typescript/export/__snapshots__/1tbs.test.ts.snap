@@ -1,16 +1,16 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`typescript/export/1tbs > default export (1) 1`] = `
+exports[`default export (1) 1`] = `
 "export default {};
 "
 `;
 
-exports[`typescript/export/1tbs > default export (2) 1`] = `
+exports[`default export (2) 1`] = `
 "export default { foo: "bar" };
 "
 `;
 
-exports[`typescript/export/1tbs > default export (3) 1`] = `
+exports[`default export (3) 1`] = `
 "export default {
   foo: "bar",
   baz,
@@ -18,17 +18,17 @@ exports[`typescript/export/1tbs > default export (3) 1`] = `
 "
 `;
 
-exports[`typescript/export/1tbs > named export (1) 1`] = `
+exports[`named export (1) 1`] = `
 "export {};
 "
 `;
 
-exports[`typescript/export/1tbs > named export (2) 1`] = `
+exports[`named export (2) 1`] = `
 "export { foo };
 "
 `;
 
-exports[`typescript/export/1tbs > named export (3) 1`] = `
+exports[`named export (3) 1`] = `
 "export { foo, bar as baz };
 "
 `;

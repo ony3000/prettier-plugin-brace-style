@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`vue/switch/1tbs > switch (1) 1`] = `
+exports[`switch (1) 1`] = `
 "<script setup lang="ts">
 switch (expr) {
   case "Oranges":
@@ -40,7 +40,7 @@ switch (expr) {
 "
 `;
 
-exports[`vue/switch/1tbs > switch (2) - case with block 1`] = `
+exports[`switch (2) - case with block 1`] = `
 "<script setup lang="ts">
 switch (action) {
   case "say_hello": {
@@ -88,7 +88,7 @@ switch (action) {
 "
 `;
 
-exports[`vue/switch/1tbs > switch (3) - complex expression 1`] = `
+exports[`switch (3) - complex expression 1`] = `
 "<script setup lang="ts">
 switch (expr.toLowerCase()) {
   case "oranges":
@@ -128,7 +128,7 @@ switch (expr.toLowerCase()) {
 "
 `;
 
-exports[`vue/switch/1tbs > switch (4) - more complex expression 1`] = `
+exports[`switch (4) - more complex expression 1`] = `
 "<script setup lang="ts">
 switch (
   String(expr)

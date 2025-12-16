@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`vue/issue-25/stroustrup > class declaration (1) - empty method 1`] = `
+exports[`class declaration (1) - empty method 1`] = `
 "<script setup lang="ts">
 class BaseQueue {
   onFlush() {}
@@ -32,7 +32,7 @@ class BaseQueue {
 "
 `;
 
-exports[`vue/issue-25/stroustrup > class declaration (2) - static things 1`] = `
+exports[`class declaration (2) - static things 1`] = `
 "<script setup lang="ts">
 class ClassWithStatic {
   static staticMethod() {}
@@ -58,7 +58,7 @@ class ClassWithStatic {
 "
 `;
 
-exports[`vue/issue-25/stroustrup > destructuring assignment with default value 1`] = `
+exports[`destructuring assignment with default value 1`] = `
 "<script setup lang="ts">
 const renderComponent = ({ handleSubmit = () => {}, errors }) => {
   return null;
@@ -82,7 +82,7 @@ const renderComponent = ({ handleSubmit = () => {}, errors }) => {
 "
 `;
 
-exports[`vue/issue-25/stroustrup > do...while 1`] = `
+exports[`do...while 1`] = `
 "<script setup lang="ts">
 do {} while (i < 5);
 </script>
@@ -102,7 +102,7 @@ do {} while (i < 5);
 "
 `;
 
-exports[`vue/issue-25/stroustrup > for 1`] = `
+exports[`for 1`] = `
 "<script setup lang="ts">
 for (let i = 0; i < 9; i++) {}
 </script>
@@ -122,7 +122,7 @@ for (let i = 0; i < 9; i++) {}
 "
 `;
 
-exports[`vue/issue-25/stroustrup > if...elseif...else 1`] = `
+exports[`if...elseif...else 1`] = `
 "<script setup lang="ts">
 if (foo) {
 }
@@ -152,7 +152,7 @@ else {
 "
 `;
 
-exports[`vue/issue-25/stroustrup > labeled block 1`] = `
+exports[`labeled block 1`] = `
 "<script setup lang="ts">
 foo: {
 }
@@ -174,7 +174,7 @@ foo: {
 "
 `;
 
-exports[`vue/issue-25/stroustrup > object assignment 1`] = `
+exports[`object assignment 1`] = `
 "<script setup lang="ts">
 const foo = {
   bar: {},
@@ -198,7 +198,7 @@ const foo = {
 "
 `;
 
-exports[`vue/issue-25/stroustrup > switch (1) 1`] = `
+exports[`switch (1) 1`] = `
 "<script setup lang="ts">
 switch (expr) {
 }
@@ -220,7 +220,7 @@ switch (expr) {
 "
 `;
 
-exports[`vue/issue-25/stroustrup > switch (2) - case with block 1`] = `
+exports[`switch (2) - case with block 1`] = `
 "<script setup lang="ts">
 switch (action) {
   case "say_hello": {
@@ -254,7 +254,7 @@ switch (action) {
 "
 `;
 
-exports[`vue/issue-25/stroustrup > try...catch...finally 1`] = `
+exports[`try...catch...finally 1`] = `
 "<script setup lang="ts">
 try {
 }
@@ -284,7 +284,7 @@ finally {
 "
 `;
 
-exports[`vue/issue-25/stroustrup > while 1`] = `
+exports[`while 1`] = `
 "<script setup lang="ts">
 while (n < 3) {}
 </script>

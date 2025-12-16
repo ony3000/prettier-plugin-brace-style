@@ -1,12 +1,12 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`typescript/issue-25/allman > ambient module 1`] = `
+exports[`ambient module 1`] = `
 "declare module "url"
 {}
 "
 `;
 
-exports[`typescript/issue-25/allman > class declaration (1) - empty method 1`] = `
+exports[`class declaration (1) - empty method 1`] = `
 "class BaseQueue
 {
   onFlush()
@@ -21,7 +21,7 @@ exports[`typescript/issue-25/allman > class declaration (1) - empty method 1`] =
 "
 `;
 
-exports[`typescript/issue-25/allman > class declaration (2) - static things 1`] = `
+exports[`class declaration (2) - static things 1`] = `
 "class ClassWithStatic
 {
   static staticMethod()
@@ -32,7 +32,7 @@ exports[`typescript/issue-25/allman > class declaration (2) - static things 1`] 
 "
 `;
 
-exports[`typescript/issue-25/allman > destructuring assignment with default value 1`] = `
+exports[`destructuring assignment with default value 1`] = `
 "const renderComponent = ({ handleSubmit = () =>
 {}, errors }) =>
 {
@@ -47,25 +47,25 @@ exports[`typescript/issue-25/allman > destructuring assignment with default valu
 "
 `;
 
-exports[`typescript/issue-25/allman > do...while 1`] = `
+exports[`do...while 1`] = `
 "do
 {} while (i < 5);
 "
 `;
 
-exports[`typescript/issue-25/allman > for 1`] = `
+exports[`for 1`] = `
 "for (let i = 0; i < 9; i++)
 {}
 "
 `;
 
-exports[`typescript/issue-25/allman > global augmentation 1`] = `
+exports[`global augmentation 1`] = `
 "declare global
 {}
 "
 `;
 
-exports[`typescript/issue-25/allman > if...elseif...else 1`] = `
+exports[`if...elseif...else 1`] = `
 "if (foo)
 {
 }
@@ -78,40 +78,40 @@ else
 "
 `;
 
-exports[`typescript/issue-25/allman > interface declaration 1`] = `
+exports[`interface declaration 1`] = `
 "interface Point
 {}
 "
 `;
 
-exports[`typescript/issue-25/allman > labeled block 1`] = `
+exports[`labeled block 1`] = `
 "foo:
 {
 }
 "
 `;
 
-exports[`typescript/issue-25/allman > namespacing 1`] = `
+exports[`namespacing 1`] = `
 "namespace Validation
 {}
 "
 `;
 
-exports[`typescript/issue-25/allman > object assignment 1`] = `
+exports[`object assignment 1`] = `
 "const foo = {
   bar: {},
 };
 "
 `;
 
-exports[`typescript/issue-25/allman > switch (1) 1`] = `
+exports[`switch (1) 1`] = `
 "switch (expr)
 {
 }
 "
 `;
 
-exports[`typescript/issue-25/allman > switch (2) - case with block 1`] = `
+exports[`switch (2) - case with block 1`] = `
 "switch (action)
 {
   case "say_hello":
@@ -127,7 +127,7 @@ exports[`typescript/issue-25/allman > switch (2) - case with block 1`] = `
 "
 `;
 
-exports[`typescript/issue-25/allman > try...catch...finally 1`] = `
+exports[`try...catch...finally 1`] = `
 "try
 {
 }
@@ -140,12 +140,12 @@ finally
 "
 `;
 
-exports[`typescript/issue-25/allman > type alias 1`] = `
+exports[`type alias 1`] = `
 "type Point = {};
 "
 `;
 
-exports[`typescript/issue-25/allman > while 1`] = `
+exports[`while 1`] = `
 "while (n < 3)
 {}
 "

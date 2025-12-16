@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`typescript/template-literal/stroustrup > nested template literal 1`] = `
+exports[`nested template literal 1`] = `
 "const x = \`foo: \${
   1 +
   (function () {
@@ -11,7 +11,7 @@ exports[`typescript/template-literal/stroustrup > nested template literal 1`] = 
 "
 `;
 
-exports[`typescript/template-literal/stroustrup > template literal 1`] = `
+exports[`template literal 1`] = `
 "const x = \`
 if (condition1) {
   foo

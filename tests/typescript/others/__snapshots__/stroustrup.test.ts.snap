@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`typescript/others/stroustrup > endOfLine: crlf 1`] = `
+exports[`endOfLine: crlf 1`] = `
 "if (foo) {
   bar();
 }
@@ -10,7 +10,7 @@ else {
 "
 `;
 
-exports[`typescript/others/stroustrup > tabWidth: 4 1`] = `
+exports[`tabWidth: 4 1`] = `
 "if (foo) {
     bar();
 }
@@ -20,7 +20,7 @@ else {
 "
 `;
 
-exports[`typescript/others/stroustrup > useTabs: true 1`] = `
+exports[`useTabs: true 1`] = `
 "if (foo) {
 	bar();
 }

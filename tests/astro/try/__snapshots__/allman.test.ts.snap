@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`astro/try/allman > nested try 1`] = `
+exports[`nested try 1`] = `
 "---
 try
 {
@@ -39,7 +39,7 @@ catch (ex)
 "
 `;
 
-exports[`astro/try/allman > try...catch 1`] = `
+exports[`try...catch 1`] = `
 "---
 try
 {
@@ -66,7 +66,7 @@ catch (ex)
 "
 `;
 
-exports[`astro/try/allman > try...catch...finally 1`] = `
+exports[`try...catch...finally 1`] = `
 "---
 try
 {
@@ -99,7 +99,7 @@ finally
 "
 `;
 
-exports[`astro/try/allman > try...finally 1`] = `
+exports[`try...finally 1`] = `
 "---
 openMyFile();
 try

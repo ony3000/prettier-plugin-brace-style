@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`vue/comment/1tbs > multi line comment 1`] = `
+exports[`multi line comment 1`] = `
 "<script setup lang="ts">
 /*
 if (foo) {
@@ -32,7 +32,7 @@ if (foo) {
 "
 `;
 
-exports[`vue/comment/1tbs > single line comment (1) 1`] = `
+exports[`single line comment (1) 1`] = `
 "<script setup lang="ts">
 //class Foo {}
 </script>
@@ -52,7 +52,7 @@ exports[`vue/comment/1tbs > single line comment (1) 1`] = `
 "
 `;
 
-exports[`vue/comment/1tbs > single line comment (2) - applied to multi line 1`] = `
+exports[`single line comment (2) - applied to multi line 1`] = `
 "<script setup lang="ts">
 // function foo() {
 //   bar;

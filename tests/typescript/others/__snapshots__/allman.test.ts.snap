@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`typescript/others/allman > endOfLine: crlf 1`] = `
+exports[`endOfLine: crlf 1`] = `
 "if (foo)
 {
   bar();
@@ -12,7 +12,7 @@ else
 "
 `;
 
-exports[`typescript/others/allman > tabWidth: 4 1`] = `
+exports[`tabWidth: 4 1`] = `
 "if (foo)
 {
     bar();
@@ -24,7 +24,7 @@ else
 "
 `;
 
-exports[`typescript/others/allman > useTabs: true 1`] = `
+exports[`useTabs: true 1`] = `
 "if (foo)
 {
 	bar();

@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`vue/try/stroustrup > nested try 1`] = `
+exports[`nested try 1`] = `
 "<script setup lang="ts">
 try {
   try {
@@ -40,7 +40,7 @@ catch (ex) {
 "
 `;
 
-exports[`vue/try/stroustrup > try...catch 1`] = `
+exports[`try...catch 1`] = `
 "<script setup lang="ts">
 try {
   throw new TypeError("oops");
@@ -72,7 +72,7 @@ catch (ex) {
 "
 `;
 
-exports[`vue/try/stroustrup > try...catch...finally 1`] = `
+exports[`try...catch...finally 1`] = `
 "<script setup lang="ts">
 try {
   throw new Error("oops");
@@ -108,7 +108,7 @@ finally {
 "
 `;
 
-exports[`vue/try/stroustrup > try...finally 1`] = `
+exports[`try...finally 1`] = `
 "<script setup lang="ts">
 openMyFile();
 try {

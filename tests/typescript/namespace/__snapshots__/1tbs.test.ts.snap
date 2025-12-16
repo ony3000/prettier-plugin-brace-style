@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`typescript/namespace/1tbs > alias 1`] = `
+exports[`alias 1`] = `
 "namespace Shapes {
   export namespace Polygons {
     export class Triangle {}
@@ -13,7 +13,7 @@ let sq = new polygons.Square(); // Same as 'new Shapes.Polygons.Square()'
 "
 `;
 
-exports[`typescript/namespace/1tbs > ambient namespace 1`] = `
+exports[`ambient namespace 1`] = `
 "declare namespace D3 {
   export interface Selectors {
     select: {
@@ -25,7 +25,7 @@ exports[`typescript/namespace/1tbs > ambient namespace 1`] = `
 "
 `;
 
-exports[`typescript/namespace/1tbs > namespacing 1`] = `
+exports[`namespacing 1`] = `
 "namespace Validation {
   export interface StringValidator {
     isAcceptable(s: string): boolean;

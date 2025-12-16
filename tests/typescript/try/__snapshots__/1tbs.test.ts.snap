@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`typescript/try/1tbs > nested try 1`] = `
+exports[`nested try 1`] = `
 "try {
   try {
     throw new Error("oops");
@@ -13,7 +13,7 @@ exports[`typescript/try/1tbs > nested try 1`] = `
 "
 `;
 
-exports[`typescript/try/1tbs > try...catch 1`] = `
+exports[`try...catch 1`] = `
 "try {
   throw new TypeError("oops");
 } catch ({ name, message }) {
@@ -23,7 +23,7 @@ exports[`typescript/try/1tbs > try...catch 1`] = `
 "
 `;
 
-exports[`typescript/try/1tbs > try...catch...finally 1`] = `
+exports[`try...catch...finally 1`] = `
 "try {
   throw new Error("oops");
 } catch (ex) {
@@ -34,7 +34,7 @@ exports[`typescript/try/1tbs > try...catch...finally 1`] = `
 "
 `;
 
-exports[`typescript/try/1tbs > try...finally 1`] = `
+exports[`try...finally 1`] = `
 "openMyFile();
 try {
   writeMyFile(theData);

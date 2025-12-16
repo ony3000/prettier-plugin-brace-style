@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`vue/label/1tbs > labeled block 1`] = `
+exports[`labeled block 1`] = `
 "<script setup lang="ts">
 foo: {
   console.log("face");

@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`vue/ternary/stroustrup > nested ternary operator 1`] = `
+exports[`nested ternary operator 1`] = `
 "<script setup lang="ts">
 const x = condition1
   ? condition2
@@ -40,7 +40,7 @@ const x = condition1
 "
 `;
 
-exports[`vue/ternary/stroustrup > ternary operator 1`] = `
+exports[`ternary operator 1`] = `
 "<script setup lang="ts">
 const x = condition
   ? function foo() {}

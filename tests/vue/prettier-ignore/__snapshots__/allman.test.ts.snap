@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`vue/prettier-ignore/allman > comments that contain the phrase \`prettier-ignore\` but do not prevent formatting (1) 1`] = `
+exports[`comments that contain the phrase \`prettier-ignore\` but do not prevent formatting (1) 1`] = `
 "<script setup lang="ts">
 /**
  * prettier-ignore
@@ -49,7 +49,7 @@ else
 "
 `;
 
-exports[`vue/prettier-ignore/allman > comments that contain the phrase \`prettier-ignore\` but do not prevent formatting (2) 1`] = `
+exports[`comments that contain the phrase \`prettier-ignore\` but do not prevent formatting (2) 1`] = `
 "<script setup lang="ts">
 // /* prettier-ignore */
 if (condition1)
@@ -94,7 +94,7 @@ else
 "
 `;
 
-exports[`vue/prettier-ignore/allman > ignore comment (1) 1`] = `
+exports[`ignore comment (1) 1`] = `
 "<script setup lang="ts">
 // prettier-ignore
 if (condition1) {
@@ -133,7 +133,7 @@ else
 "
 `;
 
-exports[`vue/prettier-ignore/allman > ignore comment (2) 1`] = `
+exports[`ignore comment (2) 1`] = `
 "<script setup lang="ts">
 /* prettier-ignore */
 if (condition1) {
@@ -172,7 +172,7 @@ else
 "
 `;
 
-exports[`vue/prettier-ignore/allman > ignore comment (3) 1`] = `
+exports[`ignore comment (3) 1`] = `
 "<!-- prettier-ignore -->
 <template>
   <div>
@@ -197,7 +197,7 @@ exports[`vue/prettier-ignore/allman > ignore comment (3) 1`] = `
 "
 `;
 
-exports[`vue/prettier-ignore/allman > ignore comment (4) 1`] = `
+exports[`ignore comment (4) 1`] = `
 "<template>
   <div>
     <!-- prettier-ignore -->

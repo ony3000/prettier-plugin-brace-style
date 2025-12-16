@@ -1,12 +1,12 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`typescript/class/allman > class declaration (1) - empty body 1`] = `
+exports[`class declaration (1) - empty body 1`] = `
 "class Foo
 {}
 "
 `;
 
-exports[`typescript/class/allman > class declaration (2) 1`] = `
+exports[`class declaration (2) 1`] = `
 "class Rectangle
 {
   constructor(height, width)
@@ -22,7 +22,7 @@ exports[`typescript/class/allman > class declaration (2) 1`] = `
 "
 `;
 
-exports[`typescript/class/allman > class declaration (3) - with getter/setter 1`] = `
+exports[`class declaration (3) - with getter/setter 1`] = `
 "class User
 {
   constructor(name)
@@ -49,7 +49,7 @@ exports[`typescript/class/allman > class declaration (3) - with getter/setter 1`
 "
 `;
 
-exports[`typescript/class/allman > class declaration (4) - with static things 1`] = `
+exports[`class declaration (4) - with static things 1`] = `
 "class ClassWithStaticMethod
 {
   static staticProperty = "someValue";
@@ -65,7 +65,7 @@ exports[`typescript/class/allman > class declaration (4) - with static things 1`
 "
 `;
 
-exports[`typescript/class/allman > class expression 1`] = `
+exports[`class expression 1`] = `
 "const Rectangle = class
 {
   constructor(height, width)

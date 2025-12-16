@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`typescript/switch/stroustrup > switch (1) 1`] = `
+exports[`switch (1) 1`] = `
 "switch (expr) {
   case "Oranges":
     console.log("Oranges");
@@ -15,7 +15,7 @@ exports[`typescript/switch/stroustrup > switch (1) 1`] = `
 "
 `;
 
-exports[`typescript/switch/stroustrup > switch (2) - case with block 1`] = `
+exports[`switch (2) - case with block 1`] = `
 "switch (action) {
   case "say_hello": {
     const message = "hello";
@@ -34,7 +34,7 @@ exports[`typescript/switch/stroustrup > switch (2) - case with block 1`] = `
 "
 `;
 
-exports[`typescript/switch/stroustrup > switch (3) - complex expression 1`] = `
+exports[`switch (3) - complex expression 1`] = `
 "switch (expr.toLowerCase()) {
   case "oranges":
     console.log("oranges");
@@ -49,7 +49,7 @@ exports[`typescript/switch/stroustrup > switch (3) - complex expression 1`] = `
 "
 `;
 
-exports[`typescript/switch/stroustrup > switch (4) - more complex expression 1`] = `
+exports[`switch (4) - more complex expression 1`] = `
 "switch (
   String(expr)
     .split("")

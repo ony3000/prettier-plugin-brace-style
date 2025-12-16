@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`vue/others/allman > endOfLine: crlf 1`] = `
+exports[`endOfLine: crlf 1`] = `
 "<script setup lang="ts">
 if (foo)
 {
@@ -35,7 +35,7 @@ else
 "
 `;
 
-exports[`vue/others/allman > tabWidth: 4 1`] = `
+exports[`tabWidth: 4 1`] = `
 "<script setup lang="ts">
 if (foo)
 {
@@ -70,7 +70,7 @@ else
 "
 `;
 
-exports[`vue/others/allman > useTabs: true 1`] = `
+exports[`useTabs: true 1`] = `
 "<script setup lang="ts">
 if (foo)
 {

@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`astro/if/allman > if 1`] = `
+exports[`if 1`] = `
 "---
 if (foo)
 {
@@ -17,7 +17,7 @@ if (foo)
 "
 `;
 
-exports[`astro/if/allman > if...else (1) 1`] = `
+exports[`if...else (1) 1`] = `
 "---
 if (foo)
 {
@@ -42,7 +42,7 @@ else
 "
 `;
 
-exports[`astro/if/allman > if...else (2) - with comment 1`] = `
+exports[`if...else (2) - with comment 1`] = `
 "---
 // foo is truthy
 if (foo)
@@ -71,7 +71,7 @@ else
 "
 `;
 
-exports[`astro/if/allman > if...elseif...else 1`] = `
+exports[`if...elseif...else 1`] = `
 "---
 if (foo)
 {
