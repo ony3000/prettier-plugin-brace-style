@@ -1,0 +1,77 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`vue/comment/stroustrup > multi line comment 1`] = `
+"<script setup lang="ts">
+/*
+if (foo) {
+  bar();
+} else {
+  baz();
+}
+*/
+</script>
+
+<template>
+  <button
+    type="button"
+    @click="
+      () => {
+        /*
+if (foo) {
+  bar();
+} else {
+  baz();
+}
+*/
+      }
+    "
+  >
+    Click Me
+  </button>
+</template>
+"
+`;
+
+exports[`vue/comment/stroustrup > single line comment (1) 1`] = `
+"<script setup lang="ts">
+//class Foo {}
+</script>
+
+<template>
+  <button
+    type="button"
+    @click="
+      () => {
+        //class Foo {}
+      }
+    "
+  >
+    Click Me
+  </button>
+</template>
+"
+`;
+
+exports[`vue/comment/stroustrup > single line comment (2) - applied to multi line 1`] = `
+"<script setup lang="ts">
+// function foo() {
+//   bar;
+// }
+</script>
+
+<template>
+  <button
+    type="button"
+    @click="
+      () => {
+        // function foo() {
+        //   bar;
+        // }
+      }
+    "
+  >
+    Click Me
+  </button>
+</template>
+"
+`;

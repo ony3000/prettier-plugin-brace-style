@@ -1,0 +1,79 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`babel/switch/allman > switch (1) > practical 1`] = `
+"switch (expr)
+{
+  case "Oranges":
+    console.log("Oranges");
+    break;
+  case "Mangoes":
+  case "Papayas":
+    console.log("Mangoes and papayas");
+    break;
+  default:
+    console.log(expr);
+}
+"
+`;
+
+exports[`babel/switch/allman > switch (2) - case with block > practical 1`] = `
+"switch (action)
+{
+  case "say_hello":
+  {
+    const message = "hello";
+    console.log(message);
+    break;
+  }
+  case "say_hi":
+  {
+    const message = "hi";
+    console.log(message);
+    break;
+  }
+  default:
+  {
+    console.log("Empty action received.");
+  }
+}
+"
+`;
+
+exports[`babel/switch/allman > switch (3) - complex expression > practical 1`] = `
+"switch (expr.toLowerCase())
+{
+  case "oranges":
+    console.log("oranges");
+    break;
+  case "mangoes":
+  case "papayas":
+    console.log("mangoes and papayas");
+    break;
+  default:
+    console.log(expr);
+}
+"
+`;
+
+exports[`babel/switch/allman > switch (4) - more complex expression > practical 1`] = `
+"switch (
+  String(expr)
+    .split("")
+    .map((x) => x)
+    .join("")
+    .toUpperCase()
+    .toLowerCase()
+)
+{
+  case "oranges":
+    console.log("oranges");
+    break;
+  case "mangoes":
+  case "papayas":
+    console.log("mangoes and papayas");
+    break;
+  default:
+    console.log(expr);
+}
+"
+`;

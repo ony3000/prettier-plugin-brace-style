@@ -1,0 +1,209 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`vue/prettier-ignore/stroustrup > comments that contain the phrase \`prettier-ignore\` but do not prevent formatting (1) 1`] = `
+"<script setup lang="ts">
+/**
+ * prettier-ignore
+ */
+if (condition1) {
+  foo;
+}
+else if (condition2) {
+  bar;
+}
+else {
+  baz;
+}
+</script>
+
+<!--
+ ! prettier-ignore
+-->
+<template>
+  <button
+    type="button"
+    @click="
+      () => {
+        if (condition1) {
+          foo;
+        }
+        else if (condition2) {
+          bar;
+        }
+        else {
+          baz;
+        }
+      }
+    "
+  >
+    Click Me
+  </button>
+</template>
+"
+`;
+
+exports[`vue/prettier-ignore/stroustrup > comments that contain the phrase \`prettier-ignore\` but do not prevent formatting (2) 1`] = `
+"<script setup lang="ts">
+// /* prettier-ignore */
+if (condition1) {
+  foo;
+}
+else if (condition2) {
+  bar;
+}
+else {
+  baz;
+}
+</script>
+
+<!-- /* prettier-ignore */ -->
+<template>
+  <button
+    type="button"
+    @click="
+      () => {
+        if (condition1) {
+          foo;
+        }
+        else if (condition2) {
+          bar;
+        }
+        else {
+          baz;
+        }
+      }
+    "
+  >
+    Click Me
+  </button>
+</template>
+"
+`;
+
+exports[`vue/prettier-ignore/stroustrup > ignore comment (1) 1`] = `
+"<script setup lang="ts">
+// prettier-ignore
+if (condition1) {
+  foo
+} else if (condition2) {
+  bar
+}
+else
+{
+  baz
+}
+</script>
+
+<template>
+  <button
+    type="button"
+    @click="
+      () => {
+        // prettier-ignore
+        if (condition1) {
+  foo
+} else if (condition2) {
+  bar
+}
+else
+{
+  baz
+}
+      }
+    "
+  >
+    Click Me
+  </button>
+</template>
+"
+`;
+
+exports[`vue/prettier-ignore/stroustrup > ignore comment (2) 1`] = `
+"<script setup lang="ts">
+/* prettier-ignore */
+if (condition1) {
+  foo
+} else if (condition2) {
+  bar
+}
+else
+{
+  baz
+}
+</script>
+
+<template>
+  <button
+    type="button"
+    @click="
+      () => {
+        /* prettier-ignore */
+        if (condition1) {
+  foo
+} else if (condition2) {
+  bar
+}
+else
+{
+  baz
+}
+      }
+    "
+  >
+    Click Me
+  </button>
+</template>
+"
+`;
+
+exports[`vue/prettier-ignore/stroustrup > ignore comment (3) 1`] = `
+"<!-- prettier-ignore -->
+<template>
+  <div>
+    <button
+      type="button"
+      @click="() => {
+        console.log('click')
+      }"
+    >
+      Click Me
+    </button>
+    <button
+      type="button"
+      @click="() => {
+        console.log('click')
+      }"
+    >
+      Click Me
+    </button>
+  </div>
+</template>
+"
+`;
+
+exports[`vue/prettier-ignore/stroustrup > ignore comment (4) 1`] = `
+"<template>
+  <div>
+    <!-- prettier-ignore -->
+    <button
+      type="button"
+      @click="() => {
+        console.log('click')
+      }"
+    >
+      Click Me
+    </button>
+    <button
+      type="button"
+      @click="
+        () => {
+          console.log('click');
+        }
+      "
+    >
+      Click Me
+    </button>
+  </div>
+</template>
+"
+`;

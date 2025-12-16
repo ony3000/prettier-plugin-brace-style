@@ -1,0 +1,64 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`astro/others/stroustrup > endOfLine: crlf 1`] = `
+"---
+if (foo) {
+  bar();
+}
+else {
+  baz();
+}
+---
+
+<script>
+  if (foo) {
+    bar();
+  }
+  else {
+    baz();
+  }
+</script>
+"
+`;
+
+exports[`astro/others/stroustrup > tabWidth: 4 1`] = `
+"---
+if (foo) {
+    bar();
+}
+else {
+    baz();
+}
+---
+
+<script>
+    if (foo) {
+        bar();
+    }
+    else {
+        baz();
+    }
+</script>
+"
+`;
+
+exports[`astro/others/stroustrup > useTabs: true 1`] = `
+"---
+if (foo) {
+	bar();
+}
+else {
+	baz();
+}
+---
+
+<script>
+	if (foo) {
+		bar();
+	}
+	else {
+		baz();
+	}
+</script>
+"
+`;

@@ -1,0 +1,137 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`astro/assignment/stroustrup > conditional assignment (1) 1`] = `
+"---
+const foo = true && {
+  bar: "baz",
+};
+---
+
+<script>
+  const foo = true && {
+    bar: "baz",
+  };
+</script>
+"
+`;
+
+exports[`astro/assignment/stroustrup > conditional assignment (2) 1`] = `
+"---
+const foo = false || {
+  bar: "baz",
+};
+---
+
+<script>
+  const foo = false || {
+    bar: "baz",
+  };
+</script>
+"
+`;
+
+exports[`astro/assignment/stroustrup > conditional assignment (3) 1`] = `
+"---
+const foo = null ?? {
+  bar: "baz",
+};
+---
+
+<script>
+  const foo = null ?? {
+    bar: "baz",
+  };
+</script>
+"
+`;
+
+exports[`astro/assignment/stroustrup > destructuring assignment (1) 1`] = `
+"---
+const {
+  foo,
+  bar: { baz },
+} = {};
+---
+
+<script>
+  const {
+    foo,
+    bar: { baz },
+  } = {};
+</script>
+"
+`;
+
+exports[`astro/assignment/stroustrup > destructuring assignment (2) 1`] = `
+"---
+arr.forEach(
+  ({
+    data: {
+      message: { errors },
+    },
+  }) => {
+    // code
+  },
+);
+---
+
+<script>
+  arr.forEach(
+    ({
+      data: {
+        message: { errors },
+      },
+    }) => {
+      // code
+    },
+  );
+</script>
+"
+`;
+
+exports[`astro/assignment/stroustrup > object assignment (1) 1`] = `
+"---
+const foo = {};
+---
+
+<script>
+  const foo = {};
+</script>
+"
+`;
+
+exports[`astro/assignment/stroustrup > object assignment (2) 1`] = `
+"---
+const foo = {
+  bar: {
+    baz: "baz",
+  },
+};
+---
+
+<script>
+  const foo = {
+    bar: {
+      baz: "baz",
+    },
+  };
+</script>
+"
+`;
+
+exports[`astro/assignment/stroustrup > object assignment (3) 1`] = `
+"---
+const foo = {
+  bar() {},
+  ["baz"]() {},
+};
+---
+
+<script>
+  const foo = {
+    bar() {},
+    ["baz"]() {},
+  };
+</script>
+"
+`;

@@ -1,0 +1,152 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`typescript/issue-25/allman > ambient module 1`] = `
+"declare module "url"
+{}
+"
+`;
+
+exports[`typescript/issue-25/allman > class declaration (1) - empty method 1`] = `
+"class BaseQueue
+{
+  onFlush()
+  {}
+
+  onFlushFail()
+  {}
+
+  onFlushSuccess()
+  {}
+}
+"
+`;
+
+exports[`typescript/issue-25/allman > class declaration (2) - static things 1`] = `
+"class ClassWithStatic
+{
+  static staticMethod()
+  {}
+  static
+  {}
+}
+"
+`;
+
+exports[`typescript/issue-25/allman > destructuring assignment with default value 1`] = `
+"const renderComponent = ({ handleSubmit = () =>
+{}, errors }) =>
+{
+  const ref = React.createRef();
+
+  return render(
+    <StyleErrorsContextProvider initialState={errors}>
+      <PublishButton formRef={ref} handleSubmit={handleSubmit} />
+    </StyleErrorsContextProvider>,
+  );
+};
+"
+`;
+
+exports[`typescript/issue-25/allman > do...while 1`] = `
+"do
+{} while (i < 5);
+"
+`;
+
+exports[`typescript/issue-25/allman > for 1`] = `
+"for (let i = 0; i < 9; i++)
+{}
+"
+`;
+
+exports[`typescript/issue-25/allman > global augmentation 1`] = `
+"declare global
+{}
+"
+`;
+
+exports[`typescript/issue-25/allman > if...elseif...else 1`] = `
+"if (foo)
+{
+}
+else if (baz)
+{
+}
+else
+{
+}
+"
+`;
+
+exports[`typescript/issue-25/allman > interface declaration 1`] = `
+"interface Point
+{}
+"
+`;
+
+exports[`typescript/issue-25/allman > labeled block 1`] = `
+"foo:
+{
+}
+"
+`;
+
+exports[`typescript/issue-25/allman > namespacing 1`] = `
+"namespace Validation
+{}
+"
+`;
+
+exports[`typescript/issue-25/allman > object assignment 1`] = `
+"const foo = {
+  bar: {},
+};
+"
+`;
+
+exports[`typescript/issue-25/allman > switch (1) 1`] = `
+"switch (expr)
+{
+}
+"
+`;
+
+exports[`typescript/issue-25/allman > switch (2) - case with block 1`] = `
+"switch (action)
+{
+  case "say_hello":
+  {
+  }
+  case "say_hi":
+  {
+  }
+  default:
+  {
+  }
+}
+"
+`;
+
+exports[`typescript/issue-25/allman > try...catch...finally 1`] = `
+"try
+{
+}
+catch (ex)
+{
+}
+finally
+{
+}
+"
+`;
+
+exports[`typescript/issue-25/allman > type alias 1`] = `
+"type Point = {};
+"
+`;
+
+exports[`typescript/issue-25/allman > while 1`] = `
+"while (n < 3)
+{}
+"
+`;

@@ -1,0 +1,10 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`typescript/global/1tbs > global augmentation 1`] = `
+"declare global {
+  interface Array<T> {
+    toObservable(): Observable<T>;
+  }
+}
+"
+`;

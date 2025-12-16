@@ -1,0 +1,51 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`typescript/try/stroustrup > nested try 1`] = `
+"try {
+  try {
+    throw new Error("oops");
+  }
+  finally {
+    console.log("finally");
+  }
+}
+catch (ex) {
+  console.error("outer", ex.message);
+}
+"
+`;
+
+exports[`typescript/try/stroustrup > try...catch 1`] = `
+"try {
+  throw new TypeError("oops");
+}
+catch ({ name, message }) {
+  console.log(name);
+  console.log(message);
+}
+"
+`;
+
+exports[`typescript/try/stroustrup > try...catch...finally 1`] = `
+"try {
+  throw new Error("oops");
+}
+catch (ex) {
+  console.error(ex.message);
+}
+finally {
+  console.log("finally");
+}
+"
+`;
+
+exports[`typescript/try/stroustrup > try...finally 1`] = `
+"openMyFile();
+try {
+  writeMyFile(theData);
+}
+finally {
+  closeMyFile();
+}
+"
+`;

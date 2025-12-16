@@ -1,0 +1,37 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`babel/others/allman > endOfLine: crlf > practical 1`] = `
+"if (foo)
+{
+  bar();
+}
+else
+{
+  baz();
+}
+"
+`;
+
+exports[`babel/others/allman > tabWidth: 4 > practical 1`] = `
+"if (foo)
+{
+    bar();
+}
+else
+{
+    baz();
+}
+"
+`;
+
+exports[`babel/others/allman > useTabs: true > practical 1`] = `
+"if (foo)
+{
+	bar();
+}
+else
+{
+	baz();
+}
+"
+`;

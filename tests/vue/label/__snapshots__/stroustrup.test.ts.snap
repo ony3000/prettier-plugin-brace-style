@@ -1,0 +1,31 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`vue/label/stroustrup > labeled block 1`] = `
+"<script setup lang="ts">
+foo: {
+  console.log("face");
+  break foo;
+  console.log("this will not be executed");
+}
+console.log("swap");
+</script>
+
+<template>
+  <button
+    type="button"
+    @click="
+      () => {
+        foo: {
+          console.log('face');
+          break foo;
+          console.log('this will not be executed');
+        }
+        console.log('swap');
+      }
+    "
+  >
+    Click Me
+  </button>
+</template>
+"
+`;

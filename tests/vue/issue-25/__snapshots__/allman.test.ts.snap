@@ -1,0 +1,365 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`vue/issue-25/allman > class declaration (1) - empty method 1`] = `
+"<script setup lang="ts">
+class BaseQueue
+{
+  onFlush()
+  {}
+
+  onFlushFail()
+  {}
+
+  onFlushSuccess()
+  {}
+}
+</script>
+
+<template>
+  <button
+    type="button"
+    @click="
+      () =>
+      {
+        class BaseQueue
+        {
+          onFlush()
+          {}
+
+          onFlushFail()
+          {}
+
+          onFlushSuccess()
+          {}
+        }
+      }
+    "
+  >
+    Click Me
+  </button>
+</template>
+"
+`;
+
+exports[`vue/issue-25/allman > class declaration (2) - static things 1`] = `
+"<script setup lang="ts">
+class ClassWithStatic
+{
+  static staticMethod()
+  {}
+  static
+  {}
+}
+</script>
+
+<template>
+  <button
+    type="button"
+    @click="
+      () =>
+      {
+        class ClassWithStatic
+        {
+          static staticMethod()
+          {}
+          static
+          {}
+        }
+      }
+    "
+  >
+    Click Me
+  </button>
+</template>
+"
+`;
+
+exports[`vue/issue-25/allman > destructuring assignment with default value 1`] = `
+"<script setup lang="ts">
+const renderComponent = ({ handleSubmit = () =>
+{}, errors }) =>
+{
+  return null;
+};
+</script>
+
+<template>
+  <button
+    type="button"
+    @click="
+      () =>
+      {
+        const renderComponent = ({ handleSubmit = () =>
+        {}, errors }) =>
+        {
+          return null;
+        };
+      }
+    "
+  >
+    Click Me
+  </button>
+</template>
+"
+`;
+
+exports[`vue/issue-25/allman > do...while 1`] = `
+"<script setup lang="ts">
+do
+{} while (i < 5);
+</script>
+
+<template>
+  <button
+    type="button"
+    @click="
+      () =>
+      {
+        do
+        {} while (i < 5);
+      }
+    "
+  >
+    Click Me
+  </button>
+</template>
+"
+`;
+
+exports[`vue/issue-25/allman > for 1`] = `
+"<script setup lang="ts">
+for (let i = 0; i < 9; i++)
+{}
+</script>
+
+<template>
+  <button
+    type="button"
+    @click="
+      () =>
+      {
+        for (let i = 0; i < 9; i++)
+        {}
+      }
+    "
+  >
+    Click Me
+  </button>
+</template>
+"
+`;
+
+exports[`vue/issue-25/allman > if...elseif...else 1`] = `
+"<script setup lang="ts">
+if (foo)
+{
+}
+else if (baz)
+{
+}
+else
+{
+}
+</script>
+
+<template>
+  <button
+    type="button"
+    @click="
+      () =>
+      {
+        if (foo)
+        {
+        }
+        else if (baz)
+        {
+        }
+        else
+        {
+        }
+      }
+    "
+  >
+    Click Me
+  </button>
+</template>
+"
+`;
+
+exports[`vue/issue-25/allman > labeled block 1`] = `
+"<script setup lang="ts">
+foo:
+{
+}
+</script>
+
+<template>
+  <button
+    type="button"
+    @click="
+      () =>
+      {
+        foo:
+        {
+        }
+      }
+    "
+  >
+    Click Me
+  </button>
+</template>
+"
+`;
+
+exports[`vue/issue-25/allman > object assignment 1`] = `
+"<script setup lang="ts">
+const foo = {
+  bar: {},
+};
+</script>
+
+<template>
+  <button
+    type="button"
+    @click="
+      () =>
+      {
+        const foo = {
+          bar: {},
+        };
+      }
+    "
+  >
+    Click Me
+  </button>
+</template>
+"
+`;
+
+exports[`vue/issue-25/allman > switch (1) 1`] = `
+"<script setup lang="ts">
+switch (expr)
+{
+}
+</script>
+
+<template>
+  <button
+    type="button"
+    @click="
+      () =>
+      {
+        switch (expr)
+        {
+        }
+      }
+    "
+  >
+    Click Me
+  </button>
+</template>
+"
+`;
+
+exports[`vue/issue-25/allman > switch (2) - case with block 1`] = `
+"<script setup lang="ts">
+switch (action)
+{
+  case "say_hello":
+  {
+  }
+  case "say_hi":
+  {
+  }
+  default:
+  {
+  }
+}
+</script>
+
+<template>
+  <button
+    type="button"
+    @click="
+      () =>
+      {
+        switch (action)
+        {
+          case 'say_hello':
+          {
+          }
+          case 'say_hi':
+          {
+          }
+          default:
+          {
+          }
+        }
+      }
+    "
+  >
+    Click Me
+  </button>
+</template>
+"
+`;
+
+exports[`vue/issue-25/allman > try...catch...finally 1`] = `
+"<script setup lang="ts">
+try
+{
+}
+catch (ex)
+{
+}
+finally
+{
+}
+</script>
+
+<template>
+  <button
+    type="button"
+    @click="
+      () =>
+      {
+        try
+        {
+        }
+        catch (ex)
+        {
+        }
+        finally
+        {
+        }
+      }
+    "
+  >
+    Click Me
+  </button>
+</template>
+"
+`;
+
+exports[`vue/issue-25/allman > while 1`] = `
+"<script setup lang="ts">
+while (n < 3)
+{}
+</script>
+
+<template>
+  <button
+    type="button"
+    @click="
+      () =>
+      {
+        while (n < 3)
+        {}
+      }
+    "
+  >
+    Click Me
+  </button>
+</template>
+"
+`;

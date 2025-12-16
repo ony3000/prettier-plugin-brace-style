@@ -1,0 +1,43 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`astro/while/stroustrup > do...while 1`] = `
+"---
+let result = "";
+let i = 0;
+
+do {
+  i = i + 1;
+  result = result + i;
+} while (i < 5);
+---
+
+<script>
+  let result = "";
+  let i = 0;
+
+  do {
+    i = i + 1;
+    result = result + i;
+  } while (i < 5);
+</script>
+"
+`;
+
+exports[`astro/while/stroustrup > while 1`] = `
+"---
+let n = 0;
+
+while (n < 3) {
+  n++;
+}
+---
+
+<script>
+  let n = 0;
+
+  while (n < 3) {
+    n++;
+  }
+</script>
+"
+`;

@@ -1,0 +1,120 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`typescript/issue-25/1tbs > ambient module 1`] = `
+"declare module "url" {}
+"
+`;
+
+exports[`typescript/issue-25/1tbs > class declaration (1) - empty method 1`] = `
+"class BaseQueue {
+  onFlush() {}
+
+  onFlushFail() {}
+
+  onFlushSuccess() {}
+}
+"
+`;
+
+exports[`typescript/issue-25/1tbs > class declaration (2) - static things 1`] = `
+"class ClassWithStatic {
+  static staticMethod() {}
+  static {}
+}
+"
+`;
+
+exports[`typescript/issue-25/1tbs > destructuring assignment with default value 1`] = `
+"const renderComponent = ({ handleSubmit = () => {}, errors }) => {
+  const ref = React.createRef();
+
+  return render(
+    <StyleErrorsContextProvider initialState={errors}>
+      <PublishButton formRef={ref} handleSubmit={handleSubmit} />
+    </StyleErrorsContextProvider>,
+  );
+};
+"
+`;
+
+exports[`typescript/issue-25/1tbs > do...while 1`] = `
+"do {} while (i < 5);
+"
+`;
+
+exports[`typescript/issue-25/1tbs > for 1`] = `
+"for (let i = 0; i < 9; i++) {}
+"
+`;
+
+exports[`typescript/issue-25/1tbs > global augmentation 1`] = `
+"declare global {}
+"
+`;
+
+exports[`typescript/issue-25/1tbs > if...elseif...else 1`] = `
+"if (foo) {
+} else if (baz) {
+} else {
+}
+"
+`;
+
+exports[`typescript/issue-25/1tbs > interface declaration 1`] = `
+"interface Point {}
+"
+`;
+
+exports[`typescript/issue-25/1tbs > labeled block 1`] = `
+"foo: {
+}
+"
+`;
+
+exports[`typescript/issue-25/1tbs > namespacing 1`] = `
+"namespace Validation {}
+"
+`;
+
+exports[`typescript/issue-25/1tbs > object assignment 1`] = `
+"const foo = {
+  bar: {},
+};
+"
+`;
+
+exports[`typescript/issue-25/1tbs > switch (1) 1`] = `
+"switch (expr) {
+}
+"
+`;
+
+exports[`typescript/issue-25/1tbs > switch (2) - case with block 1`] = `
+"switch (action) {
+  case "say_hello": {
+  }
+  case "say_hi": {
+  }
+  default: {
+  }
+}
+"
+`;
+
+exports[`typescript/issue-25/1tbs > try...catch...finally 1`] = `
+"try {
+} catch (ex) {
+} finally {
+}
+"
+`;
+
+exports[`typescript/issue-25/1tbs > type alias 1`] = `
+"type Point = {};
+"
+`;
+
+exports[`typescript/issue-25/1tbs > while 1`] = `
+"while (n < 3) {}
+"
+`;

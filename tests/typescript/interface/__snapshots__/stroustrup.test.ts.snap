@@ -1,0 +1,20 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`typescript/interface/stroustrup > extending an interface 1`] = `
+"interface Animal {
+  name: string;
+}
+
+interface Bear extends Animal {
+  honey: boolean;
+}
+"
+`;
+
+exports[`typescript/interface/stroustrup > interface declaration 1`] = `
+"interface Point {
+  x: number;
+  y: number;
+}
+"
+`;

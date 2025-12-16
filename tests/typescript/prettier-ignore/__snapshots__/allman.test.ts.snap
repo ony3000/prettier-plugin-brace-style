@@ -1,0 +1,132 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`typescript/prettier-ignore/allman > comments that contain the phrase \`prettier-ignore\` but do not prevent formatting (1) 1`] = `
+"/**
+ * prettier-ignore
+ */
+if (condition1)
+{
+  foo;
+}
+else if (condition2)
+{
+  bar;
+}
+else
+{
+  baz;
+}
+"
+`;
+
+exports[`typescript/prettier-ignore/allman > comments that contain the phrase \`prettier-ignore\` but do not prevent formatting (2) 1`] = `
+"// /* prettier-ignore */
+if (condition1)
+{
+  foo;
+}
+else if (condition2)
+{
+  bar;
+}
+else
+{
+  baz;
+}
+"
+`;
+
+exports[`typescript/prettier-ignore/allman > ignore comment (1) 1`] = `
+"// prettier-ignore
+if (condition1) {
+  foo
+} else if (condition2) {
+  bar
+}
+else
+{
+  baz
+}
+"
+`;
+
+exports[`typescript/prettier-ignore/allman > ignore comment (2) 1`] = `
+"/* prettier-ignore */
+if (condition1) {
+  foo
+} else if (condition2) {
+  bar
+}
+else
+{
+  baz
+}
+"
+`;
+
+exports[`typescript/prettier-ignore/allman > ignore comment (3) 1`] = `
+"// prettier-ignore
+export function MyComponent() {
+  return (
+    <div>
+      <button
+        type="button"
+        onClick={() => {}}
+      >
+        Click me
+      </button>
+      <button
+        type="button"
+        onClick={() => {}}
+      >
+        Click me
+      </button>
+    </div>
+  );
+}
+"
+`;
+
+exports[`typescript/prettier-ignore/allman > ignore comment (4) 1`] = `
+"export function MyComponent()
+{
+  return (
+    <div>
+      {/* prettier-ignore */}
+      <button
+        type="button"
+        onClick={() => {}}
+      >
+        Click me
+      </button>
+      <button type="button" onClick={() =>
+      {}}>
+        Click me
+      </button>
+    </div>
+  );
+}
+"
+`;
+
+exports[`typescript/prettier-ignore/allman > ignore comment (5) 1`] = `
+"export function MyComponent()
+{
+  return (
+    <div>
+      <button
+        type="button"
+        // prettier-ignore
+        onClick={() => {}}
+      >
+        Click me
+      </button>
+      <button type="button" onClick={() =>
+      {}}>
+        Click me
+      </button>
+    </div>
+  );
+}
+"
+`;

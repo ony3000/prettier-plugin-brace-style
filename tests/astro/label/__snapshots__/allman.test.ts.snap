@@ -1,0 +1,24 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`astro/label/allman > labeled block 1`] = `
+"---
+foo:
+{
+  console.log("face");
+  break foo;
+  console.log("this will not be executed");
+}
+console.log("swap");
+---
+
+<script>
+  foo:
+  {
+    console.log("face");
+    break foo;
+    console.log("this will not be executed");
+  }
+  console.log("swap");
+</script>
+"
+`;

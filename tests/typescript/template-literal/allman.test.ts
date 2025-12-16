@@ -3,7 +3,7 @@ import { describe, expect, test } from 'vitest';
 
 import * as thisPlugin from '@/index';
 
-import type { Fixture } from '../../settings';
+import { fixtures } from './fixtures';
 import { baseOptions } from '../../settings';
 
 const options = {
@@ -13,48 +13,6 @@ const options = {
   braceStyle: 'allman',
 };
 
-const fixtures: Fixture[] = [
-  {
-    name: 'template literal',
-    input: `const x = \`
-if (condition1) {
-  foo
-} else if (condition2) {
-  bar
-}
-else
-{
-  baz
-}
-\``,
-    output: `const x = \`
-if (condition1) {
-  foo
-} else if (condition2) {
-  bar
-}
-else
-{
-  baz
-}
-\`;
-`,
-  },
-  {
-    name: 'nested template literal',
-    input: `const x = \`foo: \${1 + (function () { return 2; })() + 3}\``,
-    output: `const x = \`foo: \${
-  1 +
-  (function ()
-  {
-    return 2;
-  })() +
-  3
-}\`;
-`,
-  },
-];
-
 describe('typescript/template-literal/allman', () => {
   for (const fixture of fixtures) {
     test(fixture.name, async () => {
@@ -63,7 +21,7 @@ describe('typescript/template-literal/allman', () => {
           ...options,
           ...(fixture.options ?? {}),
         }),
-      ).toBe(fixture.output);
+      ).toMatchSnapshot();
     });
   }
 });

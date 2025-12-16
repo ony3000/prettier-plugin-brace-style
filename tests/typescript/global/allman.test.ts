@@ -3,7 +3,7 @@ import { describe, expect, test } from 'vitest';
 
 import * as thisPlugin from '@/index';
 
-import type { Fixture } from '../../settings';
+import { fixtures } from './fixtures';
 import { baseOptions } from '../../settings';
 
 const options = {
@@ -13,27 +13,6 @@ const options = {
   braceStyle: 'allman',
 };
 
-const fixtures: Fixture[] = [
-  {
-    name: 'global augmentation',
-    input: `
-declare global {
-  interface Array<T> {
-    toObservable(): Observable<T>;
-  }
-}
-`,
-    output: `declare global
-{
-  interface Array<T>
-  {
-    toObservable(): Observable<T>;
-  }
-}
-`,
-  },
-];
-
 describe('typescript/global/allman', () => {
   for (const fixture of fixtures) {
     test(fixture.name, async () => {
@@ -42,7 +21,7 @@ describe('typescript/global/allman', () => {
           ...options,
           ...(fixture.options ?? {}),
         }),
-      ).toBe(fixture.output);
+      ).toMatchSnapshot();
     });
   }
 });

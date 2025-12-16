@@ -1,0 +1,144 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`typescript/function/allman > IIFE (1) 1`] = `
+"(function ()
+{})();
+"
+`;
+
+exports[`typescript/function/allman > IIFE (2) 1`] = `
+"(() =>
+{})();
+"
+`;
+
+exports[`typescript/function/allman > anonymous function expression 1`] = `
+"(function ()
+{});
+"
+`;
+
+exports[`typescript/function/allman > arrow function expression (1) 1`] = `
+"const sum = (a, b) =>
+{
+  return a + b;
+};
+"
+`;
+
+exports[`typescript/function/allman > arrow function expression (2) 1`] = `
+"const foo = () =>
+{};
+"
+`;
+
+exports[`typescript/function/allman > arrow function that returns object literal (1) 1`] = `
+"const foo = () => ({});
+"
+`;
+
+exports[`typescript/function/allman > arrow function that returns object literal (2) 1`] = `
+"const foo = () => ({ foo: "bar" });
+"
+`;
+
+exports[`typescript/function/allman > arrow function that returns object literal (3) 1`] = `
+"const foo = () => ({
+  foo: "bar",
+  baz,
+});
+"
+`;
+
+exports[`typescript/function/allman > function declaration (1) 1`] = `
+"function sum(a, b)
+{
+  return a + b;
+}
+"
+`;
+
+exports[`typescript/function/allman > function declaration (2) 1`] = `
+"function foo()
+{}
+"
+`;
+
+exports[`typescript/function/allman > function expression (1) 1`] = `
+"const sum = function (a, b)
+{
+  return a + b;
+};
+"
+`;
+
+exports[`typescript/function/allman > function expression (2) 1`] = `
+"const foo = function ()
+{};
+"
+`;
+
+exports[`typescript/function/allman > function that returns object literal (1) 1`] = `
+"function foo()
+{
+  return {};
+}
+"
+`;
+
+exports[`typescript/function/allman > function that returns object literal (2) 1`] = `
+"function foo()
+{
+  return { foo: "bar" };
+}
+"
+`;
+
+exports[`typescript/function/allman > function that returns object literal (3) 1`] = `
+"function foo()
+{
+  return {
+    foo: "bar",
+    baz,
+  };
+}
+"
+`;
+
+exports[`typescript/function/allman > object literal parameter (1) 1`] = `
+"foo({
+  bar,
+  baz: "baz",
+});
+"
+`;
+
+exports[`typescript/function/allman > object literal parameter (2) 1`] = `
+"foo(bar, {
+  baz: "baz",
+});
+"
+`;
+
+exports[`typescript/function/allman > object literal parameter (3) 1`] = `
+"foo(
+  { bar: "bar" },
+  {
+    baz: "baz",
+  },
+);
+"
+`;
+
+exports[`typescript/function/allman > promise chain 1`] = `
+"myPromise
+  .then((value) =>
+  {
+    console.log(value);
+  })
+  .catch((err) =>
+  {
+    console.error(err);
+  });
+"
+`;

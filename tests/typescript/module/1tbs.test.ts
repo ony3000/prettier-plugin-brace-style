@@ -3,7 +3,7 @@ import { describe, expect, test } from 'vitest';
 
 import * as thisPlugin from '@/index';
 
-import type { Fixture } from '../../settings';
+import { fixtures } from './fixtures';
 import { baseOptions } from '../../settings';
 
 const options = {
@@ -13,41 +13,6 @@ const options = {
   braceStyle: '1tbs',
 };
 
-const fixtures: Fixture[] = [
-  {
-    name: 'ambient module',
-    input: `
-declare module "url" {
-  export interface Url {
-    protocol?: string;
-    hostname?: string;
-    pathname?: string;
-  }
-
-  export function parse(
-    urlStr: string,
-    parseQueryString?,
-    slashesDenoteHost?
-  ): Url;
-}
-`,
-    output: `declare module "url" {
-  export interface Url {
-    protocol?: string;
-    hostname?: string;
-    pathname?: string;
-  }
-
-  export function parse(
-    urlStr: string,
-    parseQueryString?,
-    slashesDenoteHost?,
-  ): Url;
-}
-`,
-  },
-];
-
 describe('typescript/module/1tbs', () => {
   for (const fixture of fixtures) {
     test(fixture.name, async () => {
@@ -56,7 +21,7 @@ describe('typescript/module/1tbs', () => {
           ...options,
           ...(fixture.options ?? {}),
         }),
-      ).toBe(fixture.output);
+      ).toMatchSnapshot();
     });
   }
 });

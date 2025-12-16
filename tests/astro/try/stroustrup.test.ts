@@ -3,7 +3,7 @@ import { describe, expect, test } from 'vitest';
 
 import * as thisPlugin from '@/index';
 
-import type { Fixture } from '../../settings';
+import { fixtures } from './fixtures';
 import { baseOptions } from '../../settings';
 
 const options = {
@@ -13,197 +13,6 @@ const options = {
   braceStyle: 'stroustrup',
 };
 
-const fixtures: Fixture[] = [
-  {
-    name: 'try...catch',
-    input: `
----
-try {
-  throw new TypeError('oops');
-} catch (ex) {
-  console.log(ex.name);
-  console.log(ex.message);
-}
----
-
-<script>
-try {
-  throw new TypeError('oops');
-} catch (ex) {
-  console.log(ex.name);
-  console.log(ex.message);
-}
-</script>
-`,
-    output: `---
-try {
-  throw new TypeError("oops");
-}
-catch (ex) {
-  console.log(ex.name);
-  console.log(ex.message);
-}
----
-
-<script>
-  try {
-    throw new TypeError("oops");
-  }
-  catch (ex) {
-    console.log(ex.name);
-    console.log(ex.message);
-  }
-</script>
-`,
-  },
-  {
-    name: 'try...finally',
-    input: `
----
-openMyFile();
-try {
-  writeMyFile(theData);
-} finally {
-  closeMyFile();
-}
----
-
-<script>
-openMyFile();
-try {
-  writeMyFile(theData);
-} finally {
-  closeMyFile();
-}
-</script>
-`,
-    output: `---
-openMyFile();
-try {
-  writeMyFile(theData);
-}
-finally {
-  closeMyFile();
-}
----
-
-<script>
-  openMyFile();
-  try {
-    writeMyFile(theData);
-  }
-  finally {
-    closeMyFile();
-  }
-</script>
-`,
-  },
-  {
-    name: 'try...catch...finally',
-    input: `
----
-try {
-  throw new Error('oops');
-} catch (ex) {
-  console.error(ex.message);
-} finally {
-  console.log('finally');
-}
----
-
-<script>
-try {
-  throw new Error('oops');
-} catch (ex) {
-  console.error(ex.message);
-} finally {
-  console.log('finally');
-}
-</script>
-`,
-    output: `---
-try {
-  throw new Error("oops");
-}
-catch (ex) {
-  console.error(ex.message);
-}
-finally {
-  console.log("finally");
-}
----
-
-<script>
-  try {
-    throw new Error("oops");
-  }
-  catch (ex) {
-    console.error(ex.message);
-  }
-  finally {
-    console.log("finally");
-  }
-</script>
-`,
-  },
-  {
-    name: 'nested try',
-    input: `
----
-try {
-  try {
-    throw new Error('oops');
-  } finally {
-    console.log('finally');
-  }
-} catch (ex) {
-  console.error('outer', ex.message);
-}
----
-
-<script>
-try {
-  try {
-    throw new Error('oops');
-  } finally {
-    console.log('finally');
-  }
-} catch (ex) {
-  console.error('outer', ex.message);
-}
-</script>
-`,
-    output: `---
-try {
-  try {
-    throw new Error("oops");
-  }
-  finally {
-    console.log("finally");
-  }
-}
-catch (ex) {
-  console.error("outer", ex.message);
-}
----
-
-<script>
-  try {
-    try {
-      throw new Error("oops");
-    }
-    finally {
-      console.log("finally");
-    }
-  }
-  catch (ex) {
-    console.error("outer", ex.message);
-  }
-</script>
-`,
-  },
-];
-
 describe('astro/try/stroustrup', () => {
   for (const fixture of fixtures) {
     test(fixture.name, async () => {
@@ -212,7 +21,7 @@ describe('astro/try/stroustrup', () => {
           ...options,
           ...(fixture.options ?? {}),
         }),
-      ).toBe(fixture.output);
+      ).toMatchSnapshot();
     });
   }
 });

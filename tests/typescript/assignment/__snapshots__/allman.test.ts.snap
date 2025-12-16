@@ -1,0 +1,70 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`typescript/assignment/allman > conditional assignment (1) 1`] = `
+"const foo = true && {
+  bar: "baz",
+};
+"
+`;
+
+exports[`typescript/assignment/allman > conditional assignment (2) 1`] = `
+"const foo = false || {
+  bar: "baz",
+};
+"
+`;
+
+exports[`typescript/assignment/allman > conditional assignment (3) 1`] = `
+"const foo = null ?? {
+  bar: "baz",
+};
+"
+`;
+
+exports[`typescript/assignment/allman > destructuring assignment (1) 1`] = `
+"const {
+  foo,
+  bar: { baz },
+} = {};
+"
+`;
+
+exports[`typescript/assignment/allman > destructuring assignment (2) 1`] = `
+"try
+{
+  // code
+}
+catch ({
+  data: {
+    message: { errors },
+  },
+})
+{
+  // code
+}
+"
+`;
+
+exports[`typescript/assignment/allman > object assignment (1) 1`] = `
+"const foo = {};
+"
+`;
+
+exports[`typescript/assignment/allman > object assignment (2) 1`] = `
+"const foo = {
+  bar: {
+    baz: "baz",
+  },
+};
+"
+`;
+
+exports[`typescript/assignment/allman > object assignment (3) 1`] = `
+"const foo = {
+  bar()
+  {},
+  ["baz"]()
+  {},
+};
+"
+`;
