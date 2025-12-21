@@ -1,0 +1,34 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`babel/export/stroustrup > default export (1) > practical 1`] = `
+"export default {};
+"
+`;
+
+exports[`babel/export/stroustrup > default export (2) > practical 1`] = `
+"export default { foo: "bar" };
+"
+`;
+
+exports[`babel/export/stroustrup > default export (3) > practical 1`] = `
+"export default {
+  foo: "bar",
+  baz,
+};
+"
+`;
+
+exports[`babel/export/stroustrup > named export (1) > practical 1`] = `
+"export {};
+"
+`;
+
+exports[`babel/export/stroustrup > named export (2) > practical 1`] = `
+"export { foo };
+"
+`;
+
+exports[`babel/export/stroustrup > named export (3) > practical 1`] = `
+"export { foo, bar as baz };
+"
+`;

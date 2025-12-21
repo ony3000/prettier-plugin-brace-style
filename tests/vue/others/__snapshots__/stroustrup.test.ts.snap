@@ -1,0 +1,91 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`endOfLine: crlf 1`] = `
+"<script setup lang="ts">
+if (foo) {
+  bar();
+}
+else {
+  baz();
+}
+</script>
+
+<template>
+  <button
+    type="button"
+    @click="
+      () => {
+        if (foo) {
+          bar();
+        }
+        else {
+          baz();
+        }
+      }
+    "
+  >
+    Click Me
+  </button>
+</template>
+"
+`;
+
+exports[`tabWidth: 4 1`] = `
+"<script setup lang="ts">
+if (foo) {
+    bar();
+}
+else {
+    baz();
+}
+</script>
+
+<template>
+    <button
+        type="button"
+        @click="
+            () => {
+                if (foo) {
+                    bar();
+                }
+                else {
+                    baz();
+                }
+            }
+        "
+    >
+        Click Me
+    </button>
+</template>
+"
+`;
+
+exports[`useTabs: true 1`] = `
+"<script setup lang="ts">
+if (foo) {
+	bar();
+}
+else {
+	baz();
+}
+</script>
+
+<template>
+	<button
+		type="button"
+		@click="
+			() => {
+				if (foo) {
+					bar();
+				}
+				else {
+					baz();
+				}
+			}
+		"
+	>
+		Click Me
+	</button>
+</template>
+"
+`;

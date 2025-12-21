@@ -4,8 +4,8 @@ import { describe, expect, test } from 'vitest';
 import * as thisPlugin from '@/index';
 
 import { stroustrupLinter } from '../../linters';
-import type { Fixture } from '../../settings';
 import { baseOptions } from '../../settings';
+import { fixtures } from './fixtures';
 
 const options = {
   ...baseOptions,
@@ -13,53 +13,6 @@ const options = {
   parser: 'babel',
   braceStyle: 'stroustrup',
 };
-
-const fixtures: Fixture[] = [
-  {
-    name: 'named import (1)',
-    input: `import { foo } from 'foo'`,
-    output: `import { foo } from "foo";
-`,
-  },
-  {
-    name: 'named import (2)',
-    input: `import {
-  foo,
-  bar,
-  baz,
-} from 'foo'`,
-    output: `import { foo, bar, baz } from "foo";
-`,
-  },
-  {
-    name: 'named import (3)',
-    input: `import {
-  foo,
-  bar,
-  baz,
-  foobar,
-  fooBaz,
-  barFoo,
-  barBaz,
-  bazFoo,
-  bazBar,
-  fooBarBaz,
-} from 'foo'`,
-    output: `import {
-  foo,
-  bar,
-  baz,
-  foobar,
-  fooBaz,
-  barFoo,
-  barBaz,
-  bazFoo,
-  bazBar,
-  fooBarBaz,
-} from "foo";
-`,
-  },
-];
 
 describe('babel/import/stroustrup', () => {
   for (const fixture of fixtures) {
@@ -76,7 +29,7 @@ describe('babel/import/stroustrup', () => {
       });
 
       test('practical', async () => {
-        expect(await promise).toBe(fixture.output);
+        expect(await promise).toMatchSnapshot();
       });
     });
   }

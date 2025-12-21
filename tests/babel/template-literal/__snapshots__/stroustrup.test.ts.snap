@@ -1,0 +1,27 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`babel/template-literal/stroustrup > nested template literal > practical 1`] = `
+"const x = \`foo: \${
+  1 +
+  (function () {
+    return 2;
+  })() +
+  3
+}\`;
+"
+`;
+
+exports[`babel/template-literal/stroustrup > template literal > practical 1`] = `
+"const x = \`
+if (condition1) {
+  foo
+} else if (condition2) {
+  bar
+}
+else
+{
+  baz
+}
+\`;
+"
+`;
