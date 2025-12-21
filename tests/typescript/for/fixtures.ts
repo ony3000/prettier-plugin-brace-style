@@ -1,0 +1,50 @@
+import type { Fixture } from '../../settings';
+
+export const fixtures: Omit<Fixture, 'output'>[] = [
+  {
+    name: 'for',
+    input: `
+for (let i = 0; i < 9; i++) {
+  console.log(i);
+  // more statements
+}
+`,
+  },
+  {
+    name: 'for...in',
+    input: `
+const obj = { a: 1, b: 2, c: 3 };
+
+for (const prop in obj) {
+  console.log(\`\${prop}: \${obj[prop]}\`);
+}
+`,
+  },
+  {
+    name: 'for...of',
+    input: `
+const array1 = ['a', 'b', 'c'];
+
+for (const element of array1) {
+  console.log(element);
+}
+`,
+  },
+  {
+    name: 'for await...of',
+    input: `
+async function* asyncGenerator() {
+  let i = 0;
+  while (i < 3) {
+    yield i++;
+  }
+}
+
+(async () => {
+  for await (const num of asyncGenerator()) {
+    console.log(num);
+  }
+})();
+`,
+  },
+];

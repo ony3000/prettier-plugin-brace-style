@@ -1,0 +1,89 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`for 1`] = `
+"---
+for (let i = 0; i < 9; i++) {
+  console.log(i);
+  // more statements
+}
+---
+
+<script>
+  for (let i = 0; i < 9; i++) {
+    console.log(i);
+    // more statements
+  }
+</script>
+"
+`;
+
+exports[`for await...of 1`] = `
+"---
+async function* asyncGenerator() {
+  let i = 0;
+  while (i < 3) {
+    yield i++;
+  }
+}
+
+(async () => {
+  for await (const num of asyncGenerator()) {
+    console.log(num);
+  }
+})();
+---
+
+<script>
+  async function* asyncGenerator() {
+    let i = 0;
+    while (i < 3) {
+      yield i++;
+    }
+  }
+
+  (async () => {
+    for await (const num of asyncGenerator()) {
+      console.log(num);
+    }
+  })();
+</script>
+"
+`;
+
+exports[`for...in 1`] = `
+"---
+const obj = { a: 1, b: 2, c: 3 };
+
+for (const prop in obj) {
+  console.log(\`\${prop}: \${obj[prop]}\`);
+}
+---
+
+<script>
+  const obj = { a: 1, b: 2, c: 3 };
+
+  for (const prop in obj) {
+    console.log(\`\${prop}: \${obj[prop]}\`);
+  }
+</script>
+"
+`;
+
+exports[`for...of 1`] = `
+"---
+const array1 = ["a", "b", "c"];
+
+for (const element of array1) {
+  console.log(element);
+}
+---
+
+<script>
+  const array1 = ["a", "b", "c"];
+
+  for (const element of array1) {
+    console.log(element);
+  }
+</script>
+"
+`;

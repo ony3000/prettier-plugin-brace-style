@@ -1,0 +1,31 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`babel/others/stroustrup > endOfLine: crlf > practical 1`] = `
+"if (foo) {
+  bar();
+}
+else {
+  baz();
+}
+"
+`;
+
+exports[`babel/others/stroustrup > tabWidth: 4 > practical 1`] = `
+"if (foo) {
+    bar();
+}
+else {
+    baz();
+}
+"
+`;
+
+exports[`babel/others/stroustrup > useTabs: true > practical 1`] = `
+"if (foo) {
+	bar();
+}
+else {
+	baz();
+}
+"
+`;
