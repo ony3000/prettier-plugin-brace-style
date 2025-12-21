@@ -1,0 +1,278 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`IIFE (1) 1`] = `
+"---
+(function () {})();
+---
+
+<script>
+  (function () {})();
+</script>
+"
+`;
+
+exports[`IIFE (2) 1`] = `
+"---
+(() => {})();
+---
+
+<script>
+  (() => {})();
+</script>
+"
+`;
+
+exports[`anonymous function expression 1`] = `
+"---
+(function () {});
+---
+
+<script>
+  (function () {});
+</script>
+"
+`;
+
+exports[`arrow function expression (1) 1`] = `
+"---
+const sum = (a, b) => {
+  return a + b;
+};
+---
+
+<script>
+  const sum = (a, b) => {
+    return a + b;
+  };
+</script>
+"
+`;
+
+exports[`arrow function expression (2) 1`] = `
+"---
+const foo = () => {};
+---
+
+<script>
+  const foo = () => {};
+</script>
+"
+`;
+
+exports[`arrow function that returns object literal (1) 1`] = `
+"---
+const foo = () => ({});
+---
+
+<script>
+  const foo = () => ({});
+</script>
+"
+`;
+
+exports[`arrow function that returns object literal (2) 1`] = `
+"---
+const foo = () => ({ foo: "bar" });
+---
+
+<script>
+  const foo = () => ({ foo: "bar" });
+</script>
+"
+`;
+
+exports[`arrow function that returns object literal (3) 1`] = `
+"---
+const foo = () => ({
+  foo: "bar",
+  baz,
+});
+---
+
+<script>
+  const foo = () => ({
+    foo: "bar",
+    baz,
+  });
+</script>
+"
+`;
+
+exports[`function declaration (1) 1`] = `
+"---
+function sum(a, b) {
+  return a + b;
+}
+---
+
+<script>
+  function sum(a, b) {
+    return a + b;
+  }
+</script>
+"
+`;
+
+exports[`function declaration (2) 1`] = `
+"---
+function foo() {}
+---
+
+<script>
+  function foo() {}
+</script>
+"
+`;
+
+exports[`function expression (1) 1`] = `
+"---
+const sum = function (a, b) {
+  return a + b;
+};
+---
+
+<script>
+  const sum = function (a, b) {
+    return a + b;
+  };
+</script>
+"
+`;
+
+exports[`function expression (2) 1`] = `
+"---
+const foo = function () {};
+---
+
+<script>
+  const foo = function () {};
+</script>
+"
+`;
+
+exports[`function that returns object literal (1) 1`] = `
+"---
+function foo() {
+  return {};
+}
+---
+
+<script>
+  function foo() {
+    return {};
+  }
+</script>
+"
+`;
+
+exports[`function that returns object literal (2) 1`] = `
+"---
+function foo() {
+  return { foo: "bar" };
+}
+---
+
+<script>
+  function foo() {
+    return { foo: "bar" };
+  }
+</script>
+"
+`;
+
+exports[`function that returns object literal (3) 1`] = `
+"---
+function foo() {
+  return {
+    foo: "bar",
+    baz,
+  };
+}
+---
+
+<script>
+  function foo() {
+    return {
+      foo: "bar",
+      baz,
+    };
+  }
+</script>
+"
+`;
+
+exports[`object literal parameter (1) 1`] = `
+"---
+foo({
+  bar,
+  baz: "baz",
+});
+---
+
+<script>
+  foo({
+    bar,
+    baz: "baz",
+  });
+</script>
+"
+`;
+
+exports[`object literal parameter (2) 1`] = `
+"---
+foo(bar, {
+  baz: "baz",
+});
+---
+
+<script>
+  foo(bar, {
+    baz: "baz",
+  });
+</script>
+"
+`;
+
+exports[`object literal parameter (3) 1`] = `
+"---
+foo(
+  { bar: "bar" },
+  {
+    baz: "baz",
+  },
+);
+---
+
+<script>
+  foo(
+    { bar: "bar" },
+    {
+      baz: "baz",
+    },
+  );
+</script>
+"
+`;
+
+exports[`promise chain 1`] = `
+"---
+myPromise
+  .then((value) => {
+    console.log(value);
+  })
+  .catch((err) => {
+    console.error(err);
+  });
+---
+
+<script>
+  myPromise
+    .then((value) => {
+      console.log(value);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+</script>
+"
+`;

@@ -1,0 +1,82 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`babel/class/allman > class declaration (1) - empty body > practical 1`] = `
+"class Foo
+{}
+"
+`;
+
+exports[`babel/class/allman > class declaration (2) > practical 1`] = `
+"class Rectangle
+{
+  constructor(height, width)
+  {
+    this.height = height;
+    this.width = width;
+  }
+  area()
+  {
+    return this.height * this.width;
+  }
+}
+"
+`;
+
+exports[`babel/class/allman > class declaration (3) - with getter/setter > practical 1`] = `
+"class User
+{
+  constructor(name)
+  {
+    // invokes the setter
+    this.name = name;
+  }
+
+  get name()
+  {
+    return this._name;
+  }
+
+  set name(value)
+  {
+    if (value.length < 4)
+    {
+      alert("Name is too short.");
+      return;
+    }
+    this._name = value;
+  }
+}
+"
+`;
+
+exports[`babel/class/allman > class declaration (4) - with static things > practical 1`] = `
+"class ClassWithStaticMethod
+{
+  static staticProperty = "someValue";
+  static staticMethod()
+  {
+    return "static method has been called.";
+  }
+  static
+  {
+    console.log("Class static initialization block called");
+  }
+}
+"
+`;
+
+exports[`babel/class/allman > class expression > practical 1`] = `
+"const Rectangle = class
+{
+  constructor(height, width)
+  {
+    this.height = height;
+    this.width = width;
+  }
+  area()
+  {
+    return this.height * this.width;
+  }
+};
+"
+`;
