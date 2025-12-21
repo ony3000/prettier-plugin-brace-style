@@ -1,0 +1,89 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`if 1`] = `
+"---
+if (foo) {
+  bar();
+}
+---
+
+<script>
+  if (foo) {
+    bar();
+  }
+</script>
+"
+`;
+
+exports[`if...else (1) 1`] = `
+"---
+if (foo) {
+  bar();
+}
+else {
+  baz();
+}
+---
+
+<script>
+  if (foo) {
+    bar();
+  }
+  else {
+    baz();
+  }
+</script>
+"
+`;
+
+exports[`if...else (2) - with comment 1`] = `
+"---
+// foo is truthy
+if (foo) {
+  bar();
+}
+// foo is falsy
+else {
+  baz();
+}
+---
+
+<script>
+  // foo is truthy
+  if (foo) {
+    bar();
+  }
+  // foo is falsy
+  else {
+    baz();
+  }
+</script>
+"
+`;
+
+exports[`if...elseif...else 1`] = `
+"---
+if (foo) {
+  bar();
+}
+else if (baz) {
+  qux();
+}
+else {
+  quux();
+}
+---
+
+<script>
+  if (foo) {
+    bar();
+  }
+  else if (baz) {
+    qux();
+  }
+  else {
+    quux();
+  }
+</script>
+"
+`;

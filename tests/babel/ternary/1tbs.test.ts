@@ -4,8 +4,8 @@ import { describe, expect, test } from 'vitest';
 import * as thisPlugin from '@/index';
 
 import { oneTBSLinter } from '../../linters';
-import type { Fixture } from '../../settings';
 import { baseOptions } from '../../settings';
+import { fixtures } from './fixtures';
 
 const options = {
   ...baseOptions,
@@ -13,37 +13,6 @@ const options = {
   parser: 'babel',
   braceStyle: '1tbs',
 };
-
-const fixtures: Fixture[] = [
-  {
-    name: 'ternary operator',
-    input: `const x = condition ? function foo() {} : function bar() {return 0;}`,
-    output: `const x = condition
-  ? function foo() {}
-  : function bar() {
-      return 0;
-    };
-`,
-  },
-  {
-    name: 'nested ternary operator',
-    input: `const x = condition1
-? (condition2 ? function foo() {} : function bar() {return 0;})
-: (condition3 ? function baz() {} : function qux() {return 0;})`,
-    output: `const x = condition1
-  ? condition2
-    ? function foo() {}
-    : function bar() {
-        return 0;
-      }
-  : condition3
-    ? function baz() {}
-    : function qux() {
-        return 0;
-      };
-`,
-  },
-];
 
 describe('babel/ternary/1tbs', () => {
   for (const fixture of fixtures) {
@@ -60,7 +29,7 @@ describe('babel/ternary/1tbs', () => {
       });
 
       test('practical', async () => {
-        expect(await promise).toBe(fixture.output);
+        expect(await promise).toMatchSnapshot();
       });
     });
   }

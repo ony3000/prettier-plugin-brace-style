@@ -1,0 +1,24 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`babel/comment/1tbs > multi line comment > practical 1`] = `
+"/*
+if (foo) {
+  bar();
+} else {
+  baz();
+}
+*/
+"
+`;
+
+exports[`babel/comment/1tbs > single line comment (1) > practical 1`] = `
+"//class Foo {}
+"
+`;
+
+exports[`babel/comment/1tbs > single line comment (2) - applied to multi line > practical 1`] = `
+"// function foo() {
+//   bar;
+// }
+"
+`;

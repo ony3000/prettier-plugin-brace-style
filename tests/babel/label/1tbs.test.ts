@@ -4,8 +4,8 @@ import { describe, expect, test } from 'vitest';
 import * as thisPlugin from '@/index';
 
 import { oneTBSLinter } from '../../linters';
-import type { Fixture } from '../../settings';
 import { baseOptions } from '../../settings';
+import { fixtures } from './fixtures';
 
 const options = {
   ...baseOptions,
@@ -13,25 +13,6 @@ const options = {
   parser: 'babel',
   braceStyle: '1tbs',
 };
-
-const fixtures: Fixture[] = [
-  {
-    name: 'labeled block',
-    input: `foo: {
-  console.log("face");
-  break foo;
-  console.log("this will not be executed");
-}
-console.log("swap");`,
-    output: `foo: {
-  console.log("face");
-  break foo;
-  console.log("this will not be executed");
-}
-console.log("swap");
-`,
-  },
-];
 
 describe('babel/label/1tbs', () => {
   for (const fixture of fixtures) {
@@ -48,7 +29,7 @@ describe('babel/label/1tbs', () => {
       });
 
       test('practical', async () => {
-        expect(await promise).toBe(fixture.output);
+        expect(await promise).toMatchSnapshot();
       });
     });
   }
