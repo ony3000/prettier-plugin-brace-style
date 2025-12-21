@@ -1,0 +1,21 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`babel/while/stroustrup > do...while > practical 1`] = `
+"let result = "";
+let i = 0;
+
+do {
+  i = i + 1;
+  result = result + i;
+} while (i < 5);
+"
+`;
+
+exports[`babel/while/stroustrup > while > practical 1`] = `
+"let n = 0;
+
+while (n < 3) {
+  n++;
+}
+"
+`;

@@ -1,0 +1,27 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`babel/import/allman > named import (1) > practical 1`] = `
+"import { foo } from "foo";
+"
+`;
+
+exports[`babel/import/allman > named import (2) > practical 1`] = `
+"import { foo, bar, baz } from "foo";
+"
+`;
+
+exports[`babel/import/allman > named import (3) > practical 1`] = `
+"import {
+  foo,
+  bar,
+  baz,
+  foobar,
+  fooBaz,
+  barFoo,
+  barBaz,
+  bazFoo,
+  bazBar,
+  fooBarBaz,
+} from "foo";
+"
+`;
