@@ -70,7 +70,6 @@ const foo = {
     Click Me
   </button>
 </template>
-
 `,
   },
   {
