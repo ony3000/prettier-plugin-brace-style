@@ -1,0 +1,123 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`babel/issue-25/allman > class declaration (1) - empty method > practical 1`] = `
+"class BaseQueue
+{
+  onFlush()
+  {}
+
+  onFlushFail()
+  {}
+
+  onFlushSuccess()
+  {}
+}
+"
+`;
+
+exports[`babel/issue-25/allman > class declaration (2) - static things > practical 1`] = `
+"class ClassWithStatic
+{
+  static staticMethod()
+  {}
+  static
+  {}
+}
+"
+`;
+
+exports[`babel/issue-25/allman > destructuring assignment with default value > practical 1`] = `
+"const renderComponent = ({ handleSubmit = () =>
+{}, errors }) =>
+{
+  const ref = React.createRef();
+
+  return render(
+    <StyleErrorsContextProvider initialState={errors}>
+      <PublishButton formRef={ref} handleSubmit={handleSubmit} />
+    </StyleErrorsContextProvider>,
+  );
+};
+"
+`;
+
+exports[`babel/issue-25/allman > do...while > practical 1`] = `
+"do
+{} while (i < 5);
+"
+`;
+
+exports[`babel/issue-25/allman > for > practical 1`] = `
+"for (let i = 0; i < 9; i++)
+{}
+"
+`;
+
+exports[`babel/issue-25/allman > if...elseif...else > practical 1`] = `
+"if (foo)
+{
+}
+else if (baz)
+{
+}
+else
+{
+}
+"
+`;
+
+exports[`babel/issue-25/allman > labeled block > practical 1`] = `
+"foo:
+{
+}
+"
+`;
+
+exports[`babel/issue-25/allman > object assignment > practical 1`] = `
+"const foo = {
+  bar: {},
+};
+"
+`;
+
+exports[`babel/issue-25/allman > switch (1) > practical 1`] = `
+"switch (expr)
+{
+}
+"
+`;
+
+exports[`babel/issue-25/allman > switch (2) - case with block > practical 1`] = `
+"switch (action)
+{
+  case "say_hello":
+  {
+  }
+  case "say_hi":
+  {
+  }
+  default:
+  {
+  }
+}
+"
+`;
+
+exports[`babel/issue-25/allman > try...catch...finally > practical 1`] = `
+"try
+{
+}
+catch (ex)
+{
+}
+finally
+{
+}
+"
+`;
+
+exports[`babel/issue-25/allman > while > practical 1`] = `
+"while (n < 3)
+{}
+"
+`;

@@ -1,0 +1,50 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`multi line comment 1`] = `
+"---
+/*
+if (foo) {
+  bar();
+} else {
+  baz();
+}
+*/
+---
+
+<script>
+  /*
+if (foo) {
+  bar();
+} else {
+  baz();
+}
+*/
+</script>
+"
+`;
+
+exports[`single line comment (1) 1`] = `
+"---
+//class Foo {}
+---
+
+<script>
+  //class Foo {}
+</script>
+"
+`;
+
+exports[`single line comment (2) - applied to multi line 1`] = `
+"---
+// function foo() {
+//   bar;
+// }
+---
+
+<script>
+  // function foo() {
+  //   bar;
+  // }
+</script>
+"
+`;
