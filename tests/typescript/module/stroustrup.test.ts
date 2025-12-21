@@ -1,9 +1,9 @@
 import { format } from 'prettier';
-import { describe, expect, test } from 'vitest';
+import { expect, test } from 'vitest';
 
 import * as thisPlugin from '@/index';
 
-import type { Fixture } from '../../settings';
+import { fixtures } from './fixtures';
 import { baseOptions } from '../../settings';
 
 const options = {
@@ -13,50 +13,13 @@ const options = {
   braceStyle: 'stroustrup',
 };
 
-const fixtures: Fixture[] = [
-  {
-    name: 'ambient module',
-    input: `
-declare module "url" {
-  export interface Url {
-    protocol?: string;
-    hostname?: string;
-    pathname?: string;
-  }
-
-  export function parse(
-    urlStr: string,
-    parseQueryString?,
-    slashesDenoteHost?
-  ): Url;
+for (const fixture of fixtures) {
+  test(fixture.name, async () => {
+    expect(
+      await format(fixture.input, {
+        ...options,
+        ...(fixture.options ?? {}),
+      }),
+    ).toMatchSnapshot();
+  });
 }
-`,
-    output: `declare module "url" {
-  export interface Url {
-    protocol?: string;
-    hostname?: string;
-    pathname?: string;
-  }
-
-  export function parse(
-    urlStr: string,
-    parseQueryString?,
-    slashesDenoteHost?,
-  ): Url;
-}
-`,
-  },
-];
-
-describe('typescript/module/stroustrup', () => {
-  for (const fixture of fixtures) {
-    test(fixture.name, async () => {
-      expect(
-        await format(fixture.input, {
-          ...options,
-          ...(fixture.options ?? {}),
-        }),
-      ).toBe(fixture.output);
-    });
-  }
-});

@@ -1,0 +1,130 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`babel/function/1tbs > IIFE (1) > practical 1`] = `
+"(function () {})();
+"
+`;
+
+exports[`babel/function/1tbs > IIFE (2) > practical 1`] = `
+"(() => {})();
+"
+`;
+
+exports[`babel/function/1tbs > anonymous function expression > practical 1`] = `
+"(function () {});
+"
+`;
+
+exports[`babel/function/1tbs > arrow function expression (1) > practical 1`] = `
+"const sum = (a, b) => {
+  return a + b;
+};
+"
+`;
+
+exports[`babel/function/1tbs > arrow function expression (2) > practical 1`] = `
+"const foo = () => {};
+"
+`;
+
+exports[`babel/function/1tbs > arrow function that returns object literal (1) > practical 1`] = `
+"const foo = () => ({});
+"
+`;
+
+exports[`babel/function/1tbs > arrow function that returns object literal (2) > practical 1`] = `
+"const foo = () => ({ foo: "bar" });
+"
+`;
+
+exports[`babel/function/1tbs > arrow function that returns object literal (3) > practical 1`] = `
+"const foo = () => ({
+  foo: "bar",
+  baz,
+});
+"
+`;
+
+exports[`babel/function/1tbs > function declaration (1) > practical 1`] = `
+"function sum(a, b) {
+  return a + b;
+}
+"
+`;
+
+exports[`babel/function/1tbs > function declaration (2) > practical 1`] = `
+"function foo() {}
+"
+`;
+
+exports[`babel/function/1tbs > function expression (1) > practical 1`] = `
+"const sum = function (a, b) {
+  return a + b;
+};
+"
+`;
+
+exports[`babel/function/1tbs > function expression (2) > practical 1`] = `
+"const foo = function () {};
+"
+`;
+
+exports[`babel/function/1tbs > function that returns object literal (1) > practical 1`] = `
+"function foo() {
+  return {};
+}
+"
+`;
+
+exports[`babel/function/1tbs > function that returns object literal (2) > practical 1`] = `
+"function foo() {
+  return { foo: "bar" };
+}
+"
+`;
+
+exports[`babel/function/1tbs > function that returns object literal (3) > practical 1`] = `
+"function foo() {
+  return {
+    foo: "bar",
+    baz,
+  };
+}
+"
+`;
+
+exports[`babel/function/1tbs > object literal parameter (1) > practical 1`] = `
+"foo({
+  bar,
+  baz: "baz",
+});
+"
+`;
+
+exports[`babel/function/1tbs > object literal parameter (2) > practical 1`] = `
+"foo(bar, {
+  baz: "baz",
+});
+"
+`;
+
+exports[`babel/function/1tbs > object literal parameter (3) > practical 1`] = `
+"foo(
+  { bar: "bar" },
+  {
+    baz: "baz",
+  },
+);
+"
+`;
+
+exports[`babel/function/1tbs > promise chain > practical 1`] = `
+"myPromise
+  .then((value) => {
+    console.log(value);
+  })
+  .catch((err) => {
+    console.error(err);
+  });
+"
+`;

@@ -1,0 +1,43 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`babel/if/stroustrup > if > practical 1`] = `
+"if (foo) {
+  bar();
+}
+"
+`;
+
+exports[`babel/if/stroustrup > if...else (1) > practical 1`] = `
+"if (foo) {
+  bar();
+}
+else {
+  baz();
+}
+"
+`;
+
+exports[`babel/if/stroustrup > if...else (2) - with comment > practical 1`] = `
+"// foo is truthy
+if (foo) {
+  bar();
+}
+// foo is falsy
+else {
+  baz();
+}
+"
+`;
+
+exports[`babel/if/stroustrup > if...elseif...else > practical 1`] = `
+"if (foo) {
+  bar();
+}
+else if (baz) {
+  qux();
+}
+else {
+  quux();
+}
+"
+`;
