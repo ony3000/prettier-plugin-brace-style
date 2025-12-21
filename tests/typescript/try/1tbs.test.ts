@@ -3,8 +3,8 @@ import { expect, test } from 'vitest';
 
 import * as thisPlugin from '@/index';
 
-import { fixtures } from './fixtures';
 import { baseOptions } from '../../settings';
+import { fixtures } from './fixtures';
 
 const options = {
   ...baseOptions,
