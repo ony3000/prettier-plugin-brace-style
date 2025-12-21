@@ -1,0 +1,66 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`babel/assignment/stroustrup > conditional assignment (1) > practical 1`] = `
+"const foo = true && {
+  bar: "baz",
+};
+"
+`;
+
+exports[`babel/assignment/stroustrup > conditional assignment (2) > practical 1`] = `
+"const foo = false || {
+  bar: "baz",
+};
+"
+`;
+
+exports[`babel/assignment/stroustrup > conditional assignment (3) > practical 1`] = `
+"const foo = null ?? {
+  bar: "baz",
+};
+"
+`;
+
+exports[`babel/assignment/stroustrup > destructuring assignment (1) > practical 1`] = `
+"const {
+  foo,
+  bar: { baz },
+} = {};
+"
+`;
+
+exports[`babel/assignment/stroustrup > destructuring assignment (2) > practical 1`] = `
+"try {
+  // code
+}
+catch ({
+  data: {
+    message: { errors },
+  },
+}) {
+  // code
+}
+"
+`;
+
+exports[`babel/assignment/stroustrup > object assignment (1) > practical 1`] = `
+"const foo = {};
+"
+`;
+
+exports[`babel/assignment/stroustrup > object assignment (2) > practical 1`] = `
+"const foo = {
+  bar: {
+    baz: "baz",
+  },
+};
+"
+`;
+
+exports[`babel/assignment/stroustrup > object assignment (3) > practical 1`] = `
+"const foo = {
+  bar() {},
+  ["baz"]() {},
+};
+"
+`;

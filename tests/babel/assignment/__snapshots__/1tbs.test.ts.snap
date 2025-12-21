@@ -1,0 +1,65 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`babel/assignment/1tbs > conditional assignment (1) > practical 1`] = `
+"const foo = true && {
+  bar: "baz",
+};
+"
+`;
+
+exports[`babel/assignment/1tbs > conditional assignment (2) > practical 1`] = `
+"const foo = false || {
+  bar: "baz",
+};
+"
+`;
+
+exports[`babel/assignment/1tbs > conditional assignment (3) > practical 1`] = `
+"const foo = null ?? {
+  bar: "baz",
+};
+"
+`;
+
+exports[`babel/assignment/1tbs > destructuring assignment (1) > practical 1`] = `
+"const {
+  foo,
+  bar: { baz },
+} = {};
+"
+`;
+
+exports[`babel/assignment/1tbs > destructuring assignment (2) > practical 1`] = `
+"try {
+  // code
+} catch ({
+  data: {
+    message: { errors },
+  },
+}) {
+  // code
+}
+"
+`;
+
+exports[`babel/assignment/1tbs > object assignment (1) > practical 1`] = `
+"const foo = {};
+"
+`;
+
+exports[`babel/assignment/1tbs > object assignment (2) > practical 1`] = `
+"const foo = {
+  bar: {
+    baz: "baz",
+  },
+};
+"
+`;
+
+exports[`babel/assignment/1tbs > object assignment (3) > practical 1`] = `
+"const foo = {
+  bar() {},
+  ["baz"]() {},
+};
+"
+`;

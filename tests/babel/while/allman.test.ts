@@ -4,8 +4,8 @@ import { describe, expect, test } from 'vitest';
 import * as thisPlugin from '@/index';
 
 import { allmanLinter } from '../../linters';
-import type { Fixture } from '../../settings';
 import { baseOptions } from '../../settings';
+import { fixtures } from './fixtures';
 
 const options = {
   ...baseOptions,
@@ -13,47 +13,6 @@ const options = {
   parser: 'babel',
   braceStyle: 'allman',
 };
-
-const fixtures: Fixture[] = [
-  {
-    name: 'while',
-    input: `
-let n = 0;
-
-while (n < 3) {
-  n++;
-}
-`,
-    output: `let n = 0;
-
-while (n < 3)
-{
-  n++;
-}
-`,
-  },
-  {
-    name: 'do...while',
-    input: `
-let result = '';
-let i = 0;
-
-do {
-  i = i + 1;
-  result = result + i;
-} while (i < 5);
-`,
-    output: `let result = "";
-let i = 0;
-
-do
-{
-  i = i + 1;
-  result = result + i;
-} while (i < 5);
-`,
-  },
-];
 
 describe('babel/while/allman', () => {
   for (const fixture of fixtures) {
@@ -70,7 +29,7 @@ describe('babel/while/allman', () => {
       });
 
       test('practical', async () => {
-        expect(await promise).toBe(fixture.output);
+        expect(await promise).toMatchSnapshot();
       });
     });
   }

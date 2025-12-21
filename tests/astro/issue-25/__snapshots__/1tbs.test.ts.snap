@@ -1,0 +1,189 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`class declaration (1) - empty method 1`] = `
+"---
+class BaseQueue {
+  onFlush() {}
+
+  onFlushFail() {}
+
+  onFlushSuccess() {}
+}
+---
+
+<script>
+  class BaseQueue {
+    onFlush() {}
+
+    onFlushFail() {}
+
+    onFlushSuccess() {}
+  }
+</script>
+"
+`;
+
+exports[`class declaration (2) - static things 1`] = `
+"---
+class ClassWithStatic {
+  static staticMethod() {}
+  static {}
+}
+---
+
+<script>
+  class ClassWithStatic {
+    static staticMethod() {}
+    static {}
+  }
+</script>
+"
+`;
+
+exports[`destructuring assignment with default value 1`] = `
+"---
+const renderComponent = ({ handleSubmit = () => {}, errors }) => {
+  return null;
+};
+---
+
+<script>
+  const renderComponent = ({ handleSubmit = () => {}, errors }) => {
+    return null;
+  };
+</script>
+"
+`;
+
+exports[`do...while 1`] = `
+"---
+do {} while (i < 5);
+---
+
+<script>
+  do {} while (i < 5);
+</script>
+"
+`;
+
+exports[`for 1`] = `
+"---
+for (let i = 0; i < 9; i++) {}
+---
+
+<script>
+  for (let i = 0; i < 9; i++) {}
+</script>
+"
+`;
+
+exports[`if...elseif...else 1`] = `
+"---
+if (foo) {
+} else if (baz) {
+} else {
+}
+---
+
+<script>
+  if (foo) {
+  } else if (baz) {
+  } else {
+  }
+</script>
+"
+`;
+
+exports[`labeled block 1`] = `
+"---
+foo: {
+}
+---
+
+<script>
+  foo: {
+  }
+</script>
+"
+`;
+
+exports[`object assignment 1`] = `
+"---
+const foo = {
+  bar: {},
+};
+---
+
+<script>
+  const foo = {
+    bar: {},
+  };
+</script>
+"
+`;
+
+exports[`switch (1) 1`] = `
+"---
+switch (expr) {
+}
+---
+
+<script>
+  switch (expr) {
+  }
+</script>
+"
+`;
+
+exports[`switch (2) - case with block 1`] = `
+"---
+switch (action) {
+  case "say_hello": {
+  }
+  case "say_hi": {
+  }
+  default: {
+  }
+}
+---
+
+<script>
+  switch (action) {
+    case "say_hello": {
+    }
+    case "say_hi": {
+    }
+    default: {
+    }
+  }
+</script>
+"
+`;
+
+exports[`try...catch...finally 1`] = `
+"---
+try {
+} catch (ex) {
+} finally {
+}
+---
+
+<script>
+  try {
+  } catch (ex) {
+  } finally {
+  }
+</script>
+"
+`;
+
+exports[`while 1`] = `
+"---
+while (n < 3) {}
+---
+
+<script>
+  while (n < 3) {}
+</script>
+"
+`;
