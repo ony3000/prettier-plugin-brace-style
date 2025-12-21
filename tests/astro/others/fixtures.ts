@@ -3,21 +3,75 @@ import type { Fixture } from '../../settings';
 export const fixtures: Omit<Fixture, 'output'>[] = [
   {
     name: 'tabWidth: 4',
-    input: `\n---\nif (foo) {\n  bar();\n}\nelse {\n  baz();\n}\n---\n\n<script>\nif (foo) {\n  bar();\n}\nelse {\n  baz();\n}\n</script>\n`,
+    input: `
+---
+if (foo) {
+  bar();
+}
+else {
+  baz();
+}
+---
+
+<script>
+if (foo) {
+  bar();
+}
+else {
+  baz();
+}
+</script>
+`,
     options: {
       tabWidth: 4,
     },
   },
   {
     name: 'useTabs: true',
-    input: `\n---\nif (foo) {\n  bar();\n}\nelse {\n  baz();\n}\n---\n\n<script>\nif (foo) {\n  bar();\n}\nelse {\n  baz();\n}\n</script>\n`,
+    input: `
+---
+if (foo) {
+  bar();
+}
+else {
+  baz();
+}
+---
+
+<script>
+if (foo) {
+  bar();
+}
+else {
+  baz();
+}
+</script>
+`,
     options: {
       useTabs: true,
     },
   },
   {
     name: 'endOfLine: crlf',
-    input: `\n---\nif (foo) {\n  bar();\n}\nelse {\n  baz();\n}\n---\n\n<script>\nif (foo) {\n  bar();\n}\nelse {\n  baz();\n}\n</script>\n`,
+    input: `
+---
+if (foo) {
+  bar();
+}
+else {
+  baz();
+}
+---
+
+<script>
+if (foo) {
+  bar();
+}
+else {
+  baz();
+}
+</script>
+`,
     options: {
       endOfLine: 'crlf',
     },
