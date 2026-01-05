@@ -2,7 +2,7 @@ import type { AST } from 'prettier';
 import { z } from 'zod';
 
 import {
-  findTargetBraceNodesForBabel,
+  findTargetBraceNodesForJavaScript,
   findTargetBraceNodesForTypescript,
   findTargetBraceNodesForHtml,
   findTargetBraceNodesForVue,
@@ -201,8 +201,9 @@ export function parseLineByLineAndAssemble(
       targetBraceNodes = findTargetBraceNodesForSvelte(ast, options);
       break;
     }
-    case 'babel': {
-      targetBraceNodes = findTargetBraceNodesForBabel(ast, options);
+    case 'babel':
+    case 'oxc': {
+      targetBraceNodes = findTargetBraceNodesForJavaScript(ast, options);
       break;
     }
     case 'typescript': {

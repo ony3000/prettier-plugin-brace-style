@@ -61,7 +61,7 @@ function parseTypescript(text: string, options: ParserOptions) {
   return typescriptParsers.typescript.parse(text, options);
 }
 
-export function findTargetBraceNodesForBabel(ast: AST, options: ResolvedOptions): BraceNode[] {
+export function findTargetBraceNodesForJavaScript(ast: AST, options: ResolvedOptions): BraceNode[] {
   /**
    * Most nodes
    */
@@ -694,7 +694,7 @@ export function findTargetBraceNodesForHtml(ast: AST, options: ResolvedOptions):
                 ...options,
                 parser: 'babel',
               });
-              const targetBraceNodesInScript = findTargetBraceNodesForBabel(
+              const targetBraceNodesInScript = findTargetBraceNodesForJavaScript(
                 babelAst,
                 options,
               ).map<BraceNode>(({ type, range: [braceNodeRangeStart, braceNodeRangeEnd] }) => ({
@@ -860,7 +860,7 @@ export function findTargetBraceNodesForVue(ast: AST, options: ResolvedOptions): 
                 ...options,
                 parser: 'babel',
               });
-              const targetBraceNodesInAttribute = findTargetBraceNodesForBabel(
+              const targetBraceNodesInAttribute = findTargetBraceNodesForJavaScript(
                 babelAst,
                 options,
               ).map<BraceNode>(({ type, range: [braceNodeRangeStart, braceNodeRangeEnd] }) => ({
