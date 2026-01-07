@@ -61,7 +61,7 @@ function parseTypescript(text: string, options: ParserOptions) {
   return typescriptParsers.typescript.parse(text, options);
 }
 
-export function findTargetBraceNodesForJavaScript(ast: AST, options: ResolvedOptions): BraceNode[] {
+export function findTargetBraceNodesForBabel(ast: AST, options: ResolvedOptions): BraceNode[] {
   /**
    * Most nodes
    */
@@ -229,6 +229,221 @@ export function findTargetBraceNodesForJavaScript(ast: AST, options: ResolvedOpt
         break;
       }
       case 'File': {
+        nonCommentNodes.push(currentASTNode);
+
+        if (
+          isTypeof(
+            node,
+            z.object({
+              comments: z.array(
+                z.object({
+                  type: z.string(),
+                  value: z.string(),
+                  start: z.number(),
+                  end: z.number(),
+                }),
+              ),
+            }),
+          )
+        ) {
+          node.comments.forEach((comment) => {
+            if (comment.value.trim() === 'prettier-ignore') {
+              prettierIgnoreNodes.push({
+                type: comment.type,
+                range: [comment.start, comment.end],
+              });
+            }
+          });
+        }
+        break;
+      }
+      default: {
+        if (node.type !== 'JSXText') {
+          nonCommentNodes.push(currentASTNode);
+        }
+        break;
+      }
+    }
+  }
+
+  recursion(ast);
+
+  return filterAndSortBraceNodes(nonCommentNodes, prettierIgnoreNodes, braceNodes);
+}
+
+export function findTargetBraceNodesForOxc(
+  ast: AST,
+  options: ResolvedOptions,
+  formattedText: string,
+): BraceNode[] {
+  /**
+   * Most nodes
+   */
+  const nonCommentNodes: ASTNode[] = [];
+  /**
+   * Nodes with a valid 'prettier-ignore' syntax
+   */
+  const prettierIgnoreNodes: ASTNode[] = [];
+  /**
+   * Single brace character as node
+   */
+  const braceNodes: BraceNode[] = [];
+
+  function recursion(node: unknown, parentNode?: { type?: unknown }): void {
+    if (!isTypeof(node, z.object({ type: z.string() }))) {
+      return;
+    }
+
+    Object.entries(node).forEach(([key, value]) => {
+      if (key === 'type') {
+        return;
+      }
+
+      if (Array.isArray(value)) {
+        value.forEach((childNode: unknown) => {
+          recursion(childNode, node);
+        });
+        return;
+      }
+
+      recursion(value, node);
+    });
+
+    if (
+      !isTypeof(
+        node,
+        z.object({
+          start: z.number(),
+          end: z.number(),
+        }),
+      )
+    ) {
+      return;
+    }
+
+    const currentNodeRangeStart = node.start;
+    const currentNodeRangeEnd = node.end;
+    const currentASTNode: ASTNode = {
+      type: node.type,
+      range: [currentNodeRangeStart, currentNodeRangeEnd],
+    };
+
+    switch (node.type) {
+      case 'BlockStatement':
+      case 'ClassBody': {
+        nonCommentNodes.push(currentASTNode);
+
+        braceNodes.push({
+          type: BraceType.OB,
+          range: [currentNodeRangeStart, currentNodeRangeStart + 1],
+        });
+        braceNodes.push({
+          type: parentNode?.type === 'DoWhileStatement' ? BraceType.CBNT : BraceType.CB,
+          range: [currentNodeRangeEnd - 1, currentNodeRangeEnd],
+        });
+        break;
+      }
+      case 'StaticBlock': {
+        nonCommentNodes.push(currentASTNode);
+
+        const offset = 'static '.length;
+        const braceRangeStart = currentNodeRangeStart + offset;
+
+        braceNodes.push({
+          type: BraceType.OB,
+          range: [braceRangeStart, braceRangeStart + 1],
+        });
+        braceNodes.push({
+          type: BraceType.CBNT,
+          range: [currentNodeRangeEnd - 1, currentNodeRangeEnd],
+        });
+        break;
+      }
+      case 'SwitchStatement': {
+        nonCommentNodes.push(currentASTNode);
+
+        if (
+          isTypeof(
+            node,
+            z.object({
+              discriminant: z.object({
+                start: z.number(),
+                end: z.number(),
+              }),
+            }),
+          )
+        ) {
+          const discriminantRangeStart = node.discriminant.start;
+          const discriminantRangeEnd = node.discriminant.end;
+          const isMultiLineExpression =
+            discriminantRangeStart - currentNodeRangeStart > 'switch ('.length;
+
+          // biome-ignore lint/style/noNonNullAssertion: When splitting with a non-empty string, the last element in the result array exists even if the input string is empty.
+          const discriminantStartColumn = formattedText
+            .slice(0, node.discriminant.start)
+            .split(EOL)
+            .at(-1)!.length;
+
+          const indentUnit = options.useTabs ? TAB : SPACE.repeat(options.tabWidth);
+          const indentLevelOfDiscriminant = discriminantStartColumn / indentUnit.length;
+
+          const offset =
+            'switch ('.length +
+            // Length between '(' and `discriminantRangeStart`
+            (discriminantRangeStart - currentNodeRangeStart - 'switch ('.length) +
+            // Length of the discriminant
+            (discriminantRangeEnd - discriminantRangeStart) +
+            // Length between `discriminantRangeEnd` and ')'
+            (isMultiLineExpression
+              ? `${EOL}`.length + (indentLevelOfDiscriminant - 1) * indentUnit.length
+              : 0) +
+            ') '.length;
+
+          const braceRangeStart = currentNodeRangeStart + offset;
+
+          braceNodes.push({
+            type: BraceType.OB,
+            range: [braceRangeStart, braceRangeStart + 1],
+          });
+          braceNodes.push({
+            type: BraceType.CBNT,
+            range: [currentNodeRangeEnd - 1, currentNodeRangeEnd],
+          });
+        }
+        break;
+      }
+      case 'ArrowFunctionExpression':
+      case 'ClassExpression':
+      case 'FunctionExpression':
+      case 'ObjectMethod': {
+        nonCommentNodes.push(currentASTNode);
+
+        braceNodes.forEach((braceNode) => {
+          const [, braceRangeEnd] = braceNode.range;
+
+          if (currentNodeRangeEnd === braceRangeEnd && braceNode.type === BraceType.CB) {
+            braceNode.type = BraceType.CBNT;
+          }
+        });
+        break;
+      }
+      case 'ConditionalExpression': {
+        nonCommentNodes.push(currentASTNode);
+
+        braceNodes.forEach((braceNode) => {
+          const [braceRangeStart, braceRangeEnd] = braceNode.range;
+
+          if (
+            currentNodeRangeStart <= braceRangeStart &&
+            braceRangeEnd <= currentNodeRangeEnd &&
+            braceNode.type === BraceType.OB
+          ) {
+            braceNode.type = BraceType.OBTO;
+          }
+        });
+        break;
+      }
+      case 'Program': {
         nonCommentNodes.push(currentASTNode);
 
         if (
@@ -694,7 +909,7 @@ export function findTargetBraceNodesForHtml(ast: AST, options: ResolvedOptions):
                 ...options,
                 parser: 'babel',
               });
-              const targetBraceNodesInScript = findTargetBraceNodesForJavaScript(
+              const targetBraceNodesInScript = findTargetBraceNodesForBabel(
                 babelAst,
                 options,
               ).map<BraceNode>(({ type, range: [braceNodeRangeStart, braceNodeRangeEnd] }) => ({
@@ -860,7 +1075,7 @@ export function findTargetBraceNodesForVue(ast: AST, options: ResolvedOptions): 
                 ...options,
                 parser: 'babel',
               });
-              const targetBraceNodesInAttribute = findTargetBraceNodesForJavaScript(
+              const targetBraceNodesInAttribute = findTargetBraceNodesForBabel(
                 babelAst,
                 options,
               ).map<BraceNode>(({ type, range: [braceNodeRangeStart, braceNodeRangeEnd] }) => ({

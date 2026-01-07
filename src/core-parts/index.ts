@@ -2,12 +2,13 @@ import type { AST } from 'prettier';
 import { z } from 'zod';
 
 import {
-  findTargetBraceNodesForJavaScript,
+  findTargetBraceNodesForBabel,
   findTargetBraceNodesForTypescript,
   findTargetBraceNodesForHtml,
   findTargetBraceNodesForVue,
   findTargetBraceNodesForAstro,
   findTargetBraceNodesForSvelte,
+  findTargetBraceNodesForOxc,
 } from './finder';
 import type { BraceNode } from './shared';
 import { BraceType, isTypeof } from './shared';
@@ -201,9 +202,8 @@ export function parseLineByLineAndAssemble(
       targetBraceNodes = findTargetBraceNodesForSvelte(ast, options);
       break;
     }
-    case 'babel':
-    case 'oxc': {
-      targetBraceNodes = findTargetBraceNodesForJavaScript(ast, options);
+    case 'babel': {
+      targetBraceNodes = findTargetBraceNodesForBabel(ast, options);
       break;
     }
     case 'typescript': {
@@ -217,6 +217,10 @@ export function parseLineByLineAndAssemble(
     }
     case 'vue': {
       targetBraceNodes = findTargetBraceNodesForVue(ast, options);
+      break;
+    }
+    case 'oxc': {
+      targetBraceNodes = findTargetBraceNodesForOxc(ast, options, formattedText);
       break;
     }
     default: {
