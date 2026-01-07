@@ -1,0 +1,128 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`comments that contain the phrase \`prettier-ignore\` but do not prevent formatting (1) 1`] = `
+"/**
+ * prettier-ignore
+ */
+if (condition1) {
+  foo;
+} else if (condition2) {
+  bar;
+} else {
+  baz;
+}
+"
+`;
+
+exports[`comments that contain the phrase \`prettier-ignore\` but do not prevent formatting (2) 1`] = `
+"// /* prettier-ignore */
+if (condition1) {
+  foo;
+} else if (condition2) {
+  bar;
+} else {
+  baz;
+}
+"
+`;
+
+exports[`ignore comment (1) 1`] = `
+"/* eslint-disable brace-style */
+// prettier-ignore
+if (condition1) {
+  foo
+} else if (condition2) {
+  bar
+}
+else
+{
+  baz
+}
+/* eslint-enable brace-style */
+"
+`;
+
+exports[`ignore comment (2) 1`] = `
+"/* eslint-disable brace-style */
+/* prettier-ignore */
+if (condition1) {
+  foo
+} else if (condition2) {
+  bar
+}
+else
+{
+  baz
+}
+/* eslint-enable brace-style */
+"
+`;
+
+exports[`ignore comment (3) 1`] = `
+"/* eslint-disable brace-style */
+// prettier-ignore
+export function MyComponent() {
+  return (
+    <div>
+      <button
+        type="button"
+        onClick={() => {}}
+      >
+        Click me
+      </button>
+      <button
+        type="button"
+        onClick={() => {}}
+      >
+        Click me
+      </button>
+    </div>
+  );
+}
+/* eslint-enable brace-style */
+"
+`;
+
+exports[`ignore comment (4) 1`] = `
+"export function MyComponent() {
+  return (
+    <div>
+      {/* eslint-disable brace-style */}
+      {/* prettier-ignore */}
+      <button
+        type="button"
+        onClick={() => {}}
+      >
+        Click me
+      </button>
+      {/* eslint-enable brace-style */}
+      <button type="button" onClick={() => {}}>
+        Click me
+      </button>
+    </div>
+  );
+}
+"
+`;
+
+exports[`ignore comment (5) 1`] = `
+"export function MyComponent() {
+  return (
+    <div>
+      <button
+        type="button"
+        /* eslint-disable brace-style */
+        // prettier-ignore
+        onClick={() => {}}
+        /* eslint-enable brace-style */
+      >
+        Click me
+      </button>
+      <button type="button" onClick={() => {}}>
+        Click me
+      </button>
+    </div>
+  );
+}
+"
+`;

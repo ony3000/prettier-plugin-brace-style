@@ -1,3 +1,4 @@
+import { parsers as oxcParsers } from '@prettier/plugin-oxc';
 import type { AST, Parser, Plugin } from 'prettier';
 import { format } from 'prettier';
 import { parsers as babelParsers } from 'prettier/plugins/babel';
@@ -28,11 +29,21 @@ async function advancedParse(
 
 function transformParser(
   parserName: SupportedParserNames,
-  defaultParser: Parser,
-  languageName?: string,
+  transformOptions:
+    | {
+        defaultParser: Parser;
+        externalPluginName?: string;
+      }
+    | {
+        defaultParser: null;
+        externalPluginName: string;
+      },
 ): Parser {
+  const { defaultParser, externalPluginName } = transformOptions;
+  let refinedParser = defaultParser;
+
   return {
-    ...defaultParser,
+    ...(refinedParser ?? {}),
     // @ts-expect-error
     parse: async (text: string, options: ResolvedOptions): Promise<FormattedTextAST> => {
       if (options.parentParser === 'markdown' || options.parentParser === 'mdx') {
@@ -68,34 +79,44 @@ function transformParser(
 
       const plugins = options.plugins.filter((plugin) => typeof plugin !== 'string') as Plugin[];
 
-      let languageImplementedPlugin: Plugin | undefined;
-      let languageImplementedParser: Parser | undefined;
-      if (languageName) {
-        languageImplementedPlugin = plugins
-          .filter((plugin) => plugin.languages?.some((language) => language.name === languageName))
-          .at(0);
-        languageImplementedParser = languageImplementedPlugin?.parsers?.[parserName];
+      let externalPlugin: Plugin | undefined;
+      let externalParser: Parser | undefined;
 
-        if (!languageImplementedPlugin || !languageImplementedParser) {
-          throw new Error(
-            `There doesn't seem to be any plugin that supports ${languageName} formatting.`,
-          );
+      if (externalPluginName) {
+        externalPlugin = plugins
+          .filter(
+            (plugin) =>
+              // @ts-expect-error: `name` is presumed to be injected internally by Prettier.
+              plugin.name === externalPluginName,
+          )
+          .at(0);
+
+        if (!externalPlugin) {
+          throw new Error('There is no plugin with the given name.');
         }
 
-        defaultParser = languageImplementedParser;
+        externalParser = externalPlugin.parsers?.[parserName];
+
+        if (refinedParser === null) {
+          if (!externalParser) {
+            throw new Error('The plugin does not contain a parser.');
+          }
+
+          refinedParser = externalParser;
+        }
       }
 
-      const customLanguageSupportedPlugins = languageImplementedPlugin
-        ? [languageImplementedPlugin]
-        : [];
+      if (refinedParser === null) {
+        throw new Error('Could not find a suitable parser.');
+      }
 
       const formattedText = await format(text, {
         ...options,
-        plugins: customLanguageSupportedPlugins,
+        plugins: externalPlugin ? [externalPlugin] : [],
         endOfLine: 'lf',
       });
 
-      const ast = await advancedParse(formattedText, parserName, defaultParser, options);
+      const ast = await advancedParse(formattedText, parserName, refinedParser, options);
       const result = parseLineByLineAndAssemble(formattedText, ast, options);
 
       return {
@@ -108,11 +129,35 @@ function transformParser(
 }
 
 export const parsers: { [parserName: string]: Parser } = {
-  babel: transformParser('babel', babelParsers.babel),
-  typescript: transformParser('typescript', typescriptParsers.typescript),
-  angular: transformParser('angular', htmlParsers.angular),
-  html: transformParser('html', htmlParsers.html),
-  vue: transformParser('vue', htmlParsers.vue),
-  astro: transformParser('astro', {} as Parser, 'astro'),
-  svelte: transformParser('svelte', {} as Parser, 'svelte'),
+  babel: transformParser('babel', {
+    defaultParser: babelParsers.babel,
+  }),
+  typescript: transformParser('typescript', {
+    defaultParser: typescriptParsers.typescript,
+  }),
+  angular: transformParser('angular', {
+    defaultParser: htmlParsers.angular,
+  }),
+  html: transformParser('html', {
+    defaultParser: htmlParsers.html,
+  }),
+  vue: transformParser('vue', {
+    defaultParser: htmlParsers.vue,
+  }),
+  oxc: transformParser('oxc', {
+    defaultParser: oxcParsers.oxc,
+    externalPluginName: '@prettier/plugin-oxc',
+  }),
+  'oxc-ts': transformParser('oxc-ts', {
+    defaultParser: oxcParsers['oxc-ts'],
+    externalPluginName: '@prettier/plugin-oxc',
+  }),
+  astro: transformParser('astro', {
+    defaultParser: null,
+    externalPluginName: 'prettier-plugin-astro',
+  }),
+  svelte: transformParser('svelte', {
+    defaultParser: null,
+    externalPluginName: 'prettier-plugin-svelte',
+  }),
 };
