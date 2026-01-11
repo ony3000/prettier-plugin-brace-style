@@ -203,7 +203,8 @@ export function parseLineByLineAndAssemble(
       targetBraceNodes = findTargetBraceNodesForSvelte(ast, options);
       break;
     }
-    case 'babel': {
+    case 'babel':
+    case 'babel-ts': {
       targetBraceNodes = findTargetBraceNodesForBabel(ast, options);
       break;
     }

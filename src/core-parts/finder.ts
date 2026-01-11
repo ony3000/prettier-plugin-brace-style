@@ -129,6 +129,21 @@ export function findTargetBraceNodesForBabel(ast: AST, options: ResolvedOptions)
         });
         break;
       }
+      case 'TSEnumBody':
+      case 'TSInterfaceBody':
+      case 'TSModuleBlock': {
+        nonCommentNodes.push(currentASTNode);
+
+        braceNodes.push({
+          type: BraceType.OB,
+          range: [currentNodeRangeStart, currentNodeRangeStart + 1],
+        });
+        braceNodes.push({
+          type: BraceType.CBNT,
+          range: [currentNodeRangeEnd - 1, currentNodeRangeEnd],
+        });
+        break;
+      }
       case 'StaticBlock': {
         nonCommentNodes.push(currentASTNode);
 
