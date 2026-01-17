@@ -95,6 +95,28 @@ export function findTargetBraceNodesForBabel(ast: AST, options: ResolvedOptions)
       recursion(value, node);
     });
 
+    if (node.type === 'TSEnumBody') {
+      if (
+        isTypeof(
+          node,
+          z.object({
+            start: z.undefined(),
+            end: z.undefined(),
+            range: z.custom<NodeRange>((value) =>
+              isTypeof(value, z.tuple([z.number(), z.number()])),
+            ),
+          }),
+        )
+      ) {
+        const [rangeStart, rangeEnd] = node.range;
+
+        // @ts-expect-error: Handles babel-ts parser cases for Prettier versions less than 3.7.
+        node.start = rangeStart;
+        // @ts-expect-error: Handles babel-ts parser cases for Prettier versions less than 3.7.
+        node.end = rangeEnd;
+      }
+    }
+
     if (
       !isTypeof(
         node,
