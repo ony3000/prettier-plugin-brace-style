@@ -95,6 +95,7 @@ export function findTargetBraceNodesForBabel(ast: AST, options: ResolvedOptions)
       recursion(value, node);
     });
 
+    // NOTE: This type of AST does not exist in Prettier versions less than 3.6.
     if (node.type === 'TSEnumBody') {
       if (
         isTypeof(
@@ -110,9 +111,9 @@ export function findTargetBraceNodesForBabel(ast: AST, options: ResolvedOptions)
       ) {
         const [rangeStart, rangeEnd] = node.range;
 
-        // @ts-expect-error: Handles babel-ts parser cases for Prettier versions less than 3.7.
+        // @ts-expect-error: Handles babel-ts parser cases in Prettier version 3.6.
         node.start = rangeStart;
-        // @ts-expect-error: Handles babel-ts parser cases for Prettier versions less than 3.7.
+        // @ts-expect-error: Handles babel-ts parser cases in Prettier version 3.6.
         node.end = rangeEnd;
       }
     }
