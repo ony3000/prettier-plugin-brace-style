@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        prettier-version: [v3.6, v3.7]
+        prettier-version: [v3.0, v3.1, v3.2, v3.3, v3.4, v3.5, v3.6, v3.7]
     steps:
       - uses: actions/checkout@v3
         with:
@@ -34,11 +34,6 @@ jobs:
           registry-url: https://registry.npmjs.org/
       - uses: pnpm/action-setup@v2
         with:
-          run_install: false
-      - name: Reinstall dependencies
-        # Refs: https://github.com/oxc-project/oxc/issues/14598#issuecomment-3404260748
-        run: |
-          rm -rf node_modules
-          pnpm install
+          run_install: true
       - name: Perform a test
         run: pnpm run test
