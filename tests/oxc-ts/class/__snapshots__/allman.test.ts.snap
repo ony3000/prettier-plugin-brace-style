@@ -1,0 +1,82 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`class declaration (1) - empty body 1`] = `
+"class Foo
+{}
+"
+`;
+
+exports[`class declaration (2) 1`] = `
+"class Rectangle
+{
+  constructor(height, width)
+  {
+    this.height = height;
+    this.width = width;
+  }
+  area()
+  {
+    return this.height * this.width;
+  }
+}
+"
+`;
+
+exports[`class declaration (3) - with getter/setter 1`] = `
+"class User
+{
+  constructor(name)
+  {
+    // invokes the setter
+    this.name = name;
+  }
+
+  get name()
+  {
+    return this._name;
+  }
+
+  set name(value)
+  {
+    if (value.length < 4)
+    {
+      alert("Name is too short.");
+      return;
+    }
+    this._name = value;
+  }
+}
+"
+`;
+
+exports[`class declaration (4) - with static things 1`] = `
+"class ClassWithStaticMethod
+{
+  static staticProperty = "someValue";
+  static staticMethod()
+  {
+    return "static method has been called.";
+  }
+  static
+  {
+    console.log("Class static initialization block called");
+  }
+}
+"
+`;
+
+exports[`class expression 1`] = `
+"const Rectangle = class
+{
+  constructor(height, width)
+  {
+    this.height = height;
+    this.width = width;
+  }
+  area()
+  {
+    return this.height * this.width;
+  }
+};
+"
+`;
