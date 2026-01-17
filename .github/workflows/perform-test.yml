@@ -34,11 +34,6 @@ jobs:
           registry-url: https://registry.npmjs.org/
       - uses: pnpm/action-setup@v2
         with:
-          run_install: false
-      - name: Reinstall dependencies
-        # Refs: https://github.com/oxc-project/oxc/issues/14598#issuecomment-3404260748
-        run: |
-          rm -rf node_modules
-          pnpm install
+          run_install: true
       - name: Perform a test
         run: pnpm run test
