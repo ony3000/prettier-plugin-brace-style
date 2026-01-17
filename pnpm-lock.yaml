@@ -15,7 +15,7 @@ importers:
       '@biomejs/biome':
         specifier: 2.0.0
         version: 2.0.0
-      '@oxc-parser/binding-darwin-arm64':
+      '@oxc-parser/binding-linux-x64-gnu':
         specifier: 0.99.0
         version: 0.99.0
       '@prettier/plugin-oxc':
@@ -599,7 +599,6 @@ packages:
   '@oxc-parser/binding-linux-x64-gnu@0.99.0':
     resolution: {integrity: sha512-YVJMfk5cFWB8i2/nIrbk6n15bFkMHqWnMIWkVx7r2KwpTxHyFMfu2IpeVKo1ITDSmt5nBrGdLHD36QRlu2nDLg==}
     engines: {node: ^20.19.0 || >=22.12.0}
-    cpu: [x64]
     os: [linux]
 
   '@oxc-parser/binding-linux-x64-musl@0.99.0':
@@ -1948,7 +1947,8 @@ snapshots:
   '@oxc-parser/binding-android-arm64@0.99.0':
     optional: true
 
-  '@oxc-parser/binding-darwin-arm64@0.99.0': {}
+  '@oxc-parser/binding-darwin-arm64@0.99.0':
+    optional: true
 
   '@oxc-parser/binding-darwin-x64@0.99.0':
     optional: true
@@ -1974,8 +1974,7 @@ snapshots:
   '@oxc-parser/binding-linux-s390x-gnu@0.99.0':
     optional: true
 
-  '@oxc-parser/binding-linux-x64-gnu@0.99.0':
-    optional: true
+  '@oxc-parser/binding-linux-x64-gnu@0.99.0': {}
 
   '@oxc-parser/binding-linux-x64-musl@0.99.0':
     optional: true
