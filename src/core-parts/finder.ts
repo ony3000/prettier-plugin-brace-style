@@ -3,14 +3,7 @@ import { parsers as babelParsers } from 'prettier/plugins/babel';
 import { parsers as typescriptParsers } from 'prettier/plugins/typescript';
 import { z } from 'zod';
 
-import type { NodeRange, BraceNode } from './shared';
-import { BraceType, isTypeof } from './shared';
-
-const EOL = '\n';
-
-const SPACE = ' ';
-
-const TAB = '\t';
+import { type NodeRange, type BraceNode, BraceType, EOL, SPACE, TAB, isTypeof } from './utils';
 
 type ASTNode = {
   type: string;

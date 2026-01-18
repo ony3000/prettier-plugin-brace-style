@@ -5,8 +5,7 @@ import { parsers as htmlParsers } from 'prettier/plugins/html';
 import { parsers as typescriptParsers } from 'prettier/plugins/typescript';
 
 import { parseLineByLineAndAssemble, refineSvelteAst } from './core-parts';
-
-const EOL = '\n';
+import { EOL } from './core-parts/utils';
 
 async function advancedParse(
   text: string,

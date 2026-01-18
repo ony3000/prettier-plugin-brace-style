@@ -11,10 +11,7 @@ import {
   findTargetBraceNodesForOxc,
   findTargetBraceNodesForOxcTypeScript,
 } from './finder';
-import type { BraceNode } from './shared';
-import { BraceType, isTypeof } from './shared';
-
-const EOL = '\n';
+import { type BraceNode, BraceType, EOL, isTypeof } from './utils';
 
 type LinePart = {
   type: string;
