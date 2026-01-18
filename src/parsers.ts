@@ -4,8 +4,8 @@ import { parsers as babelParsers } from 'prettier/plugins/babel';
 import { parsers as htmlParsers } from 'prettier/plugins/html';
 import { parsers as typescriptParsers } from 'prettier/plugins/typescript';
 
-import { parseLineByLineAndAssemble } from './core-parts';
 import { advancedParse } from './core-parts/parser';
+import { parseLineByLineAndAssemble } from './core-parts/processor';
 import { EOL } from './core-parts/utils';
 
 function transformParser(
