@@ -1,9 +1,9 @@
 import type { AST } from 'prettier';
 
 import {
-  findTargetBraceNodesForAstro,
   findTargetBraceNodesBasedOnJavaScript,
   findTargetBraceNodesBasedOnHtml,
+  findTargetBraceNodesBasedOnAstro,
 } from './finder';
 import { type BraceNode, BraceType, EOL } from './utils';
 
@@ -198,7 +198,7 @@ export function parseLineByLineAndAssemble(
       break;
     }
     case 'astro': {
-      targetBraceNodes = findTargetBraceNodesForAstro(ast, options);
+      targetBraceNodes = findTargetBraceNodesBasedOnAstro(formattedText, ast, options);
       break;
     }
     default: {
