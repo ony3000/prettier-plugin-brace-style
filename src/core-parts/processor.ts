@@ -1,14 +1,10 @@
 import type { AST } from 'prettier';
 
 import {
-  findTargetBraceNodesForBabel,
-  findTargetBraceNodesForTypeScript,
   findTargetBraceNodesForHtml,
   findTargetBraceNodesForVue,
   findTargetBraceNodesForAstro,
-  findTargetBraceNodesForSvelte,
-  findTargetBraceNodesForOxc,
-  findTargetBraceNodesForOxcTypeScript,
+  findTargetBraceNodesBasedOnJavaScript,
 } from './finder';
 import { type BraceNode, BraceType, EOL } from './utils';
 
@@ -187,21 +183,13 @@ export function parseLineByLineAndAssemble(
 
   let targetBraceNodes: BraceNode[] = [];
   switch (options.parser) {
-    case 'astro': {
-      targetBraceNodes = findTargetBraceNodesForAstro(ast, options);
-      break;
-    }
-    case 'svelte': {
-      targetBraceNodes = findTargetBraceNodesForSvelte(ast, options);
-      break;
-    }
     case 'babel':
-    case 'babel-ts': {
-      targetBraceNodes = findTargetBraceNodesForBabel(ast, options);
-      break;
-    }
-    case 'typescript': {
-      targetBraceNodes = findTargetBraceNodesForTypeScript(ast, options);
+    case 'babel-ts':
+    case 'typescript':
+    case 'oxc':
+    case 'oxc-ts':
+    case 'svelte': {
+      targetBraceNodes = findTargetBraceNodesBasedOnJavaScript(formattedText, ast, options);
       break;
     }
     case 'angular':
@@ -213,12 +201,8 @@ export function parseLineByLineAndAssemble(
       targetBraceNodes = findTargetBraceNodesForVue(ast, options);
       break;
     }
-    case 'oxc': {
-      targetBraceNodes = findTargetBraceNodesForOxc(ast, options, formattedText);
-      break;
-    }
-    case 'oxc-ts': {
-      targetBraceNodes = findTargetBraceNodesForOxcTypeScript(ast, options, formattedText);
+    case 'astro': {
+      targetBraceNodes = findTargetBraceNodesForAstro(ast, options);
       break;
     }
     default: {

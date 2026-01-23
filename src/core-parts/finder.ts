@@ -5,14 +5,46 @@ import { z } from 'zod';
 
 import { type NodeRange, type BraceNode, BraceType, EOL, SPACE, TAB, isTypeof } from './utils';
 
-type ASTNode = {
+/**
+ * @deprecated
+ */
+type ASTNodeLegacy = {
   type: string;
   range: NodeRange;
 };
 
+type ASTNode = {
+  type: string;
+  /**
+   * @deprecated
+   */
+  range: NodeRange;
+  start: number;
+  end: number;
+};
+
+type CaseHandlerContext = {
+  formattedText: string;
+  options: ResolvedOptions;
+  nonCommentNodes: ASTNode[];
+  prettierIgnoreNodes: ASTNode[];
+  braceNodes: BraceNode[];
+  node: unknown;
+  parentNode?: { kind: string; type?: undefined } | { kind?: undefined; type: string };
+  currentASTNode: ASTNode;
+};
+
+type CaseHandlers = Partial<{
+  [nodeType: string]: (ctx: CaseHandlerContext) => void;
+}>;
+
+type ParserCaseHandlers = Partial<{
+  [parserName: string]: CaseHandlers;
+}>;
+
 function filterAndSortBraceNodes(
-  nonCommentNodes: ASTNode[],
-  prettierIgnoreNodes: ASTNode[],
+  nonCommentNodes: ASTNodeLegacy[],
+  prettierIgnoreNodes: ASTNodeLegacy[],
   braceNodes: BraceNode[],
 ): BraceNode[] {
   const ignoreRanges = prettierIgnoreNodes.map<NodeRange>(({ range }) => {
@@ -54,21 +86,24 @@ function parseTypescript(text: string, options: ParserOptions) {
   return typescriptParsers.typescript.parse(text, options);
 }
 
+/**
+ * @deprecated
+ */
 export function findTargetBraceNodesForBabel(ast: AST, options: ResolvedOptions): BraceNode[] {
   /**
    * Most nodes
    */
-  const nonCommentNodes: ASTNode[] = [];
+  const nonCommentNodes: ASTNodeLegacy[] = [];
   /**
    * Nodes with a valid 'prettier-ignore' syntax
    */
-  const prettierIgnoreNodes: ASTNode[] = [];
+  const prettierIgnoreNodes: ASTNodeLegacy[] = [];
   /**
    * Single brace character as node
    */
   const braceNodes: BraceNode[] = [];
 
-  function recursion(node: unknown, parentNode?: { type?: unknown }): void {
+  function recursion(node: unknown, parentNode?: { type?: string }): void {
     if (!isTypeof(node, z.object({ type: z.string() }))) {
       return;
     }
@@ -125,7 +160,7 @@ export function findTargetBraceNodesForBabel(ast: AST, options: ResolvedOptions)
 
     const currentNodeRangeStart = node.start;
     const currentNodeRangeEnd = node.end;
-    const currentASTNode: ASTNode = {
+    const currentASTNode: ASTNodeLegacy = {
       type: node.type,
       range: [currentNodeRangeStart, currentNodeRangeEnd],
     };
@@ -302,6 +337,9 @@ export function findTargetBraceNodesForBabel(ast: AST, options: ResolvedOptions)
   return filterAndSortBraceNodes(nonCommentNodes, prettierIgnoreNodes, braceNodes);
 }
 
+/**
+ * @deprecated
+ */
 export function findTargetBraceNodesForOxc(
   ast: AST,
   options: ResolvedOptions,
@@ -310,17 +348,17 @@ export function findTargetBraceNodesForOxc(
   /**
    * Most nodes
    */
-  const nonCommentNodes: ASTNode[] = [];
+  const nonCommentNodes: ASTNodeLegacy[] = [];
   /**
    * Nodes with a valid 'prettier-ignore' syntax
    */
-  const prettierIgnoreNodes: ASTNode[] = [];
+  const prettierIgnoreNodes: ASTNodeLegacy[] = [];
   /**
    * Single brace character as node
    */
   const braceNodes: BraceNode[] = [];
 
-  function recursion(node: unknown, parentNode?: { type?: unknown }): void {
+  function recursion(node: unknown, parentNode?: { type?: string }): void {
     if (!isTypeof(node, z.object({ type: z.string() }))) {
       return;
     }
@@ -354,7 +392,7 @@ export function findTargetBraceNodesForOxc(
 
     const currentNodeRangeStart = node.start;
     const currentNodeRangeEnd = node.end;
-    const currentASTNode: ASTNode = {
+    const currentASTNode: ASTNodeLegacy = {
       type: node.type,
       range: [currentNodeRangeStart, currentNodeRangeEnd],
     };
@@ -517,21 +555,24 @@ export function findTargetBraceNodesForOxc(
   return filterAndSortBraceNodes(nonCommentNodes, prettierIgnoreNodes, braceNodes);
 }
 
+/**
+ * @deprecated
+ */
 export function findTargetBraceNodesForTypeScript(ast: AST, options: ResolvedOptions): BraceNode[] {
   /**
    * Most nodes
    */
-  const nonCommentNodes: ASTNode[] = [];
+  const nonCommentNodes: ASTNodeLegacy[] = [];
   /**
    * Nodes with a valid 'prettier-ignore' syntax
    */
-  const prettierIgnoreNodes: ASTNode[] = [];
+  const prettierIgnoreNodes: ASTNodeLegacy[] = [];
   /**
    * Single brace character as node
    */
   const braceNodes: BraceNode[] = [];
 
-  function recursion(node: unknown, parentNode?: { type?: unknown }): void {
+  function recursion(node: unknown, parentNode?: { type?: string }): void {
     if (!isTypeof(node, z.object({ type: z.string() }))) {
       return;
     }
@@ -563,7 +604,7 @@ export function findTargetBraceNodesForTypeScript(ast: AST, options: ResolvedOpt
     }
 
     const [currentNodeRangeStart, currentNodeRangeEnd] = node.range;
-    const currentASTNode: ASTNode = {
+    const currentASTNode: ASTNodeLegacy = {
       type: node.type,
       range: node.range,
     };
@@ -743,6 +784,9 @@ export function findTargetBraceNodesForTypeScript(ast: AST, options: ResolvedOpt
   return filterAndSortBraceNodes(nonCommentNodes, prettierIgnoreNodes, braceNodes);
 }
 
+/**
+ * @deprecated
+ */
 export function findTargetBraceNodesForOxcTypeScript(
   ast: AST,
   options: ResolvedOptions,
@@ -751,17 +795,17 @@ export function findTargetBraceNodesForOxcTypeScript(
   /**
    * Most nodes
    */
-  const nonCommentNodes: ASTNode[] = [];
+  const nonCommentNodes: ASTNodeLegacy[] = [];
   /**
    * Nodes with a valid 'prettier-ignore' syntax
    */
-  const prettierIgnoreNodes: ASTNode[] = [];
+  const prettierIgnoreNodes: ASTNodeLegacy[] = [];
   /**
    * Single brace character as node
    */
   const braceNodes: BraceNode[] = [];
 
-  function recursion(node: unknown, parentNode?: { type?: unknown }): void {
+  function recursion(node: unknown, parentNode?: { type?: string }): void {
     if (!isTypeof(node, z.object({ type: z.string() }))) {
       return;
     }
@@ -794,7 +838,7 @@ export function findTargetBraceNodesForOxcTypeScript(
     }
 
     const [currentNodeRangeStart, currentNodeRangeEnd] = [node.start, node.end];
-    const currentASTNode: ASTNode = {
+    const currentASTNode: ASTNodeLegacy = {
       type: node.type,
       range: [currentNodeRangeStart, currentNodeRangeEnd],
     };
@@ -975,15 +1019,18 @@ export function findTargetBraceNodesForOxcTypeScript(
   return filterAndSortBraceNodes(nonCommentNodes, prettierIgnoreNodes, braceNodes);
 }
 
+/**
+ * @deprecated
+ */
 export function findTargetBraceNodesForHtml(ast: AST, options: ResolvedOptions): BraceNode[] {
   /**
    * Most nodes
    */
-  const nonCommentNodes: ASTNode[] = [];
+  const nonCommentNodes: ASTNodeLegacy[] = [];
   /**
    * Nodes with a valid 'prettier-ignore' syntax
    */
-  const prettierIgnoreNodes: ASTNode[] = [];
+  const prettierIgnoreNodes: ASTNodeLegacy[] = [];
   /**
    * Single brace character as node
    */
@@ -1040,7 +1087,7 @@ export function findTargetBraceNodesForHtml(ast: AST, options: ResolvedOptions):
       node.sourceSpan.start.offset,
       node.sourceSpan.end.offset,
     ];
-    const currentASTNode: ASTNode = {
+    const currentASTNode: ASTNodeLegacy = {
       type: nodeType,
       range: [currentNodeRangeStart, currentNodeRangeEnd],
     };
@@ -1215,15 +1262,18 @@ export function findTargetBraceNodesForHtml(ast: AST, options: ResolvedOptions):
   return filterAndSortBraceNodes(nonCommentNodes, prettierIgnoreNodes, braceNodes);
 }
 
+/**
+ * @deprecated
+ */
 export function findTargetBraceNodesForVue(ast: AST, options: ResolvedOptions): BraceNode[] {
   /**
    * Most nodes
    */
-  const nonCommentNodes: ASTNode[] = [];
+  const nonCommentNodes: ASTNodeLegacy[] = [];
   /**
    * Nodes with a valid 'prettier-ignore' syntax
    */
-  const prettierIgnoreNodes: ASTNode[] = [];
+  const prettierIgnoreNodes: ASTNodeLegacy[] = [];
   /**
    * Single brace character as node
    */
@@ -1280,7 +1330,7 @@ export function findTargetBraceNodesForVue(ast: AST, options: ResolvedOptions): 
       node.sourceSpan.start.offset,
       node.sourceSpan.end.offset,
     ];
-    const currentASTNode: ASTNode = {
+    const currentASTNode: ASTNodeLegacy = {
       type: nodeType,
       range: [currentNodeRangeStart, currentNodeRangeEnd],
     };
@@ -1425,15 +1475,18 @@ export function findTargetBraceNodesForVue(ast: AST, options: ResolvedOptions): 
   return filterAndSortBraceNodes(nonCommentNodes, prettierIgnoreNodes, braceNodes);
 }
 
+/**
+ * @deprecated
+ */
 export function findTargetBraceNodesForAstro(ast: AST, options: ResolvedOptions): BraceNode[] {
   /**
    * Most nodes
    */
-  const nonCommentNodes: ASTNode[] = [];
+  const nonCommentNodes: ASTNodeLegacy[] = [];
   /**
    * Nodes with a valid 'prettier-ignore' syntax
    */
-  const prettierIgnoreNodes: ASTNode[] = [];
+  const prettierIgnoreNodes: ASTNodeLegacy[] = [];
   /**
    * Single brace character as node
    */
@@ -1442,7 +1495,7 @@ export function findTargetBraceNodesForAstro(ast: AST, options: ResolvedOptions)
   function recursion(
     node: unknown,
     // biome-ignore lint/correctness/noUnusedFunctionParameters: Required for recursive calls.
-    parentNode?: { type?: unknown },
+    parentNode?: { type?: string },
   ): void {
     if (!isTypeof(node, z.object({ type: z.string() }))) {
       return;
@@ -1492,7 +1545,7 @@ export function findTargetBraceNodesForAstro(ast: AST, options: ResolvedOptions)
         (node.type === 'attribute'
           ? `${node.name}=?${node.value}?`.length
           : `${node.value}`.length);
-    const currentASTNode: ASTNode = {
+    const currentASTNode: ASTNodeLegacy = {
       type: node.type,
       range: [currentNodeRangeStart, currentNodeRangeEnd],
     };
@@ -1629,21 +1682,24 @@ export function findTargetBraceNodesForAstro(ast: AST, options: ResolvedOptions)
   return filterAndSortBraceNodes(nonCommentNodes, prettierIgnoreNodes, braceNodes);
 }
 
+/**
+ * @deprecated
+ */
 export function findTargetBraceNodesForSvelte(ast: AST, options: ResolvedOptions): BraceNode[] {
   /**
    * Most nodes
    */
-  const nonCommentNodes: ASTNode[] = [];
+  const nonCommentNodes: ASTNodeLegacy[] = [];
   /**
    * Nodes with a valid 'prettier-ignore' syntax
    */
-  const prettierIgnoreNodes: ASTNode[] = [];
+  const prettierIgnoreNodes: ASTNodeLegacy[] = [];
   /**
    * Single brace character as node
    */
   const braceNodes: BraceNode[] = [];
 
-  function recursion(node: unknown, parentNode?: { type?: unknown }): void {
+  function recursion(node: unknown, parentNode?: { type?: string }): void {
     if (!isTypeof(node, z.object({ type: z.string() }))) {
       return;
     }
@@ -1677,7 +1733,7 @@ export function findTargetBraceNodesForSvelte(ast: AST, options: ResolvedOptions
 
     const currentNodeRangeStart = node.start;
     const currentNodeRangeEnd = node.end;
-    const currentASTNode: ASTNode = {
+    const currentASTNode: ASTNodeLegacy = {
       type: node.type,
       range: [currentNodeRangeStart, currentNodeRangeEnd],
     };
@@ -1871,6 +1927,408 @@ export function findTargetBraceNodesForSvelte(ast: AST, options: ResolvedOptions
     }
   }
 
+  if (!ast.type) {
+    ast.type = 'Root';
+  }
+  recursion(ast);
+
+  return filterAndSortBraceNodes(nonCommentNodes, prettierIgnoreNodes, braceNodes);
+}
+
+// ----------------------------------------------------------------
+
+function handleJavaScriptBlockStatement(ctx: CaseHandlerContext) {
+  ctx.nonCommentNodes.push(ctx.currentASTNode);
+
+  ctx.braceNodes.push({
+    type: BraceType.OB,
+    range: [ctx.currentASTNode.start, ctx.currentASTNode.start + 1],
+  });
+  ctx.braceNodes.push({
+    type: ctx.parentNode?.type === 'DoWhileStatement' ? BraceType.CBNT : BraceType.CB,
+    range: [ctx.currentASTNode.end - 1, ctx.currentASTNode.end],
+  });
+}
+
+function handleJavaScriptConditionalExpression(ctx: CaseHandlerContext) {
+  ctx.nonCommentNodes.push(ctx.currentASTNode);
+
+  ctx.braceNodes.forEach((braceNode) => {
+    const [braceRangeStart, braceRangeEnd] = braceNode.range;
+
+    if (
+      ctx.currentASTNode.start <= braceRangeStart &&
+      braceRangeEnd <= ctx.currentASTNode.end &&
+      braceNode.type === BraceType.OB
+    ) {
+      braceNode.type = BraceType.OBTO;
+    }
+  });
+}
+
+function handleJavaScriptFile(ctx: CaseHandlerContext) {
+  if (
+    isTypeof(
+      ctx.node,
+      z.object({
+        comments: z.array(
+          z.object({
+            type: z.string(),
+            value: z.string(),
+            start: z.number(),
+            end: z.number(),
+          }),
+        ),
+      }),
+    )
+  ) {
+    ctx.node.comments.forEach((comment) => {
+      if (comment.value.trim() === 'prettier-ignore') {
+        ctx.prettierIgnoreNodes.push({
+          type: comment.type,
+          range: [comment.start, comment.end],
+          start: comment.start,
+          end: comment.end,
+        });
+      }
+    });
+  }
+}
+
+function handleJavaScriptFunctionExpression(ctx: CaseHandlerContext) {
+  ctx.nonCommentNodes.push(ctx.currentASTNode);
+
+  ctx.braceNodes.forEach((braceNode) => {
+    const [, braceRangeEnd] = braceNode.range;
+
+    if (ctx.currentASTNode.end === braceRangeEnd && braceNode.type === BraceType.CB) {
+      braceNode.type = BraceType.CBNT;
+    }
+  });
+}
+
+function handleJavaScriptStaticBlock(ctx: CaseHandlerContext) {
+  ctx.nonCommentNodes.push(ctx.currentASTNode);
+
+  const offset = 'static '.length;
+  const braceRangeStart = ctx.currentASTNode.start + offset;
+
+  ctx.braceNodes.push({
+    type: BraceType.OB,
+    range: [braceRangeStart, braceRangeStart + 1],
+  });
+  ctx.braceNodes.push({
+    type: BraceType.CBNT,
+    range: [ctx.currentASTNode.end - 1, ctx.currentASTNode.end],
+  });
+}
+
+function handleJavaScriptSwitchStatement(ctx: CaseHandlerContext) {
+  ctx.nonCommentNodes.push(ctx.currentASTNode);
+
+  if (
+    isTypeof(
+      ctx.node,
+      z.object({
+        discriminant: z.object({
+          start: z.number(),
+          end: z.number(),
+        }),
+      }),
+    )
+  ) {
+    const discriminantRangeStart = ctx.node.discriminant.start;
+    const discriminantRangeEnd = ctx.node.discriminant.end;
+    const isMultiLineExpression =
+      discriminantRangeStart - ctx.currentASTNode.start > 'switch ('.length;
+
+    // biome-ignore lint/style/noNonNullAssertion: When splitting with a non-empty string, the last element in the result array exists even if the input string is empty.
+    const discriminantStartColumn = ctx.formattedText
+      .slice(0, ctx.node.discriminant.start)
+      .split(EOL)
+      .at(-1)!.length;
+
+    const indentUnit = ctx.options.useTabs ? TAB : SPACE.repeat(ctx.options.tabWidth);
+    const indentLevelOfDiscriminant = discriminantStartColumn / indentUnit.length;
+
+    const offset =
+      'switch ('.length +
+      // Length between '(' and `discriminantRangeStart`
+      (discriminantRangeStart - ctx.currentASTNode.start - 'switch ('.length) +
+      // Length of the discriminant
+      (discriminantRangeEnd - discriminantRangeStart) +
+      // Length between `discriminantRangeEnd` and ')'
+      (isMultiLineExpression
+        ? `${EOL}`.length + (indentLevelOfDiscriminant - 1) * indentUnit.length
+        : 0) +
+      ') '.length;
+
+    const braceRangeStart = ctx.currentASTNode.start + offset;
+
+    ctx.braceNodes.push({
+      type: BraceType.OB,
+      range: [braceRangeStart, braceRangeStart + 1],
+    });
+    ctx.braceNodes.push({
+      type: BraceType.CBNT,
+      range: [ctx.currentASTNode.end - 1, ctx.currentASTNode.end],
+    });
+  }
+}
+
+function handleTypeScriptBlock(ctx: CaseHandlerContext) {
+  if (
+    isTypeof(
+      ctx.node,
+      z.object({
+        value: z.string(),
+      }),
+    ) &&
+    ctx.node.value.trim() === 'prettier-ignore'
+  ) {
+    ctx.prettierIgnoreNodes.push(ctx.currentASTNode);
+  }
+}
+
+function handleTypeScriptTSEnumDeclaration(ctx: CaseHandlerContext) {
+  ctx.nonCommentNodes.push(ctx.currentASTNode);
+
+  if (
+    isTypeof(
+      ctx.node,
+      z.object({
+        id: z.object({
+          name: z.string(),
+        }),
+        declare: z.boolean().optional(),
+        const: z.boolean().optional(),
+      }),
+    )
+  ) {
+    const offset = `${ctx.node.declare ? 'declare ' : ''}${ctx.node.const ? 'const ' : ''}enum ${
+      ctx.node.id.name
+    } `.length;
+    const braceRangeStart = ctx.currentASTNode.start + offset;
+
+    ctx.braceNodes.push({
+      type: BraceType.OB,
+      range: [braceRangeStart, braceRangeStart + 1],
+    });
+    ctx.braceNodes.push({
+      type: BraceType.CBNT,
+      range: [ctx.currentASTNode.end - 1, ctx.currentASTNode.end],
+    });
+  }
+}
+
+function handleSvelteComment(ctx: CaseHandlerContext) {
+  if (
+    isTypeof(
+      ctx.node,
+      z.object({
+        data: z.string(),
+      }),
+    ) &&
+    ctx.node.data.trim() === 'prettier-ignore'
+  ) {
+    ctx.prettierIgnoreNodes.push(ctx.currentASTNode);
+  }
+}
+
+function handleSvelteRefinedScript(ctx: CaseHandlerContext) {
+  ctx.nonCommentNodes.push(ctx.currentASTNode);
+
+  if (
+    isTypeof(
+      ctx.node,
+      z.object({
+        content: z.object({
+          start: z.number(),
+          value: z.string(),
+        }),
+      }),
+    )
+  ) {
+    const textNodeInScript = ctx.node.content;
+    if (textNodeInScript) {
+      const openingTagEndingOffset = textNodeInScript.start;
+
+      const typescriptAst = parseTypescript(textNodeInScript.value, {
+        ...ctx.options,
+        parser: 'typescript',
+      });
+      const targetBraceNodesInScript = findTargetBraceNodesForTypeScript(
+        typescriptAst,
+        ctx.options,
+      ).map<BraceNode>(({ type, range: [braceNodeRangeStart, braceNodeRangeEnd] }) => ({
+        type,
+        range: [
+          braceNodeRangeStart + openingTagEndingOffset,
+          braceNodeRangeEnd + openingTagEndingOffset,
+        ],
+      }));
+
+      ctx.braceNodes.push(...targetBraceNodesInScript);
+    }
+  }
+}
+
+const babelCaseHandlers: CaseHandlers = {
+  BlockStatement: handleJavaScriptBlockStatement,
+  ClassBody: handleJavaScriptBlockStatement,
+  StaticBlock: handleJavaScriptStaticBlock,
+  SwitchStatement: handleJavaScriptSwitchStatement,
+  ArrowFunctionExpression: handleJavaScriptFunctionExpression,
+  ClassExpression: handleJavaScriptFunctionExpression,
+  FunctionExpression: handleJavaScriptFunctionExpression,
+  ConditionalExpression: handleJavaScriptConditionalExpression,
+};
+
+const typescriptCaseHandlers: CaseHandlers = {
+  ...babelCaseHandlers,
+  TSInterfaceBody: handleJavaScriptBlockStatement,
+  TSModuleBlock: handleJavaScriptBlockStatement,
+  TSEnumDeclaration: handleTypeScriptTSEnumDeclaration,
+  Block: handleTypeScriptBlock,
+  Line: handleTypeScriptBlock,
+};
+
+const parserCaseHandlers: ParserCaseHandlers = {
+  babel: {
+    ...babelCaseHandlers,
+    ObjectMethod: handleJavaScriptFunctionExpression,
+    File: handleJavaScriptFile,
+  },
+  'babel-ts': {
+    ...babelCaseHandlers,
+    ObjectMethod: handleJavaScriptFunctionExpression,
+    File: handleJavaScriptFile,
+    TSEnumBody: handleJavaScriptBlockStatement,
+    TSInterfaceBody: handleJavaScriptBlockStatement,
+    TSModuleBlock: handleJavaScriptBlockStatement,
+  },
+  typescript: {
+    ...typescriptCaseHandlers,
+  },
+  oxc: {
+    ...babelCaseHandlers,
+    ObjectMethod: handleJavaScriptFunctionExpression,
+    Program: handleJavaScriptFile,
+  },
+  'oxc-ts': {
+    ...typescriptCaseHandlers,
+  },
+  svelte: {
+    ...babelCaseHandlers,
+    Block: handleTypeScriptBlock,
+    Line: handleTypeScriptBlock,
+    Comment: handleSvelteComment,
+    RefinedScript: handleSvelteRefinedScript,
+  },
+};
+
+export function findTargetBraceNodesBasedOnJavaScript(
+  formattedText: string,
+  ast: AST,
+  options: ResolvedOptions,
+): BraceNode[] {
+  /**
+   * Most nodes
+   */
+  const nonCommentNodes: ASTNode[] = [];
+  /**
+   * Nodes with a valid 'prettier-ignore' syntax
+   */
+  const prettierIgnoreNodes: ASTNode[] = [];
+  /**
+   * Single brace character as node
+   */
+  const braceNodes: BraceNode[] = [];
+
+  function recursion(node: unknown, parentNode?: { type: string }): void {
+    if (!isTypeof(node, z.object({ type: z.string() }))) {
+      return;
+    }
+
+    Object.entries(node).forEach(([key, value]) => {
+      if (key === 'type') {
+        return;
+      }
+
+      if (Array.isArray(value)) {
+        value.forEach((childNode: unknown) => {
+          recursion(childNode, node);
+        });
+        return;
+      }
+
+      recursion(value, node);
+    });
+
+    if (
+      isTypeof(
+        node,
+        z.object({
+          start: z.undefined(),
+          end: z.undefined(),
+          range: z.custom<NodeRange>((value) => isTypeof(value, z.tuple([z.number(), z.number()]))),
+        }),
+      )
+    ) {
+      const [rangeStart, rangeEnd] = node.range;
+
+      // @ts-expect-error: Make the structure of the AST consistent.
+      node.start = rangeStart;
+      // @ts-expect-error: Make the structure of the AST consistent.
+      node.end = rangeEnd;
+    }
+
+    if (
+      !isTypeof(
+        node,
+        z.object({
+          start: z.number(),
+          end: z.number(),
+        }),
+      )
+    ) {
+      return;
+    }
+
+    const nodeType = node.type;
+    const currentNodeRangeStart = node.start;
+    const currentNodeRangeEnd = node.end;
+
+    const currentASTNode: ASTNode = {
+      type: nodeType,
+      range: [currentNodeRangeStart, currentNodeRangeEnd],
+      start: currentNodeRangeStart,
+      end: currentNodeRangeEnd,
+    };
+
+    const handler = parserCaseHandlers[String(options.parser)]?.[nodeType];
+
+    if (handler) {
+      const context: CaseHandlerContext = {
+        formattedText,
+        options,
+        nonCommentNodes,
+        prettierIgnoreNodes,
+        braceNodes,
+        node,
+        parentNode,
+        currentASTNode,
+      };
+
+      handler(context);
+    } else {
+      if (nodeType !== 'JSXText') {
+        nonCommentNodes.push(currentASTNode);
+      }
+    }
+  }
+
+  // NOTE: The top node of the Svelte AST does not have a type property.
   if (!ast.type) {
     ast.type = 'Root';
   }
