@@ -2173,6 +2173,261 @@ function handleSvelteRefinedScript(ctx: CaseHandlerContext) {
   }
 }
 
+function handleHtmlElement(ctx: CaseHandlerContext) {
+  ctx.nonCommentNodes.push(ctx.currentASTNode);
+
+  if (
+    isTypeof(
+      ctx.node,
+      z.object({
+        startSourceSpan: z.object({
+          end: z.object({
+            offset: z.number(),
+          }),
+        }),
+        name: z.string(),
+        children: z.array(
+          z.object({
+            value: z.string(),
+          }),
+        ),
+        attrs: z.array(
+          z.object({
+            name: z.string(),
+            value: z.unknown(),
+          }),
+        ),
+      }),
+    ) &&
+    ctx.node.name === 'script'
+  ) {
+    const textNodeInScript = ctx.node.children.at(0);
+
+    if (ctx.node.attrs.find((attr) => attr.name === 'lang' && attr.value === 'ts')) {
+      if (textNodeInScript) {
+        const openingTagEndingOffset = ctx.node.startSourceSpan.end.offset;
+
+        const typescriptAst = parseTypescript(textNodeInScript.value, {
+          ...ctx.options,
+          parser: 'typescript',
+        });
+        const targetBraceNodesInScript = findTargetBraceNodesForTypeScript(
+          typescriptAst,
+          ctx.options,
+        ).map<BraceNode>(({ type, range: [braceNodeRangeStart, braceNodeRangeEnd] }) => ({
+          type,
+          range: [
+            braceNodeRangeStart + openingTagEndingOffset,
+            braceNodeRangeEnd + openingTagEndingOffset,
+          ],
+        }));
+
+        ctx.braceNodes.push(...targetBraceNodesInScript);
+      }
+    } else if (
+      ctx.node.attrs.find(
+        (attr) => attr.name === 'type' && (attr.value === '' || attr.value === 'text/javascript'),
+      ) ||
+      !ctx.node.attrs.find((attr) => attr.name === 'type')
+    ) {
+      if (textNodeInScript) {
+        const openingTagEndingOffset = ctx.node.startSourceSpan.end.offset;
+
+        const babelAst = parseBabel(textNodeInScript.value, {
+          ...ctx.options,
+          parser: 'babel',
+        });
+        const targetBraceNodesInScript = findTargetBraceNodesForBabel(
+          babelAst,
+          ctx.options,
+        ).map<BraceNode>(({ type, range: [braceNodeRangeStart, braceNodeRangeEnd] }) => ({
+          type,
+          range: [
+            braceNodeRangeStart + openingTagEndingOffset,
+            braceNodeRangeEnd + openingTagEndingOffset,
+          ],
+        }));
+
+        ctx.braceNodes.push(...targetBraceNodesInScript);
+      }
+    }
+  }
+}
+
+function handleAngularAngularControlFlowBlock(ctx: CaseHandlerContext) {
+  ctx.nonCommentNodes.push(ctx.currentASTNode);
+
+  if (
+    isTypeof(
+      ctx.node,
+      z.object({
+        name: z.string(),
+        startSourceSpan: z.object({
+          end: z.object({
+            offset: z.number(),
+          }),
+        }),
+        endSourceSpan: z.object({
+          start: z.object({
+            offset: z.number(),
+          }),
+        }),
+      }),
+    )
+  ) {
+    switch (ctx.node.name) {
+      case 'defer':
+      case 'placeholder':
+      case 'loading':
+      case 'for':
+      case 'if':
+      case 'else if': {
+        ctx.braceNodes.push({
+          type: BraceType.OB,
+          range: [ctx.node.startSourceSpan.end.offset - 1, ctx.node.startSourceSpan.end.offset],
+        });
+        ctx.braceNodes.push({
+          type: BraceType.CB,
+          range: [ctx.node.endSourceSpan.start.offset, ctx.node.endSourceSpan.start.offset + 1],
+        });
+        break;
+      }
+      case 'error':
+      case 'empty':
+      case 'else':
+      case 'switch':
+      case 'case':
+      case 'default': {
+        ctx.braceNodes.push({
+          type: BraceType.OB,
+          range: [ctx.node.startSourceSpan.end.offset - 1, ctx.node.startSourceSpan.end.offset],
+        });
+        ctx.braceNodes.push({
+          type: BraceType.CBNT,
+          range: [ctx.node.endSourceSpan.start.offset, ctx.node.endSourceSpan.start.offset + 1],
+        });
+        break;
+      }
+      default: {
+        break;
+      }
+    }
+  }
+}
+
+function handleVueAttribute(ctx: CaseHandlerContext) {
+  ctx.nonCommentNodes.push(ctx.currentASTNode);
+
+  const bindDirectiveRegExp = /^(?:v-bind:|:)/;
+  const onDirectiveRegExp = /^(?:v-on:|@)/;
+
+  if (
+    isTypeof(
+      ctx.parentNode,
+      z.object({
+        sourceSpan: z.object({
+          start: z.object({
+            line: z.number(),
+          }),
+        }),
+      }),
+    ) &&
+    (ctx.parentNode?.kind ?? ctx.parentNode?.type) === 'element' &&
+    isTypeof(
+      ctx.node,
+      z.object({
+        sourceSpan: z.object({
+          start: z.object({
+            line: z.number(),
+          }),
+        }),
+        name: z.string(),
+        value: z.string(),
+        valueSpan: z.object({
+          start: z.object({
+            offset: z.number(),
+          }),
+          end: z.object({
+            offset: z.number(),
+          }),
+        }),
+      }),
+    )
+  ) {
+    const hasBindDirective = ctx.node.name.match(bindDirectiveRegExp) !== null;
+    const hasOnDirective = ctx.node.name.match(onDirectiveRegExp) !== null;
+
+    if (hasBindDirective || hasOnDirective) {
+      try {
+        const jsxStart = '<div className={';
+        const jsxEnd = '}></div>';
+        const attributeOffset = -jsxStart.length + ctx.node.valueSpan.start.offset + 1;
+
+        const babelAst = parseBabel(`${jsxStart}${ctx.node.value}${jsxEnd}`, {
+          ...ctx.options,
+          parser: 'babel',
+        });
+        const targetBraceNodesInAttribute = findTargetBraceNodesForBabel(
+          babelAst,
+          ctx.options,
+        ).map<BraceNode>(({ type, range: [braceNodeRangeStart, braceNodeRangeEnd] }) => ({
+          type,
+          range: [braceNodeRangeStart + attributeOffset, braceNodeRangeEnd + attributeOffset],
+        }));
+
+        ctx.braceNodes.push(...targetBraceNodesInAttribute);
+      } catch (_) {
+        // no action
+      }
+    }
+  }
+}
+
+function handleVueElement(ctx: CaseHandlerContext) {
+  ctx.nonCommentNodes.push(ctx.currentASTNode);
+
+  if (
+    isTypeof(
+      ctx.node,
+      z.object({
+        sourceSpan: z.object({
+          start: z.object({
+            line: z.number(),
+          }),
+        }),
+        startSourceSpan: z.object({
+          end: z.object({
+            offset: z.number(),
+          }),
+        }),
+        name: z.string(),
+        children: z.array(
+          z.object({
+            value: z.string(),
+          }),
+        ),
+      }),
+    ) &&
+    ctx.node.name === 'script'
+  ) {
+    const scriptOffset = ctx.node.startSourceSpan.end.offset;
+
+    const typescriptAst = parseTypescript(ctx.node.children.at(0)?.value ?? '', {
+      ...ctx.options,
+      parser: 'typescript',
+    });
+    const targetBraceNodesInScript = findTargetBraceNodesForTypeScript(
+      typescriptAst,
+      ctx.options,
+    ).map<BraceNode>(({ type, range: [braceNodeRangeStart, braceNodeRangeEnd] }) => ({
+      type,
+      range: [braceNodeRangeStart + scriptOffset, braceNodeRangeEnd + scriptOffset],
+    }));
+
+    ctx.braceNodes.push(...targetBraceNodesInScript);
+  }
+}
+
 const babelCaseHandlers: CaseHandlers = {
   BlockStatement: handleJavaScriptBlockStatement,
   ClassBody: handleJavaScriptBlockStatement,
@@ -2224,6 +2479,20 @@ const parserCaseHandlers: ParserCaseHandlers = {
     Line: handleTypeScriptBlock,
     Comment: handleSvelteComment,
     RefinedScript: handleSvelteRefinedScript,
+  },
+  html: {
+    comment: handleTypeScriptBlock,
+    element: handleHtmlElement,
+  },
+  angular: {
+    comment: handleTypeScriptBlock,
+    element: handleHtmlElement,
+    angularControlFlowBlock: handleAngularAngularControlFlowBlock,
+  },
+  vue: {
+    comment: handleTypeScriptBlock,
+    attribute: handleVueAttribute,
+    element: handleVueElement,
   },
 };
 
@@ -2332,6 +2601,104 @@ export function findTargetBraceNodesBasedOnJavaScript(
   if (!ast.type) {
     ast.type = 'Root';
   }
+  recursion(ast);
+
+  return filterAndSortBraceNodes(nonCommentNodes, prettierIgnoreNodes, braceNodes);
+}
+
+export function findTargetBraceNodesBasedOnHtml(
+  formattedText: string,
+  ast: AST,
+  options: ResolvedOptions,
+): BraceNode[] {
+  /**
+   * Most nodes
+   */
+  const nonCommentNodes: ASTNode[] = [];
+  /**
+   * Nodes with a valid 'prettier-ignore' syntax
+   */
+  const prettierIgnoreNodes: ASTNode[] = [];
+  /**
+   * Single brace character as node
+   */
+  const braceNodes: BraceNode[] = [];
+
+  function recursion(
+    node: unknown,
+    parentNode?: { kind: string; type?: undefined } | { kind?: undefined; type: string },
+  ): void {
+    if (
+      !isTypeof(node, z.object({ kind: z.string() })) &&
+      !isTypeof(node, z.object({ type: z.string() }))
+    ) {
+      return;
+    }
+
+    Object.entries(node).forEach(([key, value]) => {
+      if (key === 'kind' || key === 'type') {
+        return;
+      }
+
+      if (Array.isArray(value)) {
+        value.forEach((childNode: unknown) => {
+          recursion(childNode, node);
+        });
+        return;
+      }
+
+      recursion(value, node);
+    });
+
+    if (
+      !isTypeof(
+        node,
+        z.object({
+          sourceSpan: z.object({
+            start: z.object({
+              offset: z.number(),
+            }),
+            end: z.object({
+              offset: z.number(),
+            }),
+          }),
+        }),
+      )
+    ) {
+      return;
+    }
+
+    const nodeType = isTypeof(node, z.object({ kind: z.string() })) ? node.kind : node.type;
+    const currentNodeRangeStart = node.sourceSpan.start.offset;
+    const currentNodeRangeEnd = node.sourceSpan.end.offset;
+
+    const currentASTNode: ASTNode = {
+      type: nodeType,
+      range: [currentNodeRangeStart, currentNodeRangeEnd],
+      start: currentNodeRangeStart,
+      end: currentNodeRangeEnd,
+    };
+
+    const handler = parserCaseHandlers[String(options.parser)]?.[nodeType];
+
+    if (handler) {
+      const context: CaseHandlerContext = {
+        formattedText,
+        options,
+        nonCommentNodes,
+        prettierIgnoreNodes,
+        braceNodes,
+        node,
+        parentNode,
+        currentASTNode,
+      };
+
+      handler(context);
+    } else {
+      nonCommentNodes.push(currentASTNode);
+    }
+  }
+
   recursion(ast);
 
   return filterAndSortBraceNodes(nonCommentNodes, prettierIgnoreNodes, braceNodes);

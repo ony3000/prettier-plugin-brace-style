@@ -1,10 +1,9 @@
 import type { AST } from 'prettier';
 
 import {
-  findTargetBraceNodesForHtml,
-  findTargetBraceNodesForVue,
   findTargetBraceNodesForAstro,
   findTargetBraceNodesBasedOnJavaScript,
+  findTargetBraceNodesBasedOnHtml,
 } from './finder';
 import { type BraceNode, BraceType, EOL } from './utils';
 
@@ -192,13 +191,10 @@ export function parseLineByLineAndAssemble(
       targetBraceNodes = findTargetBraceNodesBasedOnJavaScript(formattedText, ast, options);
       break;
     }
+    case 'html':
     case 'angular':
-    case 'html': {
-      targetBraceNodes = findTargetBraceNodesForHtml(ast, options);
-      break;
-    }
     case 'vue': {
-      targetBraceNodes = findTargetBraceNodesForVue(ast, options);
+      targetBraceNodes = findTargetBraceNodesBasedOnHtml(formattedText, ast, options);
       break;
     }
     case 'astro': {
