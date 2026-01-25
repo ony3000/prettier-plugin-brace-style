@@ -1,30 +1,12 @@
-import type { AST, Parser, Plugin } from 'prettier';
+import type { Parser, Plugin } from 'prettier';
 import { format } from 'prettier';
 import { parsers as babelParsers } from 'prettier/plugins/babel';
 import { parsers as htmlParsers } from 'prettier/plugins/html';
 import { parsers as typescriptParsers } from 'prettier/plugins/typescript';
 
-import { parseLineByLineAndAssemble, refineSvelteAst } from './core-parts';
-
-const EOL = '\n';
-
-async function advancedParse(
-  text: string,
-  parserName: SupportedParserNames,
-  defaultParser: Parser,
-  options: ResolvedOptions,
-): Promise<AST> {
-  const preprocessedText = await (defaultParser.preprocess
-    ? defaultParser.preprocess(text, options)
-    : text);
-  let ast = await defaultParser.parse(preprocessedText, options);
-
-  if (parserName === 'svelte') {
-    ast = refineSvelteAst(preprocessedText, ast);
-  }
-
-  return ast;
-}
+import { advancedParse } from './core-parts/parser';
+import { parseLineByLineAndAssemble } from './core-parts/processor';
+import { EOL } from './core-parts/utils';
 
 function transformParser(
   parserName: SupportedParserNames,
