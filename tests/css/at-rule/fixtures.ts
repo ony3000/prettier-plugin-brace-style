@@ -2,9 +2,14 @@ import type { Fixture } from '../../settings';
 
 export const fixtures: Omit<Fixture, 'output'>[] = [
   {
-    name: '@charset',
+    name: '@color-profile',
     input: `
-@charset "UTF-8"; /* Set the encoding of the style sheet to Unicode UTF-8 */
+@color-profile --swop5c {
+  src: url("https://example.org/SWOP2006_Coated5v2.icc");
+}
+.header {
+  background-color: color(--swop5c 0% 70% 20% 0%);
+}
 `,
   },
   {
@@ -26,6 +31,20 @@ export const fixtures: Omit<Fixture, 'output'>[] = [
 `,
   },
   {
+    name: '@counter-style',
+    input: `
+@counter-style circled-alpha {
+  system: fixed;
+  symbols: Ⓐ Ⓑ Ⓒ Ⓓ Ⓔ Ⓕ Ⓖ Ⓗ Ⓘ Ⓙ Ⓚ Ⓛ Ⓜ Ⓝ Ⓞ Ⓟ Ⓠ Ⓡ Ⓢ Ⓣ Ⓤ Ⓥ Ⓦ Ⓧ Ⓨ Ⓩ;
+  suffix: " ";
+}
+
+.items {
+  list-style: circled-alpha;
+}
+`,
+  },
+  {
     name: '@font-face',
     input: `
 @font-face {
@@ -39,10 +58,45 @@ body {
 `,
   },
   {
-    name: '@import',
+    name: '@font-feature-values',
     input: `
-@import "custom.css";
-@import url("chrome://communicator/skin/communicator.css");
+/* At-rule for "nice-style" in Font One */
+@font-feature-values Font One {
+  @styleset {
+    nice-style: 12;
+  }
+}
+
+/* At-rule for "nice-style" in Font Two */
+@font-feature-values Font Two {
+  @styleset {
+    nice-style: 4;
+  }
+}
+
+/* Apply the at-rules with a single declaration */
+.nice-look {
+  font-variant-alternates: styleset(nice-style);
+}
+`,
+  },
+  {
+    name: '@font-palette-values',
+    input: `
+@import "https://fonts.googleapis.com/css2?family=Bungee+Spice";
+p {
+  font-family: "Bungee Spice", fantasy;
+  font-size: 2rem;
+}
+@font-palette-values --Alternate {
+  font-family: "Bungee Spice";
+  override-colors:
+    0 #00ffbb,
+    1 #007744;
+}
+.alternate {
+  font-palette: --Alternate;
+}
 `,
   },
   {
@@ -62,6 +116,22 @@ p {
   to {
     translate: 0 0;
     scale: 100% 1;
+  }
+}
+`,
+  },
+  {
+    name: '@layer',
+    input: `
+p {
+  color: rebeccapurple;
+}
+
+@layer type {
+  .box p {
+    font-weight: bold;
+    font-size: 1.3em;
+    color: green;
   }
 }
 `,
@@ -128,6 +198,35 @@ section {
 `,
   },
   {
+    name: '@position-try',
+    input: `
+@position-try --custom-left {
+  position-area: left;
+  width: 100px;
+  margin-right: 10px;
+}
+
+@position-try --custom-bottom {
+  top: anchor(bottom);
+  justify-self: anchor-center;
+  margin-top: 10px;
+  position-area: none;
+}
+
+@position-try --custom-right {
+  left: calc(anchor(right) + 10px);
+  align-self: anchor-center;
+  width: 100px;
+  position-area: none;
+}
+
+@position-try --custom-bottom-right {
+  position-area: bottom right;
+  margin: 10px 0 0 10px;
+}
+`,
+  },
+  {
     name: '@property',
     input: `
 @property --myColor {
@@ -150,6 +249,46 @@ p {
 `,
   },
   {
+    name: '@scope',
+    input: `
+@scope (.light-scheme) {
+  :scope {
+    background-color: plum;
+  }
+
+  a {
+    color: darkmagenta;
+  }
+}
+
+@scope (.dark-scheme) {
+  :scope {
+    background-color: darkmagenta;
+    color: antiquewhite;
+  }
+
+  a {
+    color: plum;
+  }
+}
+`,
+  },
+  {
+    name: '@starting-style',
+    input: `
+#target {
+  transition: background-color 1.5s;
+  background-color: green;
+}
+
+@starting-style {
+  #target {
+    background-color: transparent;
+  }
+}
+`,
+  },
+  {
     name: '@supports',
     input: `
 @supports (animation-name: test) {
@@ -157,6 +296,14 @@ p {
   @keyframes {
     /* Other at-rules can be nested inside */
   }
+}
+`,
+  },
+  {
+    name: '@view-transition',
+    input: `
+@view-transition {
+  navigation: auto;
 }
 `,
   },
