@@ -594,7 +594,58 @@ function handleCssCssAtrule(ctx: CaseHandlerContext) {
       }),
     )
   ) {
-    const offset = `@${ctx.node.name}${SPACE}${ctx.node.params}${SPACE}`.length;
+    const offset = `@${ctx.node.name}${SPACE}${ctx.node.params ? `${ctx.node.params}${SPACE}` : ''}`
+      .length;
+    const braceRangeStart = ctx.currentASTNode.start + offset;
+
+    ctx.braceNodes.push({
+      type: BraceType.OB,
+      range: [braceRangeStart, braceRangeStart + 1],
+    });
+    ctx.braceNodes.push({
+      type: BraceType.CBNT,
+      range: [ctx.currentASTNode.end - 1, ctx.currentASTNode.end],
+    });
+  } else if (
+    isTypeof(
+      ctx.node,
+      z.object({
+        name: z.string(),
+        params: z.object({
+          type: z.literal('media-query-list'),
+          value: z.string(),
+        }),
+      }),
+    )
+  ) {
+    const offset =
+      `@${ctx.node.name}${SPACE}${ctx.node.params.value ? `${ctx.node.params.value}${SPACE}` : ''}`
+        .length;
+    const braceRangeStart = ctx.currentASTNode.start + offset;
+
+    ctx.braceNodes.push({
+      type: BraceType.OB,
+      range: [braceRangeStart, braceRangeStart + 1],
+    });
+    ctx.braceNodes.push({
+      type: BraceType.CBNT,
+      range: [ctx.currentASTNode.end - 1, ctx.currentASTNode.end],
+    });
+  } else if (
+    isTypeof(
+      ctx.node,
+      z.object({
+        name: z.string(),
+        value: z.object({
+          type: z.literal('value-root'),
+          text: z.string(),
+        }),
+      }),
+    )
+  ) {
+    const offset =
+      `@${ctx.node.name}${SPACE}${ctx.node.value.text ? `${ctx.node.value.text}${SPACE}` : ''}`
+        .length;
     const braceRangeStart = ctx.currentASTNode.start + offset;
 
     ctx.braceNodes.push({
