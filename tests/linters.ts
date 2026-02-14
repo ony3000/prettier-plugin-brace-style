@@ -1,9 +1,9 @@
 import { ESLint } from 'eslint';
 
 export const oneTBSLinter = new ESLint({
-  useEslintrc: false,
+  overrideConfigFile: true,
   overrideConfig: {
-    parserOptions: {
+    languageOptions: {
       ecmaVersion: 'latest',
     },
     rules: {
@@ -13,9 +13,9 @@ export const oneTBSLinter = new ESLint({
 });
 
 export const allmanLinter = new ESLint({
-  useEslintrc: false,
+  overrideConfigFile: true,
   overrideConfig: {
-    parserOptions: {
+    languageOptions: {
       ecmaVersion: 'latest',
     },
     rules: {
@@ -25,9 +25,9 @@ export const allmanLinter = new ESLint({
 });
 
 export const stroustrupLinter = new ESLint({
-  useEslintrc: false,
+  overrideConfigFile: true,
   overrideConfig: {
-    parserOptions: {
+    languageOptions: {
       ecmaVersion: 'latest',
     },
     rules: {
