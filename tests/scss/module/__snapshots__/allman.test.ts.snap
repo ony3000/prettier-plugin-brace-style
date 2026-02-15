@@ -1,0 +1,12 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`example 1`] = `
+"@use "base";
+
+.inverse
+{
+  background-color: base.$primary-color;
+  color: white;
+}
+"
+`;

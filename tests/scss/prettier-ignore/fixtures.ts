@@ -20,6 +20,27 @@ export const fixtures: Omit<Fixture, 'output'>[] = [
 `,
   },
   {
+    name: 'ignore comment (3)',
+    input: `
+nav {
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  // prettier-ignore
+  li { display: inline-block; }
+
+  a {
+    display: block;
+    padding: 6px 12px;
+    text-decoration: none;
+  }
+}
+`,
+  },
+  {
     name: 'comments that contain the phrase `prettier-ignore` but do not prevent formatting',
     input: `
 /**
