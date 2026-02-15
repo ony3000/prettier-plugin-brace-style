@@ -841,6 +841,12 @@ const typescriptCaseHandlers: CaseHandlers = {
   Line: handleTypeScriptBlock,
 };
 
+const cssCaseHandlers: CaseHandlers = {
+  'css-atrule': handleCssCssAtrule,
+  'css-rule': handleCssCssRule,
+  'css-comment': handleCssCssComment,
+};
+
 const parserCaseHandlers: ParserCaseHandlers = {
   babel: {
     ...babelCaseHandlers,
@@ -888,9 +894,10 @@ const parserCaseHandlers: ParserCaseHandlers = {
     element: handleVueElement,
   },
   css: {
-    'css-atrule': handleCssCssAtrule,
-    'css-rule': handleCssCssRule,
-    'css-comment': handleCssCssComment,
+    ...cssCaseHandlers,
+  },
+  scss: {
+    ...cssCaseHandlers,
   },
   astro: {
     frontmatter: handleAstroFrontmatter,
