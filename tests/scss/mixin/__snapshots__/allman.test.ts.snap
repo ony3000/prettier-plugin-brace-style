@@ -1,0 +1,24 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`example 1`] = `
+"@mixin theme($theme: DarkGray)
+{
+  background: $theme;
+  box-shadow: 0 0 1px rgba($theme, 0.25);
+  color: #fff;
+}
+
+.info
+{
+  @include theme;
+}
+.alert
+{
+  @include theme($theme: DarkRed);
+}
+.success
+{
+  @include theme($theme: DarkGreen);
+}
+"
+`;
