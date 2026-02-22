@@ -1,0 +1,21 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`example 1`] = `
+"button when (@my-option = true)
+{
+  color: white;
+}
+
+& when (@my-option = true)
+{
+  button
+  {
+    color: white;
+  }
+  a
+  {
+    color: blue;
+  }
+}
+"
+`;
