@@ -1,0 +1,14 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`mixin scope features 1`] = `
+"#ns {
+  @a: one;
+  .mixin-1() {
+    prop: @a;
+  }
+}
+.rule {
+  #ns.mixin-1();
+}
+"
+`;
