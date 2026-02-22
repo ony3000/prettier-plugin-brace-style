@@ -209,7 +209,7 @@ exports[`using mixins as functions 1`] = `
 div
 {
   // call a mixin and look up its "@result" value
-  padding: .average(16px, 50px)[@result];
+  padding: .average(16px, 50px) [ @result];
 }
 "
 `;
