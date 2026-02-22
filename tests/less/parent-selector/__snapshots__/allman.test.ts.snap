@@ -1,0 +1,87 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`changing selector order 1`] = `
+".header
+{
+  .menu
+  {
+    border-radius: 5px;
+    .no-borderradius &
+    {
+      background-image: url("images/button-background.png");
+    }
+  }
+}
+"
+`;
+
+exports[`combinatorial explosion 1`] = `
+"p,
+a,
+ul,
+li
+{
+  border-top: 2px dotted #366;
+  & + &
+  {
+    border-top: 0;
+  }
+}
+"
+`;
+
+exports[`example 1`] = `
+"a
+{
+  color: blue;
+  &:hover
+  {
+    color: green;
+  }
+}
+
+.button
+{
+  &-ok
+  {
+    background-image: url("ok.png");
+  }
+  &-cancel
+  {
+    background-image: url("cancel.png");
+  }
+
+  &-custom
+  {
+    background-image: url("custom.png");
+  }
+}
+"
+`;
+
+exports[`multiple & 1`] = `
+".link
+{
+  & + &
+  {
+    color: red;
+  }
+
+  & &
+  {
+    color: green;
+  }
+
+  &&
+  {
+    color: blue;
+  }
+
+  &,
+  &ish
+  {
+    color: cyan;
+  }
+}
+"
+`;

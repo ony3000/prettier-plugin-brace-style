@@ -8,7 +8,11 @@
     "brace",
     "style",
     "eslint",
+    "stylistic",
     "brace-style",
+    "1tbs",
+    "stroustrup",
+    "allman",
     "curly",
     "bracket"
   ],

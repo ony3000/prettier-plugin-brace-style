@@ -582,6 +582,92 @@ function handleVueElement(ctx: CaseHandlerContext) {
   }
 }
 
+function handleCssCssAtrule(ctx: CaseHandlerContext) {
+  ctx.nonCommentNodes.push(ctx.currentASTNode);
+
+  if (
+    isTypeof(
+      ctx.node,
+      z.object({
+        name: z.string(),
+        nodes: z.array(z.unknown()),
+        raws: z.object({
+          afterName: z.string(),
+          params: z.string(),
+        }),
+      }),
+    )
+  ) {
+    let atRuleText = `@${ctx.node.name}${ctx.node.raws.afterName}${ctx.node.raws.params}${SPACE}`;
+
+    if (
+      isTypeof(
+        ctx.node,
+        z.object({
+          raws: z.object({
+            value: z.literal(''),
+          }),
+        }),
+      )
+    ) {
+      atRuleText = `@${ctx.node.name}${ctx.node.raws.afterName}${SPACE}`;
+    }
+
+    const offset = atRuleText.length;
+    const braceRangeStart = ctx.currentASTNode.start + offset;
+
+    ctx.braceNodes.push({
+      type: BraceType.OB,
+      range: [braceRangeStart, braceRangeStart + 1],
+    });
+    ctx.braceNodes.push({
+      type: BraceType.CBNT,
+      range: [ctx.currentASTNode.end - 1, ctx.currentASTNode.end],
+    });
+  }
+}
+
+function handleCssCssComment(ctx: CaseHandlerContext) {
+  if (
+    isTypeof(
+      ctx.node,
+      z.object({
+        text: z.string(),
+      }),
+    ) &&
+    ctx.node.text.trim() === 'prettier-ignore'
+  ) {
+    ctx.prettierIgnoreNodes.push(ctx.currentASTNode);
+  }
+}
+
+function handleCssCssRule(ctx: CaseHandlerContext) {
+  ctx.nonCommentNodes.push(ctx.currentASTNode);
+
+  if (
+    isTypeof(
+      ctx.node,
+      z.object({
+        raws: z.object({
+          selector: z.string(),
+        }),
+      }),
+    )
+  ) {
+    const offset = `${ctx.node.raws.selector}${SPACE}`.length;
+    const braceRangeStart = ctx.currentASTNode.start + offset;
+
+    ctx.braceNodes.push({
+      type: BraceType.OB,
+      range: [braceRangeStart, braceRangeStart + 1],
+    });
+    ctx.braceNodes.push({
+      type: BraceType.CBNT,
+      range: [ctx.currentASTNode.end - 1, ctx.currentASTNode.end],
+    });
+  }
+}
+
 function handleAstroFrontmatter(ctx: CaseHandlerContext) {
   ctx.nonCommentNodes.push(ctx.currentASTNode);
 
@@ -723,6 +809,12 @@ const typescriptCaseHandlers: CaseHandlers = {
   Line: handleTypeScriptBlock,
 };
 
+const cssCaseHandlers: CaseHandlers = {
+  'css-atrule': handleCssCssAtrule,
+  'css-rule': handleCssCssRule,
+  'css-comment': handleCssCssComment,
+};
+
 const parserCaseHandlers: ParserCaseHandlers = {
   babel: {
     ...babelCaseHandlers,
@@ -768,6 +860,15 @@ const parserCaseHandlers: ParserCaseHandlers = {
     comment: handleTypeScriptBlock,
     attribute: handleVueAttribute,
     element: handleVueElement,
+  },
+  css: {
+    ...cssCaseHandlers,
+  },
+  scss: {
+    ...cssCaseHandlers,
+  },
+  less: {
+    ...cssCaseHandlers,
   },
   astro: {
     frontmatter: handleAstroFrontmatter,
@@ -950,6 +1051,93 @@ export function findTargetBraceNodesBasedOnHtml(
     const nodeType = isTypeof(node, z.object({ kind: z.string() })) ? node.kind : node.type;
     const currentNodeRangeStart = node.sourceSpan.start.offset;
     const currentNodeRangeEnd = node.sourceSpan.end.offset;
+
+    const currentASTNode: ASTNode = {
+      type: nodeType,
+      start: currentNodeRangeStart,
+      end: currentNodeRangeEnd,
+    };
+
+    const handler = parserCaseHandlers[String(options.parser)]?.[nodeType];
+
+    if (handler) {
+      const context: CaseHandlerContext = {
+        formattedText,
+        options,
+        nonCommentNodes,
+        prettierIgnoreNodes,
+        braceNodes,
+        node,
+        parentNode,
+        currentASTNode,
+      };
+
+      handler(context);
+    } else {
+      nonCommentNodes.push(currentASTNode);
+    }
+  }
+
+  recursion(ast);
+
+  return filterAndSortBraceNodes(nonCommentNodes, prettierIgnoreNodes, braceNodes);
+}
+
+export function findTargetBraceNodesBasedOnCss(
+  formattedText: string,
+  ast: AST,
+  options: ResolvedOptions,
+): BraceNode[] {
+  /**
+   * Most nodes
+   */
+  const nonCommentNodes: ASTNode[] = [];
+  /**
+   * Nodes with a valid 'prettier-ignore' syntax
+   */
+  const prettierIgnoreNodes: ASTNode[] = [];
+  /**
+   * Single brace character as node
+   */
+  const braceNodes: BraceNode[] = [];
+
+  function recursion(node: unknown, parentNode?: { type: string }): void {
+    if (!isTypeof(node, z.object({ type: z.string() }))) {
+      return;
+    }
+
+    Object.entries(node).forEach(([key, value]) => {
+      if (key === 'type') {
+        return;
+      }
+
+      if (Array.isArray(value)) {
+        value.forEach((childNode: unknown) => {
+          recursion(childNode, node);
+        });
+        return;
+      }
+
+      recursion(value, node);
+    });
+
+    if (
+      !isTypeof(
+        node,
+        z.object({
+          source: z.object({
+            startOffset: z.number(),
+            endOffset: z.number(),
+          }),
+        }),
+      )
+    ) {
+      return;
+    }
+
+    const nodeType = node.type;
+    const currentNodeRangeStart = node.source.startOffset;
+    const currentNodeRangeEnd = node.source.endOffset;
 
     const currentASTNode: ASTNode = {
       type: nodeType,
