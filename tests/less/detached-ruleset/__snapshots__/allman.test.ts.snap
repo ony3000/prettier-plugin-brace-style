@@ -1,0 +1,57 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`example 1`] = `
+"// declare detached ruleset
+@detached-ruleset:
+{
+  background: red;
+}; // semi-colon is optional in 3.5.0+
+
+// use detached ruleset
+.top
+{
+  @detached-ruleset();
+}
+"
+`;
+
+exports[`property / variable accessors 1`] = `
+"@config:
+{
+  option1: true;
+  option2: false;
+};
+
+.mixin() when (@config[option1] = true)
+{
+  selected: value;
+}
+
+.box
+{
+  .mixin();
+}
+"
+`;
+
+exports[`scoping 1`] = `
+"@detached-ruleset:
+{
+  caller-variable: @caller-variable; // variable is undefined here
+  .caller-mixin(); // mixin is undefined here
+};
+
+selector
+{
+  // use detached ruleset
+  @detached-ruleset();
+
+  // define variable and mixin needed inside the detached ruleset
+  @caller-variable: value;
+  .caller-mixin()
+  {
+    variable: declaration;
+  }
+}
+"
+`;

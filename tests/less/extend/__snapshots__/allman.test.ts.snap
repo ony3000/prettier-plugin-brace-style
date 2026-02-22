@@ -1,0 +1,181 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`duplication detection 1`] = `
+".alert-info,
+.widget
+{
+  /* declarations */
+}
+
+.alert:extend(.alert-info, .widget)
+{
+}
+"
+`;
+
+exports[`exact matching with extend 1`] = `
+".a.class,
+.class.a,
+.class > .a
+{
+  color: blue;
+}
+.test:extend(.class)
+{
+} // this will NOT match the any selectors above
+"
+`;
+
+exports[`example 1`] = `
+"nav ul
+{
+  &:extend(.inline);
+  background: blue;
+}
+.inline
+{
+  color: red;
+}
+"
+`;
+
+exports[`extend "all" 1`] = `
+".a.b.test,
+.test.c
+{
+  color: orange;
+}
+.test
+{
+  &:hover
+  {
+    color: green;
+  }
+}
+
+.replacement:extend(.test all)
+{
+}
+"
+`;
+
+exports[`extend attached to selector 1`] = `
+".big-division,
+.big-bag:extend(.bag),
+.big-bucket:extend(.bucket)
+{
+  // body
+}
+"
+`;
+
+exports[`extend inside ruleset 1`] = `
+"pre:hover,
+.some-class
+{
+  &:extend(div pre);
+}
+"
+`;
+
+exports[`extend syntax 1`] = `
+".a:extend(.b)
+{
+}
+
+// the above block does the same thing as the below block
+.a
+{
+  &:extend(.b);
+}
+"
+`;
+
+exports[`extending nested selectors 1`] = `
+".bucket
+{
+  tr
+  {
+    // nested ruleset with target selector
+    color: blue;
+  }
+}
+.some-class:extend(.bucket tr)
+{
+} // nested ruleset is recognized
+"
+`;
+
+exports[`nth expression 1`] = `
+":nth-child(1n + 3)
+{
+  color: blue;
+}
+.child:extend(:nth-child(n + 3))
+{
+}
+
+[title="identifier"]
+{
+  color: blue;
+}
+[title="identifier"]
+{
+  color: blue;
+}
+[title="identifier"]
+{
+  color: blue;
+}
+
+.noQuote:extend([title="identifier"])
+{
+}
+.singleQuote:extend([title="identifier"])
+{
+}
+.doubleQuote:extend([title="identifier"])
+{
+}
+"
+`;
+
+exports[`scoping / extend inside @media 1`] = `
+"@media print
+{
+  .screenClass:extend(.selector)
+  {
+  } // extend inside media
+  .selector
+  {
+    // this will be matched - it is in the same media
+    color: black;
+  }
+}
+.selector
+{
+  // ruleset on top of style sheet - extend ignores it
+  color: red;
+}
+@media screen
+{
+  .selector
+  {
+    // ruleset inside another media - extend ignores it
+    color: blue;
+  }
+}
+"
+`;
+
+exports[`selector interpolation with extend 1`] = `
+".bucket
+{
+  color: blue;
+}
+@{variable}:extend(.bucket)
+{
+}
+@variable: .selector;
+"
+`;
