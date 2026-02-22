@@ -1,0 +1,36 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`example 1`] = `
+"@sizes:
+{
+  mobile: 320px;
+  tablet: 768px;
+  desktop: 1024px;
+};
+
+.navbar
+{
+  display: block;
+
+  @media (min-width: @sizes[tablet])
+  {
+    display: inline-block;
+  }
+}
+"
+`;
+
+exports[`using variable variables in lookups 1`] = `
+".foods()
+{
+  @dessert: ice cream;
+}
+
+@key-to-lookup: dessert;
+
+.lunch
+{
+  treat: .foods[ @@key-to-lookup];
+}
+"
+`;

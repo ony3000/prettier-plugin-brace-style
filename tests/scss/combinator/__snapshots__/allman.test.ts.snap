@@ -1,0 +1,44 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`child combinator 1`] = `
+"span
+{
+  background-color: aqua;
+}
+
+div > span
+{
+  background-color: yellow;
+}
+"
+`;
+
+exports[`descendant combinator 1`] = `
+"li
+{
+  list-style-type: disc;
+}
+
+li li
+{
+  list-style-type: circle;
+}
+"
+`;
+
+exports[`next-sibling combinator 1`] = `
+"li:first-of-type + li
+{
+  color: red;
+  font-weight: bold;
+}
+"
+`;
+
+exports[`subsequent-sibling combinator 1`] = `
+"p ~ span
+{
+  color: red;
+}
+"
+`;

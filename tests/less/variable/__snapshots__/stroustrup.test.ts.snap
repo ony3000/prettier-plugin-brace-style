@@ -1,0 +1,66 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`lazy evaluation 1`] = `
+".lazy-eval {
+  width: @var;
+}
+
+@var: @a;
+@a: 9%;
+"
+`;
+
+exports[`overview 1`] = `
+"// Variables
+@link-color: #428bca; // sea blue
+@link-color-hover: darken(@link-color, 10%);
+
+// Usage
+a,
+.link {
+  color: @link-color;
+}
+a:hover {
+  color: @link-color-hover;
+}
+.widget {
+  color: #fff;
+  background: @link-color;
+}
+"
+`;
+
+exports[`properties as variables 1`] = `
+".widget {
+  color: #efefef;
+  background-color: $color;
+}
+"
+`;
+
+exports[`variable interpolation 1`] = `
+"// Variables
+@my-selector: banner;
+
+// Usage
+.@{my-selector} {
+  font-weight: bold;
+  line-height: 40px;
+  margin: 0 auto;
+}
+"
+`;
+
+exports[`variable variables 1`] = `
+"@primary: green;
+@secondary: blue;
+
+.section {
+  @color: primary;
+
+  .element {
+    color: @@color;
+  }
+}
+"
+`;
