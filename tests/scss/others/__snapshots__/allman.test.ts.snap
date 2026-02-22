@@ -1,0 +1,58 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`endOfLine: crlf 1`] = `
+".example
+{
+  font-family: system-ui;
+  font-size: 1.2rem;
+  & > a
+  {
+    color: tomato;
+    &:hover,
+    &:focus
+    {
+      color: ivory;
+      background-color: tomato;
+    }
+  }
+}
+"
+`;
+
+exports[`tabWidth: 4 1`] = `
+".example
+{
+    font-family: system-ui;
+    font-size: 1.2rem;
+    & > a
+    {
+        color: tomato;
+        &:hover,
+        &:focus
+        {
+            color: ivory;
+            background-color: tomato;
+        }
+    }
+}
+"
+`;
+
+exports[`useTabs: true 1`] = `
+".example
+{
+	font-family: system-ui;
+	font-size: 1.2rem;
+	& > a
+	{
+		color: tomato;
+		&:hover,
+		&:focus
+		{
+			color: ivory;
+			background-color: tomato;
+		}
+	}
+}
+"
+`;

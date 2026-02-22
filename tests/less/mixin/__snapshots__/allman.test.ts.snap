@@ -1,0 +1,215 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`aliasing mixins 1`] = `
+"#theme.dark.navbar
+{
+  .colors(light)
+  {
+    primary: purple;
+  }
+  .colors(dark)
+  {
+    primary: black;
+    secondary: grey;
+  }
+}
+
+.navbar
+{
+  @colors: #theme.dark.navbar.colors(dark);
+  background: @colors[primary];
+  border: 1px solid @colors[secondary];
+}
+"
+`;
+
+exports[`example 1`] = `
+".a,
+#b
+{
+  color: red;
+}
+.mixin-class
+{
+  .a();
+}
+.mixin-id
+{
+  #b();
+}
+"
+`;
+
+exports[`guarded namespaces 1`] = `
+"#namespace when (@mode = huge)
+{
+  .mixin()
+  {
+    /* */
+  }
+}
+
+#namespace
+{
+  .mixin() when (@mode = huge)
+  {
+    /* */
+  }
+}
+
+#sp_1 when (default())
+{
+  #sp_2 when (default())
+  {
+    .mixin() when not(default())
+    {
+      /* */
+    }
+  }
+}
+"
+`;
+
+exports[`mixin guards 1`] = `
+".mixin(@a) when (lightness(@a) >= 50%)
+{
+  background-color: black;
+}
+.mixin(@a) when (lightness(@a) < 50%)
+{
+  background-color: white;
+}
+.mixin(@a)
+{
+  color: @a;
+}
+"
+`;
+
+exports[`mixins with parentheses 1`] = `
+".my-mixin
+{
+  color: black;
+}
+.my-other-mixin()
+{
+  background: white;
+}
+.class
+{
+  .my-mixin();
+  .my-other-mixin();
+}
+"
+`;
+
+exports[`namespaces 1`] = `
+"#my-library
+{
+  .my-mixin()
+  {
+    color: black;
+  }
+}
+// which can be used like this
+.class
+{
+  #my-library.my-mixin();
+}
+"
+`;
+
+exports[`parametric mixins 1`] = `
+".border-radius(@radius)
+{
+  -webkit-border-radius: @radius;
+  -moz-border-radius: @radius;
+  border-radius: @radius;
+}
+
+#header
+{
+  .border-radius(4px);
+}
+.button
+{
+  .border-radius(6px);
+}
+"
+`;
+
+exports[`pattern-matching 1`] = `
+".mixin(dark, @color)
+{
+  color: darken(@color, 10%);
+}
+.mixin(light, @color)
+{
+  color: lighten(@color, 10%);
+}
+.mixin(@_, @color)
+{
+  display: block;
+}
+"
+`;
+
+exports[`recursive mixins 1`] = `
+".loop(@counter) when (@counter > 0)
+{
+  .loop((@counter - 1)); // next iteration
+  width: (10px * @counter); // code for each iteration
+}
+
+div
+{
+  .loop(5); // launch the loop
+}
+"
+`;
+
+exports[`selectors in mixins 1`] = `
+".my-hover-mixin()
+{
+  &:hover
+  {
+    border: 1px solid red;
+  }
+}
+button
+{
+  .my-hover-mixin();
+}
+"
+`;
+
+exports[`the !important keyword 1`] = `
+".foo (@bg: #f5f5f5, @color: #900)
+{
+  background: @bg;
+  color: @color;
+}
+.unimportant
+{
+  .foo();
+}
+.important
+{
+  .foo() !important;
+}
+"
+`;
+
+exports[`using mixins as functions 1`] = `
+".average(@x, @y)
+{
+  @result: ((@x + @y) / 2);
+}
+
+div
+{
+  // call a mixin and look up its "@result" value
+  padding: .average(16px, 50px)[@result];
+}
+"
+`;
