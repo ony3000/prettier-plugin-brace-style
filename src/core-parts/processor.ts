@@ -199,7 +199,8 @@ export function parseLineByLineAndAssemble(
       break;
     }
     case 'css':
-    case 'scss': {
+    case 'scss':
+    case 'less': {
       targetBraceNodes = findTargetBraceNodesBasedOnCss(formattedText, ast, options);
       break;
     }

@@ -590,62 +590,30 @@ function handleCssCssAtrule(ctx: CaseHandlerContext) {
       ctx.node,
       z.object({
         name: z.string(),
-        params: z.string(),
-      }),
-    )
-  ) {
-    const offset = `@${ctx.node.name}${SPACE}${ctx.node.params ? `${ctx.node.params}${SPACE}` : ''}`
-      .length;
-    const braceRangeStart = ctx.currentASTNode.start + offset;
-
-    ctx.braceNodes.push({
-      type: BraceType.OB,
-      range: [braceRangeStart, braceRangeStart + 1],
-    });
-    ctx.braceNodes.push({
-      type: BraceType.CBNT,
-      range: [ctx.currentASTNode.end - 1, ctx.currentASTNode.end],
-    });
-  } else if (
-    isTypeof(
-      ctx.node,
-      z.object({
-        name: z.string(),
-        params: z.object({
-          type: z.literal('media-query-list'),
-          value: z.string(),
+        nodes: z.array(z.unknown()),
+        raws: z.object({
+          afterName: z.string(),
+          params: z.string(),
         }),
       }),
     )
   ) {
-    const offset =
-      `@${ctx.node.name}${SPACE}${ctx.node.params.value ? `${ctx.node.params.value}${SPACE}` : ''}`
-        .length;
-    const braceRangeStart = ctx.currentASTNode.start + offset;
+    let atRuleText = `@${ctx.node.name}${ctx.node.raws.afterName}${ctx.node.raws.params}${SPACE}`;
 
-    ctx.braceNodes.push({
-      type: BraceType.OB,
-      range: [braceRangeStart, braceRangeStart + 1],
-    });
-    ctx.braceNodes.push({
-      type: BraceType.CBNT,
-      range: [ctx.currentASTNode.end - 1, ctx.currentASTNode.end],
-    });
-  } else if (
-    isTypeof(
-      ctx.node,
-      z.object({
-        name: z.string(),
-        value: z.object({
-          type: z.literal('value-root'),
-          text: z.string(),
+    if (
+      isTypeof(
+        ctx.node,
+        z.object({
+          raws: z.object({
+            value: z.literal(''),
+          }),
         }),
-      }),
-    )
-  ) {
-    const offset =
-      `@${ctx.node.name}${SPACE}${ctx.node.value.text ? `${ctx.node.value.text}${SPACE}` : ''}`
-        .length;
+      )
+    ) {
+      atRuleText = `@${ctx.node.name}${ctx.node.raws.afterName}${SPACE}`;
+    }
+
+    const offset = atRuleText.length;
     const braceRangeStart = ctx.currentASTNode.start + offset;
 
     ctx.braceNodes.push({
@@ -897,6 +865,9 @@ const parserCaseHandlers: ParserCaseHandlers = {
     ...cssCaseHandlers,
   },
   scss: {
+    ...cssCaseHandlers,
+  },
+  less: {
     ...cssCaseHandlers,
   },
   astro: {
