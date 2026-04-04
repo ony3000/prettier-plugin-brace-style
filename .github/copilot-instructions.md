@@ -55,7 +55,7 @@ The output of the whole pipeline is a `FormattedTextAST` (`{ type: 'FormattedTex
 
 **Zod for runtime validation:** All external inputs (plugin options, parser results) are validated with `z.object({...}).safeParse(arg).success` before use.
 
-**Biome is the linter** (formatting disabled in `biome.json`); Prettier itself is only used inside test logic, not for this repo's source files.
+**Biome is the linter** (formatting disabled in `biome.json`); Prettier handles formatting of this repo's source files (configured via `.prettierrc.json`) and is also used inside test logic.
 
 ## Test Structure
 
