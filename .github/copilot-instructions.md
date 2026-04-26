@@ -45,9 +45,18 @@ The output of the whole pipeline is a `FormattedTextAST` (`{ type: 'FormattedTex
 - `SupportedParserNames` — union of all 13 supported parser name strings
 
 **`BraceType` enum (in `utils.ts`):**
-- `OB` = opening brace, `CB` = closing brace
-- `OBTO` = ternary operator (treated specially)
-- `OBNT` / `CBNT` = not a target (excluded from transformation)
+- `OB` = opening brace
+- `OBTO` = opening brace inside a ternary operator; when split to its own line (allman style), it gets `indentLevel + 1` for visual nesting
+- `OBNT` = opening brace that is not a transformation target (excluded from line-break insertion)
+- `CB` = closing brace that may be followed by a connecting keyword (`else`, `catch`, `finally`, etc.) — a line break is inserted after it in stroustrup/allman
+- `CBNT` = closing brace with no following connecting keyword, or one that must stay on the same line as what follows (e.g., `do...while`'s `}` before `while`) — excluded from line-break insertion
+
+**CB vs CBNT assignment rule:** Generally, assign `CBNT` when no connecting keyword follows the closing brace. `DoWhileStatement` body is an exception — its `}` must stay with `while (...)`, so it uses `CBNT` even though `BlockStatement` nodes normally use `CB`. The same rule applies to Angular control flow blocks: `@if`, `@for`, `@else if`, `@defer`, etc. use `CB` (a sibling block can follow), while `@else`, `@switch`, `@case`, `@default`, `@error`, `@empty` use `CBNT`.
+
+**Per-style transformation (`processor.ts`):**
+- `1tbs` — no transformation; Prettier's output is used as-is
+- `stroustrup` — calls `splitLineContainingClosingBrace` only: inserts a line break after each `CB` (e.g., `} else {` → `}\nelse {`)
+- `allman` — calls both `splitLineContainingClosingBrace` and `splitLineContainingOpeningBrace`: additionally moves each `OB`/`OBTO` to its own line before the block
 
 **Finder naming:** `handle{Language}{ASTNodeType}` (e.g., `handleJavaScriptBlockStatement`, `handleTypeScriptTSEnumDeclaration`)
 
@@ -57,12 +66,23 @@ The output of the whole pipeline is a `FormattedTextAST` (`{ type: 'FormattedTex
 
 **Biome is the linter** (formatting disabled in `biome.json`); Prettier handles formatting of this repo's source files (configured via `.prettierrc.json`) and is also used inside test logic.
 
+**Parser-specific AST differences:**
+- `babel`/`babel-ts` top-level node type is `File`; `oxc` uses `Program`. Both use `handleJavaScriptFile` logic (collecting prettier-ignore comments), just registered under different node type keys.
+- `babel-ts` represents enums with a `TSEnumBody` node (handled as a generic BlockStatement), while `typescript` uses `TSEnumDeclaration` (handled by a dedicated handler that computes the brace offset from the declaration text).
+- `JSXText` nodes are intentionally excluded from `nonCommentNodes` in `findTargetBraceNodesBasedOnJavaScript` to prevent false positives in prettier-ignore range detection inside `filterAndSortBraceNodes`.
+
+**Svelte AST refinement (`parser.ts`):** `prettier-plugin-svelte` internally base64-encodes `<script>` content during preprocessing. `refineSvelteAst` decodes this and restores AST node offsets so that TypeScript code inside `<script>` tags is correctly located for brace transformation. This refinement is not tied to a specific `prettier-plugin-svelte` version.
+
+**CRLF handling:** Internal processing always uses `lf` (forced via `endOfLine: 'lf'` in the format call). Prettier's own pipeline handles CRLF restoration for the final output when `endOfLine: 'crlf'` is configured.
+
+**Deprecated markdown/mdx support:** `parsers.ts` contains a code path for `parentParser === 'markdown'` or `'mdx'` (handling embedded code blocks). This path is deprecated and will be removed in v0.12.0, along with `tests/markdown/`.
+
 ## Test Structure
 
 Tests live in `tests/{parser}/{feature}/` (e.g., `tests/babel/if/`, `tests/typescript/try/`).
 
 Each feature directory contains:
-- `fixtures.ts` — array of `Fixture` objects (input code snippets)
+- `fixtures.ts` — array of `Fixture` objects (input code snippets). The `output` field on the `Fixture` type is a legacy remnant from before snapshot tests were adopted and is not currently used; all fixture files use `Omit<Fixture, 'output'>[]`.
 - `1tbs.test.ts`, `stroustrup.test.ts`, `allman.test.ts` — one file per brace style
 
 **Babel parser tests** run two checks per fixture:
@@ -72,3 +92,5 @@ Each feature directory contains:
 All other parsers (TypeScript, HTML, CSS, Vue, Svelte, Astro, Oxc, etc.) only run the **practical** (snapshot) check — no ESLint validation.
 
 ESLint linter instances for each style are shared from `tests/linters.ts`. Base Prettier options are in `tests/settings.ts`.
+
+**`issue-{number}` directories** (e.g., `tests/babel/issue-25/`) contain regression tests for specific GitHub issues.
