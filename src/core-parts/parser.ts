@@ -65,7 +65,7 @@ function refineSvelteAst(preprocessedText: string, ast: AST) {
     }
   }
 
-  recursion(ast.html);
+  recursion(ast.html ?? ast.fragment);
 
   ast.instance = {
     type: 'RefinedScript',
