@@ -1,8 +1,8 @@
 import type { AST, ParserOptions } from 'prettier';
 import { parsers as babelParsers } from 'prettier/plugins/babel';
 import { parsers as typescriptParsers } from 'prettier/plugins/typescript';
-import { z } from 'zod';
 
+import * as schemas from './schemas';
 import { type NodeRange, type BraceNode, BraceType, EOL, SPACE, TAB, isTypeof } from './utils';
 
 type ASTNode = {
@@ -107,21 +107,7 @@ function handleJavaScriptConditionalExpression(ctx: CaseHandlerContext) {
 }
 
 function handleJavaScriptFile(ctx: CaseHandlerContext) {
-  if (
-    isTypeof(
-      ctx.node,
-      z.object({
-        comments: z.array(
-          z.object({
-            type: z.string(),
-            value: z.string(),
-            start: z.number(),
-            end: z.number(),
-          }),
-        ),
-      }),
-    )
-  ) {
+  if (isTypeof(ctx.node, schemas.javaScriptFileSchema)) {
     ctx.node.comments.forEach((comment) => {
       if (comment.value.trim() === 'prettier-ignore') {
         ctx.prettierIgnoreNodes.push({
@@ -165,17 +151,7 @@ function handleJavaScriptStaticBlock(ctx: CaseHandlerContext) {
 function handleJavaScriptSwitchStatement(ctx: CaseHandlerContext) {
   ctx.nonCommentNodes.push(ctx.currentASTNode);
 
-  if (
-    isTypeof(
-      ctx.node,
-      z.object({
-        discriminant: z.object({
-          start: z.number(),
-          end: z.number(),
-        }),
-      }),
-    )
-  ) {
+  if (isTypeof(ctx.node, schemas.javaScriptSwitchStatementSchema)) {
     const discriminantRangeStart = ctx.node.discriminant.start;
     const discriminantRangeEnd = ctx.node.discriminant.end;
     const isMultiLineExpression =
@@ -217,12 +193,7 @@ function handleJavaScriptSwitchStatement(ctx: CaseHandlerContext) {
 
 function handleTypeScriptBlock(ctx: CaseHandlerContext) {
   if (
-    isTypeof(
-      ctx.node,
-      z.object({
-        value: z.string(),
-      }),
-    ) &&
+    isTypeof(ctx.node, schemas.typeScriptBlockSchema) &&
     ctx.node.value.trim() === 'prettier-ignore'
   ) {
     ctx.prettierIgnoreNodes.push(ctx.currentASTNode);
@@ -232,18 +203,7 @@ function handleTypeScriptBlock(ctx: CaseHandlerContext) {
 function handleTypeScriptTSEnumDeclaration(ctx: CaseHandlerContext) {
   ctx.nonCommentNodes.push(ctx.currentASTNode);
 
-  if (
-    isTypeof(
-      ctx.node,
-      z.object({
-        id: z.object({
-          name: z.string(),
-        }),
-        declare: z.boolean().optional(),
-        const: z.boolean().optional(),
-      }),
-    )
-  ) {
+  if (isTypeof(ctx.node, schemas.typeScriptTSEnumDeclarationSchema)) {
     const offset = `${ctx.node.declare ? 'declare ' : ''}${ctx.node.const ? 'const ' : ''}enum ${
       ctx.node.id.name
     } `.length;
@@ -262,12 +222,7 @@ function handleTypeScriptTSEnumDeclaration(ctx: CaseHandlerContext) {
 
 function handleSvelteComment(ctx: CaseHandlerContext) {
   if (
-    isTypeof(
-      ctx.node,
-      z.object({
-        data: z.string(),
-      }),
-    ) &&
+    isTypeof(ctx.node, schemas.svelteCommentSchema) &&
     ctx.node.data.trim() === 'prettier-ignore'
   ) {
     ctx.prettierIgnoreNodes.push(ctx.currentASTNode);
@@ -277,17 +232,7 @@ function handleSvelteComment(ctx: CaseHandlerContext) {
 function handleSvelteRefinedScript(ctx: CaseHandlerContext) {
   ctx.nonCommentNodes.push(ctx.currentASTNode);
 
-  if (
-    isTypeof(
-      ctx.node,
-      z.object({
-        content: z.object({
-          start: z.number(),
-          value: z.string(),
-        }),
-      }),
-    )
-  ) {
+  if (isTypeof(ctx.node, schemas.svelteRefinedScriptSchema)) {
     const textNodeInScript = ctx.node.content;
     if (textNodeInScript) {
       const openingTagEndingOffset = textNodeInScript.start;
@@ -318,31 +263,7 @@ function handleSvelteRefinedScript(ctx: CaseHandlerContext) {
 function handleHtmlElement(ctx: CaseHandlerContext) {
   ctx.nonCommentNodes.push(ctx.currentASTNode);
 
-  if (
-    isTypeof(
-      ctx.node,
-      z.object({
-        startSourceSpan: z.object({
-          end: z.object({
-            offset: z.number(),
-          }),
-        }),
-        name: z.string(),
-        children: z.array(
-          z.object({
-            value: z.string(),
-          }),
-        ),
-        attrs: z.array(
-          z.object({
-            name: z.string(),
-            value: z.unknown().optional(),
-          }),
-        ),
-      }),
-    ) &&
-    ctx.node.name === 'script'
-  ) {
+  if (isTypeof(ctx.node, schemas.htmlElementSchema) && ctx.node.name === 'script') {
     const textNodeInScript = ctx.node.children.at(0);
 
     if (ctx.node.attrs.find((attr) => attr.name === 'lang' && attr.value === 'ts')) {
@@ -405,24 +326,7 @@ function handleHtmlElement(ctx: CaseHandlerContext) {
 function handleAngularAngularControlFlowBlock(ctx: CaseHandlerContext) {
   ctx.nonCommentNodes.push(ctx.currentASTNode);
 
-  if (
-    isTypeof(
-      ctx.node,
-      z.object({
-        name: z.string(),
-        startSourceSpan: z.object({
-          end: z.object({
-            offset: z.number(),
-          }),
-        }),
-        endSourceSpan: z.object({
-          start: z.object({
-            offset: z.number(),
-          }),
-        }),
-      }),
-    )
-  ) {
+  if (isTypeof(ctx.node, schemas.angularAngularControlFlowBlockSchema)) {
     switch (ctx.node.name) {
       case 'defer':
       case 'placeholder':
@@ -470,37 +374,9 @@ function handleVueAttribute(ctx: CaseHandlerContext) {
   const onDirectiveRegExp = /^(?:v-on:|@)/;
 
   if (
-    isTypeof(
-      ctx.parentNode,
-      z.object({
-        sourceSpan: z.object({
-          start: z.object({
-            line: z.number(),
-          }),
-        }),
-      }),
-    ) &&
+    isTypeof(ctx.parentNode, schemas.vueAttributeParentSchema) &&
     (ctx.parentNode?.kind ?? ctx.parentNode?.type) === 'element' &&
-    isTypeof(
-      ctx.node,
-      z.object({
-        sourceSpan: z.object({
-          start: z.object({
-            line: z.number(),
-          }),
-        }),
-        name: z.string(),
-        value: z.string(),
-        valueSpan: z.object({
-          start: z.object({
-            offset: z.number(),
-          }),
-          end: z.object({
-            offset: z.number(),
-          }),
-        }),
-      }),
-    )
+    isTypeof(ctx.node, schemas.vueAttributeSchema)
   ) {
     const hasBindDirective = ctx.node.name.match(bindDirectiveRegExp) !== null;
     const hasOnDirective = ctx.node.name.match(onDirectiveRegExp) !== null;
@@ -537,30 +413,7 @@ function handleVueAttribute(ctx: CaseHandlerContext) {
 function handleVueElement(ctx: CaseHandlerContext) {
   ctx.nonCommentNodes.push(ctx.currentASTNode);
 
-  if (
-    isTypeof(
-      ctx.node,
-      z.object({
-        sourceSpan: z.object({
-          start: z.object({
-            line: z.number(),
-          }),
-        }),
-        startSourceSpan: z.object({
-          end: z.object({
-            offset: z.number(),
-          }),
-        }),
-        name: z.string(),
-        children: z.array(
-          z.object({
-            value: z.string(),
-          }),
-        ),
-      }),
-    ) &&
-    ctx.node.name === 'script'
-  ) {
+  if (isTypeof(ctx.node, schemas.vueElementSchema) && ctx.node.name === 'script') {
     const scriptOffset = ctx.node.startSourceSpan.end.offset;
 
     const subText = ctx.node.children.at(0)?.value ?? '';
@@ -585,31 +438,10 @@ function handleVueElement(ctx: CaseHandlerContext) {
 function handleCssCssAtrule(ctx: CaseHandlerContext) {
   ctx.nonCommentNodes.push(ctx.currentASTNode);
 
-  if (
-    isTypeof(
-      ctx.node,
-      z.object({
-        name: z.string(),
-        nodes: z.array(z.unknown()),
-        raws: z.object({
-          afterName: z.string(),
-          params: z.string(),
-        }),
-      }),
-    )
-  ) {
+  if (isTypeof(ctx.node, schemas.cssCssAtruleSchema)) {
     let atRuleText = `@${ctx.node.name}${ctx.node.raws.afterName}${ctx.node.raws.params}${SPACE}`;
 
-    if (
-      isTypeof(
-        ctx.node,
-        z.object({
-          raws: z.object({
-            value: z.literal(''),
-          }),
-        }),
-      )
-    ) {
+    if (isTypeof(ctx.node, schemas.cssEmptyAtruleSchema)) {
       atRuleText = `@${ctx.node.name}${ctx.node.raws.afterName}${SPACE}`;
     }
 
@@ -629,12 +461,7 @@ function handleCssCssAtrule(ctx: CaseHandlerContext) {
 
 function handleCssCssComment(ctx: CaseHandlerContext) {
   if (
-    isTypeof(
-      ctx.node,
-      z.object({
-        text: z.string(),
-      }),
-    ) &&
+    isTypeof(ctx.node, schemas.cssCssCommentSchema) &&
     ctx.node.text.trim() === 'prettier-ignore'
   ) {
     ctx.prettierIgnoreNodes.push(ctx.currentASTNode);
@@ -644,16 +471,7 @@ function handleCssCssComment(ctx: CaseHandlerContext) {
 function handleCssCssRule(ctx: CaseHandlerContext) {
   ctx.nonCommentNodes.push(ctx.currentASTNode);
 
-  if (
-    isTypeof(
-      ctx.node,
-      z.object({
-        raws: z.object({
-          selector: z.string(),
-        }),
-      }),
-    )
-  ) {
+  if (isTypeof(ctx.node, schemas.cssCssRuleSchema)) {
     const offset = `${ctx.node.raws.selector}${SPACE}`.length;
     const braceRangeStart = ctx.currentASTNode.start + offset;
 
@@ -671,14 +489,7 @@ function handleCssCssRule(ctx: CaseHandlerContext) {
 function handleAstroFrontmatter(ctx: CaseHandlerContext) {
   ctx.nonCommentNodes.push(ctx.currentASTNode);
 
-  if (
-    isTypeof(
-      ctx.node,
-      z.object({
-        value: z.string(),
-      }),
-    )
-  ) {
+  if (isTypeof(ctx.node, schemas.astroFrontmatterSchema)) {
     const subText = ctx.node.value;
     const subOptions = {
       ...ctx.options,
@@ -705,28 +516,7 @@ function handleAstroFrontmatter(ctx: CaseHandlerContext) {
 function handleAstroElement(ctx: CaseHandlerContext) {
   ctx.nonCommentNodes.push(ctx.currentASTNode);
 
-  if (
-    isTypeof(
-      ctx.node,
-      z.object({
-        name: z.literal('script'),
-        attributes: z.array(
-          z.object({
-            type: z.literal('attribute'),
-            kind: z.string(),
-            name: z.string(),
-            raw: z.string(),
-          }),
-        ),
-        children: z.array(
-          z.object({
-            type: z.string(),
-            value: z.string(),
-          }),
-        ),
-      }),
-    )
-  ) {
+  if (isTypeof(ctx.node, schemas.astroElementSchema)) {
     const openingTagStart = '<script';
     const openingTagEnd = '>';
     const openingTagAttributes = ctx.node.attributes.reduce(
@@ -769,12 +559,7 @@ function handleAstroElement(ctx: CaseHandlerContext) {
 
 function handleAstroComment(ctx: CaseHandlerContext) {
   if (
-    isTypeof(
-      ctx.node,
-      z.object({
-        value: z.string(),
-      }),
-    ) &&
+    isTypeof(ctx.node, schemas.astroCommentSchema) &&
     ctx.node.value.trim() === 'prettier-ignore'
   ) {
     const rangeStart = ctx.currentASTNode.start;
@@ -896,7 +681,7 @@ export function findTargetBraceNodesBasedOnJavaScript(
   const braceNodes: BraceNode[] = [];
 
   function recursion(node: unknown, parentNode?: { type: string }): void {
-    if (!isTypeof(node, z.object({ type: z.string() }))) {
+    if (!isTypeof(node, schemas.nodeTypeSchema)) {
       return;
     }
 
@@ -915,16 +700,7 @@ export function findTargetBraceNodesBasedOnJavaScript(
       recursion(value, node);
     });
 
-    if (
-      isTypeof(
-        node,
-        z.object({
-          start: z.undefined().optional(),
-          end: z.undefined().optional(),
-          range: z.custom<NodeRange>((value) => isTypeof(value, z.tuple([z.number(), z.number()]))),
-        }),
-      )
-    ) {
+    if (isTypeof(node, schemas.nodeWithRangeSchema)) {
       const [rangeStart, rangeEnd] = node.range;
 
       // @ts-expect-error: Make the structure of the AST consistent.
@@ -933,15 +709,7 @@ export function findTargetBraceNodesBasedOnJavaScript(
       node.end = rangeEnd;
     }
 
-    if (
-      !isTypeof(
-        node,
-        z.object({
-          start: z.number(),
-          end: z.number(),
-        }),
-      )
-    ) {
+    if (!isTypeof(node, schemas.nodeOffsetsSchema)) {
       return;
     }
 
@@ -1008,10 +776,7 @@ export function findTargetBraceNodesBasedOnHtml(
     node: unknown,
     parentNode?: { kind: string; type?: undefined } | { kind?: undefined; type: string },
   ): void {
-    if (
-      !isTypeof(node, z.object({ kind: z.string() })) &&
-      !isTypeof(node, z.object({ type: z.string() }))
-    ) {
+    if (!isTypeof(node, schemas.nodeKindSchema) && !isTypeof(node, schemas.nodeTypeSchema)) {
       return;
     }
 
@@ -1030,25 +795,11 @@ export function findTargetBraceNodesBasedOnHtml(
       recursion(value, node);
     });
 
-    if (
-      !isTypeof(
-        node,
-        z.object({
-          sourceSpan: z.object({
-            start: z.object({
-              offset: z.number(),
-            }),
-            end: z.object({
-              offset: z.number(),
-            }),
-          }),
-        }),
-      )
-    ) {
+    if (!isTypeof(node, schemas.htmlNodeSourceSchema)) {
       return;
     }
 
-    const nodeType = isTypeof(node, z.object({ kind: z.string() })) ? node.kind : node.type;
+    const nodeType = isTypeof(node, schemas.nodeKindSchema) ? node.kind : node.type;
     const currentNodeRangeStart = node.sourceSpan.start.offset;
     const currentNodeRangeEnd = node.sourceSpan.end.offset;
 
@@ -1102,7 +853,7 @@ export function findTargetBraceNodesBasedOnCss(
   const braceNodes: BraceNode[] = [];
 
   function recursion(node: unknown, parentNode?: { type: string }): void {
-    if (!isTypeof(node, z.object({ type: z.string() }))) {
+    if (!isTypeof(node, schemas.nodeTypeSchema)) {
       return;
     }
 
@@ -1121,17 +872,7 @@ export function findTargetBraceNodesBasedOnCss(
       recursion(value, node);
     });
 
-    if (
-      !isTypeof(
-        node,
-        z.object({
-          source: z.object({
-            startOffset: z.number(),
-            endOffset: z.number(),
-          }),
-        }),
-      )
-    ) {
+    if (!isTypeof(node, schemas.cssNodeSourceSchema)) {
       return;
     }
 
@@ -1189,7 +930,7 @@ export function findTargetBraceNodesBasedOnAstro(
   const braceNodes: BraceNode[] = [];
 
   function recursion(node: unknown, parentNode?: { type: string }): void {
-    if (!isTypeof(node, z.object({ type: z.string() }))) {
+    if (!isTypeof(node, schemas.nodeTypeSchema)) {
       return;
     }
 
@@ -1208,25 +949,7 @@ export function findTargetBraceNodesBasedOnAstro(
       recursion(value, node);
     });
 
-    if (
-      !isTypeof(
-        node,
-        z.object({
-          position: z.object({
-            start: z.object({
-              offset: z.number(),
-            }),
-            end: z
-              .object({
-                offset: z.number(),
-              })
-              .optional(),
-          }),
-          name: z.unknown().optional(),
-          value: z.unknown().optional(),
-        }),
-      )
-    ) {
+    if (!isTypeof(node, schemas.astroNodePositionSchema)) {
       return;
     }
 
