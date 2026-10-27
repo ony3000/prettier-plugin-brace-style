@@ -30,7 +30,7 @@ exports[`using variable variables in lookups 1`] = `
 
 .lunch
 {
-  treat: .foods[ @@key-to-lookup];
+  treat: .foods[@@key-to-lookup];
 }
 "
 `;
