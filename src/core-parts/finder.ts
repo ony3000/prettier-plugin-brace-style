@@ -336,7 +336,7 @@ function handleHtmlElement(ctx: CaseHandlerContext) {
         attrs: z.array(
           z.object({
             name: z.string(),
-            value: z.unknown(),
+            value: z.unknown().optional(),
           }),
         ),
       }),
@@ -919,8 +919,8 @@ export function findTargetBraceNodesBasedOnJavaScript(
       isTypeof(
         node,
         z.object({
-          start: z.undefined(),
-          end: z.undefined(),
+          start: z.undefined().optional(),
+          end: z.undefined().optional(),
           range: z.custom<NodeRange>((value) => isTypeof(value, z.tuple([z.number(), z.number()]))),
         }),
       )
@@ -1222,8 +1222,8 @@ export function findTargetBraceNodesBasedOnAstro(
               })
               .optional(),
           }),
-          name: z.unknown(),
-          value: z.unknown(),
+          name: z.unknown().optional(),
+          value: z.unknown().optional(),
         }),
       )
     ) {
